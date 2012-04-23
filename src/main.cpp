@@ -3,9 +3,10 @@
 #include <fstream>
 #include <vector>
 #include <math.h>
-#include <mpi.h>
 #include <string>
 #include <stdlib.h>
+
+#include <mpi.h>
 #include <gsl/gsl_errno.h>
 #include <gsl/gsl_fft_real.h>
 #include <gsl/gsl_fft_halfcomplex.h>
@@ -18,10 +19,6 @@ using namespace std;
 
 int g_argc; 
 char ** g_argv;
-
-#define unittest
-#include "test_unit/Tests.h"
-
 /*
 void FFT(double *data, int n,std::string file_name){
   int i;
@@ -272,19 +269,11 @@ if(model=="lorenz"){
 */    
 
 
-    int main( int argc , char * argv[]) {
-      g_argc=argc;
-      g_argv=argv;
-
-      
-      
-       
-       #ifdef unittest
-       return UnitTest::RunAllTests();
-       #endif
-       #ifndef unittest
-       return 0;
-       #endif
-    }
+int main( int argc , char * argv[]) {
+    g_argc=argc;
+    g_argv=argv;
     
+    return 0;
+}
+
     

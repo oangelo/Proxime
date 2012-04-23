@@ -1,0 +1,8 @@
+rm tests
+rm src/*.o
+rm src/*~
+rm test_unit/*.o
+rm test_unit/*~
+clear
+make -f maketests
+./tests

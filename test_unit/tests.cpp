@@ -1,6 +1,22 @@
-#ifdef unittest
 #include <UnitTest++.h>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <vector>
+#include <math.h>
+#include <mpi.h>
+#include <string>
+#include <stdlib.h>
+#include <gsl/gsl_errno.h>
+#include <gsl/gsl_fft_real.h>
+#include <gsl/gsl_fft_halfcomplex.h>
+
+#include "../src/bifurcation_diagram.h"
+#include "../src/Lyapunov.h"
+#include "../src/recurrence_relation.h"
 #include "t_map.h"
+
+#ifdef unittest
 
 //#define test_double_pendulum
 //#define test_lorenz
@@ -421,5 +437,6 @@ lyapunov_max<Jacob_double_pendulum>(pendulo,640000000,200000);
 
 #endif
 
-
-
+int main( int argc , char * argv[]) {
+    return UnitTest::RunAllTests();
+}

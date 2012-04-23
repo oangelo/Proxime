@@ -3,11 +3,11 @@
 
 CC=mpic++
 CFLAGS=-c -Wall -g 
-LDFLAGS=  -lm -lgsl -lgslcblas
+LDFLAGS=  -lm -lgsl -lgslcblas -lUnitTest++ 
 #-lglut -lGLU -lGL
-SOURCES=  src/main.cpp src/recurrence_relation.cpp src/bifurcation_diagram.cpp src/Exceptions.cpp src/functions.cpp  src/Numerical_Integration.cpp
+SOURCES=  src/recurrence_relation.cpp src/bifurcation_diagram.cpp src/Exceptions.cpp src/functions.cpp  src/Numerical_Integration.cpp test_unit/tests.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=chaos
+EXECUTABLE=tests
 
 all: $(SOURCES) $(EXECUTABLE)
 
