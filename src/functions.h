@@ -2,30 +2,42 @@
 #include <math.h>
 #include <pthread.h>
 #include <iostream>
+#include <map>
+#include <string>
+
 
 
 class functions_capsule {
 public:
+  typedef std::pair<std::string, unsigned> name_item;
+  typedef std::map<std::string,unsigned> items; 
+
   virtual void set(double &t, std::vector<double> & variables, std::vector<double> & parameters)=0;
   const double get_result(unsigned i) const;
   const std::vector<double> & get_result() const;
   const unsigned size() const;
+ 
+  //map of the variables and index associated to them
+  items variable_name_index,parameter_name_index;     
 protected:
+  std::string func_name;
   std::vector<double> __result;
 };
 
 
 class rossler_func : public functions_capsule {
 public:
-  rossler_func(){__result.clear();__result.resize(3);};
+  rossler_func();
   void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
-protected:
+
+ protected:
   double dx();
   double dy();
   double dz();
   
   double X,Y,Z;
   double a,b,c;
+
 };
 
 class Jacobian_rossler_func : public functions_capsule {
@@ -43,7 +55,7 @@ protected:
 
 class lorenz_func : public functions_capsule {
 public:
-  lorenz_func(){__result.clear();__result.resize(3);};
+  lorenz_func();
   void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
 protected:
   double dx();

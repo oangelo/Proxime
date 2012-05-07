@@ -1,13 +1,14 @@
 #include <vector>
 #include <string>
+#include <memory>
+
 #include "Exceptions.h"
 #include "functions.h"
 
 
-
 class Numerical_Integration {
 public:
-  Numerical_Integration(std::vector<double> variable,std::vector<double> parameter,double dt,std::string model_name);
+  Numerical_Integration(std::vector<double> variable,std::vector<double> parameter,double dt);
   const double get_dt() const;
   const double get_t() const;
   const double get_variable(unsigned n) const;
@@ -23,12 +24,13 @@ public:
   
   //return the variables
   double operator[] (const unsigned nIndex);
+  double operator[] (std::string nIndex);
   //return the variable ready to print
   friend std::ostream& operator<< (std::ostream &out, Numerical_Integration &object);
   
 protected:
 
-  functions_capsule *__func;
+  std::auto_ptr<functions_capsule> __func;
   std::vector<double> __variable;
   std::vector<double> __parameter;
   double __h, __t;
@@ -40,10 +42,10 @@ protected:
 template <class function>
 class RungeKutta: public Numerical_Integration{
 public:  
-  RungeKutta(std::vector<double> variable,std::vector<double> parameter,double dt,std::string model_name)
-  :Numerical_Integration(variable,parameter,dt,model_name) {
+  RungeKutta(std::vector<double> variable,std::vector<double> parameter,double dt)
+  :Numerical_Integration(variable,parameter,dt) {
     /*Point to the class witch encapsulate the functions*/  
-    __func=new function;
+    __func.reset(new function);
     (*__func).set(__t, __variable, __parameter);   
   }
   ~RungeKutta();
@@ -55,12 +57,12 @@ protected:
 template <class function>
 class AdamsBashforth: public Numerical_Integration{
 public:
-   AdamsBashforth(std::vector<double> variable,std::vector<double> parameter,double dt,std::string model_name="")
-  :Numerical_Integration(variable,parameter,dt,model_name) {
+   AdamsBashforth(std::vector<double> variable,std::vector<double> parameter,double dt)
+  :Numerical_Integration(variable,parameter,dt) {
     /*Pont to the class witch encapsulate the functions*/  
-    __func=new function;
-    (*__func).set(__t, __variable, __parameter);
-    RungeKutta<function> model(variable,parameter,dt,model_name);
+    this->__func.reset(new function);
+    __func->set(__t, __variable, __parameter);
+    RungeKutta<function> model(variable,parameter,dt);
     step1 = model.get_variable();
     model.next();
     step2 = model.get_variable();
@@ -88,14 +90,14 @@ protected:
 template <class function>
 class AdamsMoulton: public AdamsBashforth<function> {
 public:
-  AdamsMoulton(std::vector<double> variable,std::vector<double> parameter,double dt,std::string model_name="")
-  :AdamsBashforth<function>(variable,parameter,dt,model_name) 
+  AdamsMoulton(std::vector<double> variable,std::vector<double> parameter,double dt)
+  :AdamsBashforth<function>(variable,parameter,dt) 
   {
     __N=1;
     //Pont to the class witch encapsulate the functions  
-    this->__func=new function;
+    this->__func.reset(new function);
     (this->__func)->set(this->__t, this->__variable, this->__parameter);
-    RungeKutta<function> model(variable,parameter,dt,model_name);
+    RungeKutta<function> model(variable,parameter,dt);
     this->step1 = model.get_variable();
     model.next();
     this->step2 = model.get_variable();

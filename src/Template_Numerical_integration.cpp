@@ -2,7 +2,7 @@
 
 
 template <class function>
-RungeKutta<function>::~RungeKutta(){delete __func;}
+RungeKutta<function>::~RungeKutta(){}
 template <class function>
 void RungeKutta<function>::next(){
   RungeKutta_method();

@@ -2,7 +2,7 @@
 # dos SOURCES e o nome do EXECUTABLE.
 
 CC=mpic++
-CFLAGS=-c -Wall -g 
+CFLAGS=-c -Wall -g -std=c++0x  -Weffc++ -Wextra -pedantic
 LDFLAGS=  -lm -lgsl -lgslcblas
 #-lglut -lGLU -lGL
 SOURCES=  src/main.cpp src/recurrence_relation.cpp src/bifurcation_diagram.cpp src/Exceptions.cpp src/functions.cpp  src/Numerical_Integration.cpp

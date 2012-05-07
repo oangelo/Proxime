@@ -1,10 +1,3 @@
-/*
- * File:   Numerical_Integration.cpp
- * Author: angelo
- *
- * Created on October 27, 2009, 5:01 PM
- */
-
 #include "Numerical_Integration.h"
 
 std::ostream & operator<<(std::ostream &out, Numerical_Integration &object) {
@@ -15,14 +8,9 @@ std::ostream & operator<<(std::ostream &out, Numerical_Integration &object) {
     return out;
 }
 
-Numerical_Integration::Numerical_Integration(std::vector<double> variable,std::vector<double> parameter,double dt,std::string model_name) {
-    //storing data//
-    __variable=variable;
-    __parameter=parameter;
-    __h=dt;
-    //set initial conditions//
-    __t=0;
-    __model_name=model_name;
+Numerical_Integration::Numerical_Integration(std::vector<double> variable,std::vector<double> parameter,double dt):
+    __variable(variable), __parameter(parameter),  __h(dt), __t(0)
+{
 }
 
 const double Numerical_Integration::get_t() const{
@@ -63,6 +51,14 @@ const unsigned Numerical_Integration::size_parameter() const{
 double Numerical_Integration::operator[] (const unsigned nIndex) {
     if (nIndex < __variable.size()) {
         return __variable[nIndex];
+    } else {
+        throw Index_error("Wrong access to VARIABLES");
+    }
+}
+
+double Numerical_Integration::operator[] (std::string nIndex) {
+   if (__func->variable_name_index.count(nIndex)) {
+       return __variable[__func->variable_name_index[nIndex]];
     } else {
         throw Index_error("Wrong access to VARIABLES");
     }

@@ -272,8 +272,20 @@ if(model=="lorenz"){
 int main( int argc , char * argv[]) {
     g_argc=argc;
     g_argv=argv;
-    
-    return 0;
+    vector<double> variable(3),parameter(3);
+    variable[0] = 2.61622;
+    variable[1] = -6.32533;
+    variable[2] = 0.0335135;
+    parameter[0]= 0.15;
+    parameter[1]= 0.20;
+    parameter[2]= 10;
+    double t=1;
+    rossler_func func;   
+    func.set(t,variable,parameter); 
+    AdamsBashforth<rossler_func> attractor(variable,parameter,0.001);
+//    std::cout << "x " << attractor["y"] << std::endl;
+
+        return 0;
 }
 
     
