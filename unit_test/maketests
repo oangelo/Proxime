@@ -5,7 +5,7 @@ CC=mpic++
 CFLAGS=-c -Wall -g -Weffc++
 LDFLAGS=  -lm -lgsl -lgslcblas -lgtest  
 #-lglut -lGLU -lGL
-SOURCES=  ../src/recurrence_relation.cpp ../src/bifurcation_diagram.cpp ../src/Exceptions.cpp ../src/functions.cpp  ../src/Numerical_Integration.cpp main.cpp
+SOURCES=  ../src/recurrence_relation.cpp ../src/bifurcation_diagram.cpp ../src/Exceptions.cpp ../src/functions.cpp  ../src/numerical_integration.cpp main.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=tests
 

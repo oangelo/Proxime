@@ -1,5 +1,21 @@
 #ifndef ROSSLER_H
 #define ROSSLER_H 
+
+TEST(rossler, Lyapunov) {
+    vector<double> variable(3),parameter(3);
+    variable[0] = 2.61622;
+    variable[1] = -6.32533;
+    variable[2] = 0.0335135;
+    parameter[0]= 0.15;
+    parameter[1]= 0.2;
+    parameter[2]= 10.0;
+    AdamsBashforth<rossler_func>  attractor(variable,parameter,0.0001);
+    vector<double> lambda = lyapunov<Jacobian_rossler_func>(attractor, pow(10, 6), pow(10, 6), 1, "teste");
+    EXPECT_NEAR(lambda[0], 0.09, 0.02);
+    EXPECT_NEAR(lambda[1], 0.0, 0.01);
+    EXPECT_NEAR(lambda[2], -9.8, 0.4);
+
+}
 /*
 TEST(ODE, rossler_lyapunov) {
       
