@@ -1,4 +1,4 @@
-TEST(logistic_map) {
+TEST(ODE, logistic_map) {
   ofstream data_file;
   data_file.open("l_map_zoom.out");
   for(double a=3.8;a<3.9;a+=0.0001){
@@ -12,7 +12,7 @@ TEST(logistic_map) {
   data_file.close();
 }
 
-TEST(logistic_map_lyapunov) {
+TEST(ODE, logistic_map_lyapunov) {
   ofstream data_file;
   data_file.open("l_map_lyapunov.out");
   for(double a=2.4;a<4.0;a+=0.001){
@@ -25,7 +25,7 @@ TEST(logistic_map_lyapunov) {
   data_file.close();
 }
 
-TEST(logistic_map_supertrack) {
+TEST(ODE, logistic_map_supertrack) {
   ofstream data_file;
   data_file.open("l_map_supertrac.out");
   for(double a=2.4;a<4.0;a+=0.001){
@@ -40,7 +40,7 @@ TEST(logistic_map_supertrack) {
   data_file.close();
 }
 
-TEST(logistic_map_series) {
+TEST(ODE, logistic_map_series) {
   ofstream data_file;
   data_file.open("l_map_s_a3.555.out");
   double a=3.555;
@@ -53,7 +53,7 @@ TEST(logistic_map_series) {
   data_file.close();
 }
 
-TEST(logistic_map_geo_series) {
+TEST(ODE, logistic_map_geo_series) {
   ofstream data_file;
   data_file.open("l_map_geo_a3.51.out");
   double a=3.51, aux;

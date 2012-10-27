@@ -1,9 +1,9 @@
 # neste template de Makefile so muda a lista
 # dos SOURCES e o nome do EXECUTABLE.
 
-CC=g++
+CC=mpic++
 CFLAGS=-c -Wall -g 
-LDFLAGS=  -lm -lgsl -lgslcblas -lUnitTest++ 
+LDFLAGS=  -lm -lgsl -lgslcblas -lgtest  
 #-lglut -lGLU -lGL
 SOURCES=  ../src/recurrence_relation.cpp ../src/bifurcation_diagram.cpp ../src/Exceptions.cpp ../src/functions.cpp  ../src/Numerical_Integration.cpp main.cpp
 OBJECTS=$(SOURCES:.cpp=.o)

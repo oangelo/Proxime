@@ -48,7 +48,7 @@ vector<double> & modulo) {
         Jparameters[fiducial.size_parameter() + i] = fiducial.get_variable(i);
     //Integrating the linear equations and saving the vector on ortogonal_space
     for (unsigned i = 0; i < fiducial.size_variable(); i++)
-        jacobian[i] = new RungeKutta<jacobian_function>(ortogonal_space[i], Jparameters, fiducial.get_dt(),"");
+        jacobian[i] = new RungeKutta<jacobian_function>(ortogonal_space[i], Jparameters, fiducial.get_dt());
     for (unsigned i = 0; i < fiducial.size_variable(); i++)
         (*jacobian[i]).next();
     for (unsigned i = 0; i < ortogonal_space.size(); i++)
