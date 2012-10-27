@@ -9,6 +9,7 @@
 class Numerical_Integration {
 public:
   Numerical_Integration(std::vector<double> variable,std::vector<double> parameter,double dt);
+  virtual ~Numerical_Integration(){};
   const double get_dt() const;
   const double get_t() const;
   const double get_variable(unsigned n) const;
@@ -20,7 +21,7 @@ public:
   const unsigned size_variable() const;
   const unsigned size_parameter() const;
   
-  virtual void next()=0;
+  virtual void next() = 0;
   
   //return the variables
   double operator[] (const unsigned nIndex);
@@ -81,7 +82,9 @@ public:
     __variable=step1;
     __t = __t + __h;
   }
+
   
+  virtual ~AdamsBashforth(){};
 protected:
   void AdamsBashforth_method();
   std::vector<double> step1, step2, step3, step4,new_step;
@@ -123,6 +126,7 @@ public:
   }
 
   
+  //virtual ~Numerical_Integration(){};
 private:
   void AdamsMoulton_method();
   unsigned __N;

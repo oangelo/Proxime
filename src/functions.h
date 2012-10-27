@@ -5,10 +5,9 @@
 #include <map>
 #include <string>
 
-
-
 class functions_capsule {
 public:
+  virtual ~functions_capsule(){};
   typedef std::pair<std::string, unsigned> name_item;
   typedef std::map<std::string,unsigned> items; 
 
