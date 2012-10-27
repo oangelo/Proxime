@@ -1,6 +1,5 @@
 
 
-
 template <class function>
 RungeKutta<function>::~RungeKutta(){}
 template <class function>

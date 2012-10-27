@@ -1,3 +1,6 @@
+#ifndef _NUMERICLA_INTEGRATION_
+#define _NUMERICLA_INTEGRATION_
+
 #include <vector>
 #include <string>
 #include <memory>
@@ -132,4 +135,5 @@ private:
   unsigned __N;
 };
 
-#include "Template_Numerical_integration.cpp"
+#include "numerical_integration_template.cpp"
+#endif //_NUMERICLA_INTEGRATION_

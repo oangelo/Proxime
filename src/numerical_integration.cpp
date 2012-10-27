@@ -1,4 +1,4 @@
-#include "Numerical_Integration.h"
+#include "numerical_integration.h"
 
 std::ostream & operator<<(std::ostream &out, Numerical_Integration &object) {
     unsigned i;
@@ -63,3 +63,5 @@ double Numerical_Integration::operator[] (std::string nIndex) {
         throw Index_error("Wrong access to VARIABLES");
     }
 }
+
+
