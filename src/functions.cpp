@@ -1,11 +1,11 @@
 #include "functions.h"
 
-const double functions_capsule::get_result(unsigned i) const {
+const type_data functions_capsule::get_result(unsigned i) const {
   return (__result[i]);
   
 }
 
-const std::vector<double> & functions_capsule::get_result() const {
+const type_container & functions_capsule::get_result() const {
   return(__result);
 }
 
@@ -32,7 +32,7 @@ rossler_func::rossler_func()// : functions_capsule(a,b)
 }
 
 inline
-void rossler_func::set(double &t,std::vector<double> & variables,std::vector<double> & parameters){
+void rossler_func::set(type_data &t,type_container & variables,type_container & parameters){
       
     X=variables[0];
     Y=variables[1];
@@ -49,26 +49,26 @@ void rossler_func::set(double &t,std::vector<double> & variables,std::vector<dou
 }
 
 inline
-double rossler_func::dx() {
-    double func =  (-Y - Z);
+type_data rossler_func::dx() {
+    type_data func =  (-Y - Z);
     return(func);
 }
 
 inline
-double rossler_func::dy() {
-    double func = X +a* Y;
+type_data rossler_func::dy() {
+    type_data func = X +a* Y;
     return(func);
 }
 
 inline
-double rossler_func::dz() {
-    double func = b + Z*(X-c);
+type_data rossler_func::dz() {
+    type_data func = b + Z*(X-c);
     return(func);  
 }
 
 
 inline
-void Jacobian_rossler_func::set(double &t,std::vector<double> & variables,std::vector<double> & parameters){
+void Jacobian_rossler_func::set(type_data &t,type_container & variables,type_container & parameters){
     X=variables[0];
     Y=variables[1];
     Z=variables[2];
@@ -87,20 +87,20 @@ void Jacobian_rossler_func::set(double &t,std::vector<double> & variables,std::v
 }
 
 inline
-double Jacobian_rossler_func::dx() {
-    double func =  -Y-Z;
+type_data Jacobian_rossler_func::dx() {
+    type_data func =  -Y-Z;
     return(func);
 }
 
 inline
-double Jacobian_rossler_func::dy() {
-    double func = X+a*Y;
+type_data Jacobian_rossler_func::dy() {
+    type_data func = X+a*Y;
     return(func);
 }
 
 inline
-double Jacobian_rossler_func::dz() {
-    double func = +Z_fiducial*X +(X_fiducial-c)*Z;
+type_data Jacobian_rossler_func::dz() {
+    type_data func = +Z_fiducial*X +(X_fiducial-c)*Z;
     return(func);
 }
 
@@ -122,26 +122,26 @@ lorenz_func::lorenz_func(){
 }
 
 inline
-double lorenz_func::dx() {
-    double func =  (-sigma*X +sigma*Y);
+type_data lorenz_func::dx() {
+    type_data func =  (-sigma*X +sigma*Y);
     return(func);
 }
 
 inline
-double lorenz_func::dy() {
-    double func = (gamma-Z)*X - Y;
+type_data lorenz_func::dy() {
+    type_data func = (gamma-Z)*X - Y;
     return(func);
 }
 
 inline
-double lorenz_func::dz() {
-    double func = X*Y-beta*Z;
+type_data lorenz_func::dz() {
+    type_data func = X*Y-beta*Z;
     return(func);
 }
 
 
 inline
-void lorenz_func::set(double &t,std::vector<double> & variables,std::vector<double> & parameters){
+void lorenz_func::set(type_data &t,type_container & variables,type_container & parameters){
     X=variables[0];
     Y=variables[1];
     Z=variables[2];
@@ -158,26 +158,26 @@ void lorenz_func::set(double &t,std::vector<double> & variables,std::vector<doub
 
 
 inline
-double Jacobian_lorenz_func::dx() {
-    double func = + (-sigma*X +sigma*Y);
+type_data Jacobian_lorenz_func::dx() {
+    type_data func = + (-sigma*X +sigma*Y);
     return(func);
 }
 
 inline
-double Jacobian_lorenz_func::dy() {
-    double func =+(-Z_fiducial+gamma)*X - Y-X_fiducial*Z;
+type_data Jacobian_lorenz_func::dy() {
+    type_data func =+(-Z_fiducial+gamma)*X - Y-X_fiducial*Z;
     return(func);
 }
 
 inline
-double Jacobian_lorenz_func::dz() {
-    double func =  +Y_fiducial*X +X_fiducial*Y -beta*Z;
+type_data Jacobian_lorenz_func::dz() {
+    type_data func =  +Y_fiducial*X +X_fiducial*Y -beta*Z;
     return(func);
 }
 
 
 inline
-void Jacobian_lorenz_func::set(double &t,std::vector<double> & variables,std::vector<double> & parameters){
+void Jacobian_lorenz_func::set(type_data &t,type_container & variables,type_container & parameters){
 
     X=variables[0];
     Y=variables[1];
@@ -197,11 +197,11 @@ void Jacobian_lorenz_func::set(double &t,std::vector<double> & variables,std::ve
 }
 
 /******************************************************************************/
-/*******************************Double Pendulum funcs**************************/
+/*******************************type_data Pendulum funcs**************************/
 /******************************************************************************/
 
 inline
-void double_pendulum_func::set(double& t, std::vector<double>& variables, std::vector<double>& parameters){ 
+void type_data_pendulum_func::set(type_data& t, type_container& variables, type_container& parameters){ 
     theta1 = variables[0];
     theta2 = variables[1];
     omega1 = variables[2];
@@ -220,35 +220,35 @@ void double_pendulum_func::set(double& t, std::vector<double>& variables, std::v
    
 }
 inline
-double double_pendulum_func::dTheta1() {
-    double func;
+type_data type_data_pendulum_func::dTheta1() {
+    type_data func;
     func = omega1;
     return (func);
 }
 
 inline
-double double_pendulum_func::dTheta2() {
-    double func;
+type_data type_data_pendulum_func::dTheta2() {
+    type_data func;
     func = omega2;
     return (func);
 }
 
 inline
-double double_pendulum_func::dOmega1() {
-    double func;
+type_data type_data_pendulum_func::dOmega1() {
+    type_data func;
     func = -(-m2 * g * sin(theta1) - g * sin(theta1) * m1 - m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) + m2 * cos(theta1 - theta2) * g * sin(theta2) - m2 * cos(theta1 - theta2) * l1 * pow(omega1, 0.2e1) * sin(theta1 - theta2)) / l1 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1));
     return (func);
 }
 inline
 
-double double_pendulum_func::dOmega2() {
-    double func;
+type_data type_data_pendulum_func::dOmega2() {
+    type_data func;
     func =  -(m2 * cos(theta1 - theta2) * g * sin(theta1) + cos(theta1 - theta2) * g * sin(theta1) * m1 + cos(theta1 - theta2) * m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) - m2 * g * sin(theta2) - g * sin(theta2) * m1 + l1 * pow(omega1, 0.2e1) * sin(theta1 - theta2) * m2 + l1 * pow(omega1, 0.2e1) * sin(theta1 - theta2) * m1) / l2 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1));
     return (func);
 }
 inline
 
-void jacobian_double_pendulum_func::set(double& t, std::vector<double>& variables, std::vector<double>& parameters){
+void jacobian_type_data_pendulum_func::set(type_data& t, type_container& variables, type_container& parameters){
 
     theta1 = variables[0];
     theta2 = variables[1];
@@ -261,10 +261,10 @@ void jacobian_double_pendulum_func::set(double& t, std::vector<double>& variable
     m1 = parameters[2];
     m2 = parameters[3];
     g = parameters[4];
-    double _theta1 = parameters[5];
-    double _theta2 = parameters[6];
-    double _omega1 = parameters[7];
-    double _omega2 = parameters[8];
+    type_data _theta1 = parameters[5];
+    type_data _theta2 = parameters[6];
+    type_data _omega1 = parameters[7];
+    type_data _omega2 = parameters[8];
 
     
     Matrix_Jacob(_theta1,_theta2,_omega1,_omega2);
@@ -276,7 +276,7 @@ void jacobian_double_pendulum_func::set(double& t, std::vector<double>& variable
 }
 
 inline
-void jacobian_double_pendulum_func::Matrix_Jacob(double theta1, double theta2,double omega1, double omega2)
+void jacobian_type_data_pendulum_func::Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2)
 {
 
     Jacobian[0][0] = -(-m2 * g * cos(theta1) - g * cos(theta1) * m1 - cos(theta1 - theta2) * m2 * l2 * pow(omega2, 0.2e1) - m2 * sin(theta1 - theta2) * g * sin(theta2) + m2 * pow(sin(theta1 - theta2), 0.2e1) * l1 * pow(omega1, 0.2e1) - m2 * pow(cos(theta1 - theta2), 0.2e1) * l1 * pow(omega1, 0.2e1)) / l1 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1)) - 0.2e1 * (-m2 * g * sin(theta1) - g * sin(theta1) * m1 - m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) + m2 * cos(theta1 - theta2) * g * sin(theta2) - m2 * cos(theta1 - theta2) * l1 * pow(omega1, 0.2e1) * sin(theta1 - theta2)) / l1 * pow(-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1), -0.2e1) * m2 * cos(theta1 - theta2) * sin(theta1 - theta2);
@@ -300,31 +300,31 @@ void jacobian_double_pendulum_func::Matrix_Jacob(double theta1, double theta2,do
 }
 
 inline
-double jacobian_double_pendulum_func::JdTheta1() {
-    double func;
+type_data jacobian_type_data_pendulum_func::JdTheta1() {
+    type_data func;
     func =  +Jacobian[2][0] * theta1 + Jacobian[2][1] * theta2 + Jacobian[2][2] * omega1 + Jacobian[2][3] * omega2;
     return (func);
 }
 
 inline
-double jacobian_double_pendulum_func::JdTheta2() {
-    double func;
+type_data jacobian_type_data_pendulum_func::JdTheta2() {
+    type_data func;
     func = + Jacobian[3][0] * theta1 + Jacobian[3][1] * theta2 + Jacobian[3][2] * omega1
             + Jacobian[3][3] * omega2;
     return (func);
 }
 
 inline
-double jacobian_double_pendulum_func::JdOmega1() {
-    double func;
+type_data jacobian_type_data_pendulum_func::JdOmega1() {
+    type_data func;
     func =  + Jacobian[0][0] * theta1 + Jacobian[0][1] * theta2 + Jacobian[0][2] * omega1
             + Jacobian[0][3] * omega2;
     return (func);
 }
 
 inline
-double jacobian_double_pendulum_func::JdOmega2() {
-    double func;
+type_data jacobian_type_data_pendulum_func::JdOmega2() {
+    type_data func;
     func =  + Jacobian[1][0] * theta1 + Jacobian[1][1] * theta2 + Jacobian[1][2] * omega1
             + Jacobian[1][3] * omega2;
     return (func);

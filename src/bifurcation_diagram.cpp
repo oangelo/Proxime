@@ -12,7 +12,7 @@ void* thread_func(void* arguments) {
 
 
     thread_arg &arg= *((thread_arg*)arguments);
-    std::vector< std::vector<double> > &zeros=(arg.result);
+    std::vector< type_container > &zeros=(arg.result);
     zeros = attractor_cross_axi((arg.attractor),
                                arg.time,arg.transiente,
                                arg.coordinate_x,arg.coordinate_y,
@@ -20,10 +20,10 @@ void* thread_func(void* arguments) {
     return(NULL);
 }
 
-std::vector< std::vector<double> > attractor_cross_axi(Numerical_Integration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,double coordinate_value,int quadrant)
+std::vector< type_container > attractor_cross_axi(Numerical_Integration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,type_data coordinate_value,int quadrant)
 {
-    std::vector<double> value((*attractor).size_variable()),next_value((*attractor).size_variable()),aux(2);
-    std::vector< std::vector<double> > zeros;
+    type_container value((*attractor).size_variable()),next_value((*attractor).size_variable()),aux(2);
+    std::vector< type_container > zeros;
 
     for (int i = 0; i < transiente; i++){
          try {

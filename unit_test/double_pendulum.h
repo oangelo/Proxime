@@ -1,13 +1,13 @@
-#ifndef DOUBLE_PENDULUM_H
-#define DOUBLE_PENDULUM_H 
-void dp_bif_inc_func(std::vector<double> &variable,std::vector<double> &parameter,double increment){
+#ifndef type_data_PENDULUM_H
+#define type_data_PENDULUM_H 
+void dp_bif_inc_func(std::type_container &variable,std::type_container &parameter,type_data increment){
       variable[V_THETA1] = increment;
       variable[V_THETA2] = 0;    
 }
 
-TEST(ODE, Double_pendulum_bifurcation) {
+TEST(ODE, type_data_pendulum_bifurcation) {
     
-        vector<double> variable(4),parameter(5);
+        type_container variable(4),parameter(5);
         variable[V_THETA1] = M_PI/2.0;
         variable[V_THETA2] = M_PI/2.0;
         variable[V_OMEGA1] = 0.0;
@@ -18,16 +18,16 @@ TEST(ODE, Double_pendulum_bifurcation) {
         parameter[P_M2]= 0.10;
         parameter[P_G]= 9.8;
      
-        double dt=0.0001;
-        double coordinate_value=0.75;
+        type_data dt=0.0001;
+        type_data coordinate_value=0.75;
         int quadrant=1;
         int coordinate_x=2, coordinate_y=3;
-        double init=0.1,end=M_PI;int n_points=10000;
+        type_data init=0.1,end=M_PI;int n_points=10000;
         int time=pow(10,5),transiente=pow(10,3);
         
 	
        /*    
-	MPI_BIFURCATIONS<double_pendulum_func>(variable,parameter,dt,
+	MPI_BIFURCATIONS<type_data_pendulum_func>(variable,parameter,dt,
                              coordinate_value,quadrant,
                              coordinate_x,coordinate_y,
                              init,end,n_points,
@@ -41,7 +41,7 @@ TEST(ODE, Double_pendulum_bifurcation) {
             std::stringstream file;
             file <<  "dp_ns_series_" << angle <<"_.out";
 
-            AdamsBashforth<double_pendulum_func> attractor(variable,parameter,0.0001);
+            AdamsBashforth<type_data_pendulum_func> attractor(variable,parameter,0.0001);
             std::ofstream dp_data;
             std::string file_name=file.str();
             dp_data.open(file_name.c_str());
@@ -58,11 +58,11 @@ TEST(ODE, Double_pendulum_bifurcation) {
             dp_data.close();
         }
 	//*/
-        //double_pendulum dp_attractor(variable,parameter,0.001);
+        //type_data_pendulum dp_attractor(variable,parameter,0.001);
 
 
 
-        //portrail<double_pendulum>(dp_attractor,1000000,1000000,0,1,0,-1);
+        //portrail<type_data_pendulum>(dp_attractor,1000000,1000000,0,1,0,-1);
         //gen_atractor(dp_attractor,100000,1000000);
     //*/
 
@@ -70,8 +70,8 @@ TEST(ODE, Double_pendulum_bifurcation) {
 }
 
 /*
-TEST(ODE, Double_Pendulum_Lyapunov) {
-    vector<double> variable(4),parameter(8);
+TEST(ODE, type_data_Pendulum_Lyapunov) {
+    type_container variable(4),parameter(8);
     variable[V_THETA1] = 120*M_PI/180.0;
     variable[V_THETA2] = -120*M_PI/180.0;
     variable[V_OMEGA1] = 0.0;
@@ -84,11 +84,11 @@ TEST(ODE, Double_Pendulum_Lyapunov) {
 
     
 
-    lyapunov<jacobian_double_pendulum_func>(attractor,pow(10,6),pow(10,6),1,"test");
+    lyapunov<jacobian_type_data_pendulum_func>(attractor,pow(10,6),pow(10,6),1,"test");
 }
 //*/
 /*
-TEST(ODE, Double_Pendulum_Lyapunov_MAX_MPI) {
+TEST(ODE, type_data_Pendulum_Lyapunov_MAX_MPI) {
   
     int total_steps=100;
   
@@ -101,14 +101,14 @@ TEST(ODE, Double_Pendulum_Lyapunov_MAX_MPI) {
   MPI_Comm_rank ( MPI_COMM_WORLD ,&MPI_MYID);
   
   MPI_SLAVE_STEPS=total_steps/MPI_NUMPROCS;
-  double lyapunov[MPI_SLAVE_STEPS];
+  type_data lyapunov[MPI_SLAVE_STEPS];
   //The Slave program 
   if(MPI_MYID!=0){
-    double angle;
+    type_data angle;
     int cont=0;
     for (int step = (MPI_MYID-1)*MPI_SLAVE_STEPS; step < MPI_MYID*MPI_SLAVE_STEPS; step++){
-	    angle = ((double)step)/100.0;
-            vector<double> variable(4), parameter(8);
+	    angle = ((type_data)step)/100.0;
+            type_container variable(4), parameter(8);
             variable[V_THETA1] = angle * M_PI;
             variable[V_THETA2] = angle*M_PI;
             variable[V_OMEGA1] = 0.0;
@@ -118,26 +118,26 @@ TEST(ODE, Double_Pendulum_Lyapunov_MAX_MPI) {
             parameter[P_M1] = 2*0.10;
             parameter[P_M2] = 0.10;
             parameter[P_G] = 9.8;
-            double_pendulum pendulo(variable, parameter, 0.00001);       
+            type_data_pendulum pendulo(variable, parameter, 0.00001);       
             lyapunov[cont] = 
-lyapunov_max<Jacob_double_pendulum>(pendulo,640000000,200000);
+lyapunov_max<Jacob_type_data_pendulum>(pendulo,640000000,200000);
 	    cont++;
     }
-    MPI_Send(&lyapunov,MPI_SLAVE_STEPS, MPI_DOUBLE_PRECISION , 0, MPI_MTAG1, MPI_COMM_WORLD);
+    MPI_Send(&lyapunov,MPI_SLAVE_STEPS, MPI_type_data_PRECISION , 0, MPI_MTAG1, MPI_COMM_WORLD);
   }else{
 	//The Master program
 	ofstream data_lyapunov;
 	std::string Filename = 
 "/nfs/fiscomp/angelo/lyapunov_angles_simetric_2m2.out";
 	data_lyapunov.open(Filename.c_str());
-	double angle;
+	type_data angle;
 	int cont;
   	for ( MPI_ISLAVE =1; MPI_ISLAVE < MPI_NUMPROCS ; MPI_ISLAVE++){
-		MPI_Recv(&lyapunov,MPI_SLAVE_STEPS, MPI_DOUBLE_PRECISION, MPI_ISLAVE , MPI_MTAG1, MPI_COMM_WORLD,&MPI_STATUS);
+		MPI_Recv(&lyapunov,MPI_SLAVE_STEPS, MPI_type_data_PRECISION, MPI_ISLAVE , MPI_MTAG1, MPI_COMM_WORLD,&MPI_STATUS);
 		if (data_lyapunov.is_open()) {
 		  cont=0;
 		  for (int step = (MPI_ISLAVE-1)*MPI_SLAVE_STEPS; step < MPI_ISLAVE*MPI_SLAVE_STEPS; step++){
-			angle = ((double)step)/10.0;
+			angle = ((type_data)step)/10.0;
 			data_lyapunov << angle << " ";
 			data_lyapunov << lyapunov[cont] << endl;
 			cont++;
@@ -152,9 +152,9 @@ lyapunov_max<Jacob_double_pendulum>(pendulo,640000000,200000);
 }
 //*/
 /*
-TEST(ODE, Double_pendulum_bifurcation) {
+TEST(ODE, type_data_pendulum_bifurcation) {
     
-        vector<double> variable(4),parameter(5);
+        type_container variable(4),parameter(5);
         variable[V_THETA1] = M_PI/2.0;
         variable[V_THETA2] = M_PI/2.0;
         variable[V_OMEGA1] = 0.0;
@@ -165,11 +165,11 @@ TEST(ODE, Double_pendulum_bifurcation) {
         parameter[P_M2]= 0.10;
         parameter[P_G]= 9.8;
      
-        double dt=0.0001;
-        double coordinate_value=0.75;
+        type_data dt=0.0001;
+        type_data coordinate_value=0.75;
         int quadrant=1;
         int coordinate_x=2, coordinate_y=3;
-        double init=0.1,end=M_PI;int n_points=10000;
+        type_data init=0.1,end=M_PI;int n_points=10000;
         int time=pow(10,5),transiente=pow(10,3);
         
 	
@@ -179,7 +179,7 @@ TEST(ODE, Double_pendulum_bifurcation) {
             std::stringstream file;
             file <<  "dp_ns_series_" << angle <<"_.out";
 
-            AdamsBashforth<double_pendulum_func> attractor(variable,parameter,0.0001);
+            AdamsBashforth<type_data_pendulum_func> attractor(variable,parameter,0.0001);
             std::ofstream dp_data;
             std::string file_name=file.str();
             dp_data.open(file_name.c_str());
@@ -196,9 +196,9 @@ TEST(ODE, Double_pendulum_bifurcation) {
 }
 */
 
-TEST(ODE, Double_pendulum_ENERGY) {
+TEST(ODE, type_data_pendulum_ENERGY) {
    /*
-     vector<double> variable(4),parameter(5);
+     type_container variable(4),parameter(5);
      variable[V_THETA1] = 4*M_PI/10;
      variable[V_THETA2] = 4*M_PI/10;
      variable[V_OMEGA1] = 0.0;
@@ -216,13 +216,13 @@ TEST(ODE, Double_pendulum_ENERGY) {
      parameter[P_M2]= 0.10;
      parameter[P_G]= 9.8;
 
-     double_pendulum dp_attractor(variable,parameter,0.00001);
+     type_data_pendulum dp_attractor(variable,parameter,0.00001);
      std::ofstream file;
      std::string Filename ="./energy/energia_0.4PI_Rk_0.00001.out";
      file.open(Filename.c_str());
-     double Eref=2*0.882;
+     type_data Eref=2*0.882;
      //dp_attractor.next();
-     double E0=dp_attractor.get_energy();
+     type_data E0=dp_attractor.get_energy();
      cout << "# E0 =  " << endl;
      for(int i=0;i<10000;i++){
          for(int j=0;j<10000;j++){
@@ -235,4 +235,4 @@ TEST(ODE, Double_pendulum_ENERGY) {
 
 }
 
-#endif /* DOUBLE_PENDULUM_H */
+#endif /* type_data_PENDULUM_H */

@@ -5,108 +5,112 @@
 #include <map>
 #include <string>
 
+
+typedef double type_data;
+typedef std::vector<type_data> type_container;
+
 class functions_capsule {
 public:
   virtual ~functions_capsule(){};
   typedef std::pair<std::string, unsigned> name_item;
   typedef std::map<std::string,unsigned> items; 
 
-  virtual void set(double &t, std::vector<double> & variables, std::vector<double> & parameters)=0;
-  const double get_result(unsigned i) const;
-  const std::vector<double> & get_result() const;
+  virtual void set(type_data &t, type_container & variables, type_container & parameters)=0;
+  const type_data get_result(unsigned i) const;
+  const type_container & get_result() const;
   const unsigned size() const;
  
   //map of the variables and index associated to them
   items variable_name_index,parameter_name_index;     
 protected:
   std::string func_name;
-  std::vector<double> __result;
+  type_container __result;
 };
 
 
 class rossler_func : public functions_capsule {
 public:
   rossler_func();
-  void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
+  void set(type_data &t, type_container & variables, type_container & parameters);
 
  protected:
-  double dx();
-  double dy();
-  double dz();
+  type_data dx();
+  type_data dy();
+  type_data dz();
   
-  double X,Y,Z;
-  double a,b,c;
+  type_data X,Y,Z;
+  type_data a,b,c;
 
 };
 
 class Jacobian_rossler_func : public functions_capsule {
 public:
   Jacobian_rossler_func(){__result.clear();__result.resize(3);};
-  void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
+  void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
-  double dx();
-  double dy();
-  double dz();
+  type_data dx();
+  type_data dy();
+  type_data dz();
   
-  double X,Y,Z;
-  double a,b,c,X_fiducial,Y_fiducial,Z_fiducial;
+  type_data X,Y,Z;
+  type_data a,b,c,X_fiducial,Y_fiducial,Z_fiducial;
 };
 
 class lorenz_func : public functions_capsule {
 public:
   lorenz_func();
-  void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
+  void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
-  double dx();
-  double dy();
-  double dz();
+  type_data dx();
+  type_data dy();
+  type_data dz();
   
-  double X,Y,Z;
-  double sigma,gamma,beta;
+  type_data X,Y,Z;
+  type_data sigma,gamma,beta;
 };
 
 class Jacobian_lorenz_func : public functions_capsule {
 public:
   Jacobian_lorenz_func(){__result.clear();__result.resize(3);};
-  void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
+  void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
-  double dx();
-  double dy();
-  double dz();
+  type_data dx();
+  type_data dy();
+  type_data dz();
   
-  double X,Y,Z;
-  double sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
+  type_data X,Y,Z;
+  type_data sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
 };
 
-class double_pendulum_func : public functions_capsule {
+class type_data_pendulum_func : public functions_capsule {
 public:
-  double_pendulum_func(){__result.clear();__result.resize(4);};
-  void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
+  type_data_pendulum_func(){__result.clear();__result.resize(4);};
+  void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
-  double dTheta1();
-  double dTheta2();
-  double dOmega1();
-  double dOmega2();
+  type_data dTheta1();
+  type_data dTheta2();
+  type_data dOmega1();
+  type_data dOmega2();
   
-  double theta1,theta2,omega1,omega2;
-  double l1,l2,m1,m2,g;
+  type_data theta1,theta2,omega1,omega2;
+  type_data l1,l2,m1,m2,g;
 
 };
 
-class jacobian_double_pendulum_func : public functions_capsule {
+class jacobian_type_data_pendulum_func : public functions_capsule {
 public:
-  jacobian_double_pendulum_func(){__result.clear();__result.resize(4);};
-  void set(double &t, std::vector<double> & variables, std::vector<double> & parameters);
+  jacobian_type_data_pendulum_func(){__result.clear();__result.resize(4);};
+  void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
-  void Matrix_Jacob(double theta1, double theta2,double omega1, double omega2);
-  double JdTheta1();
-  double JdTheta2();
-  double JdOmega1();
-  double JdOmega2();
+  void Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2);
+  type_data JdTheta1();
+  type_data JdTheta2();
+  type_data JdOmega1();
+  type_data JdOmega2();
 
-  double theta1,theta2,omega1,omega2;
-  double l1,l2,m1,m2,g;
-  double Jacobian[4][4];
+  type_data theta1,theta2,omega1,omega2;
+  type_data l1,l2,m1,m2,g;
+  type_data Jacobian[4][4];
 };
 
 enum variables {

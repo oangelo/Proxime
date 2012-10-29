@@ -14,14 +14,14 @@
 #include "../src/bifurcation_diagram.h"
 #include "../src/Lyapunov.h"
 #include "../src/recurrence_relation.h"
-#include "t_map.h"
+//#include "t_map.h"
 #include "rossler.h"
-//#include "double_pendulum.h"
+//#include "type_data_pendulum.h"
 #include "lorenz.h"
 
 
 TEST(ODE, wrong_access) {
-    vector<double> variable(4), parameter(5);
+    type_container variable(4), parameter(5);
     variable[V_THETA1] = 5 * M_PI / 10;
     variable[V_THETA2] = 5 * M_PI / 10;
     variable[V_OMEGA1] = 0.0;
@@ -39,8 +39,8 @@ TEST(ODE, wrong_access) {
 }
 
 TEST(ODE, bad_integration) {
-    double aux = 0;
-    vector<double> variable(4), parameter(5);
+    type_data aux = 0;
+    type_container variable(4), parameter(5);
     variable[V_THETA1] = 1;
     variable[V_THETA2] = 1 / aux;
     variable[V_OMEGA1] = 0.0;
@@ -56,7 +56,7 @@ TEST(ODE, bad_integration) {
 }
 
 TEST(ODE, assigment) {
-    vector<double> variable(4), parameter(5);
+    type_container variable(4), parameter(5);
     variable[V_THETA1] = 1.1;
     variable[V_THETA2] = 2.2;
     variable[V_OMEGA1] = 3.3;
@@ -77,7 +77,7 @@ TEST(ODE, assigment) {
 
 TEST(ODE, size) {
 
-    vector<double> variable(4), parameter(5);
+    type_container variable(4), parameter(5);
     variable[V_THETA1] = 5 * M_PI / 10;
     variable[V_THETA2] = 5 * M_PI / 10;
     variable[V_OMEGA1] = 0.0;

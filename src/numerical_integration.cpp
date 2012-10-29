@@ -8,20 +8,20 @@ std::ostream & operator<<(std::ostream &out, Numerical_Integration &object) {
     return out;
 }
 
-Numerical_Integration::Numerical_Integration(std::vector<double> variable,std::vector<double> parameter,double dt):
+Numerical_Integration::Numerical_Integration(type_container variable,type_container parameter,type_data dt):
     __variable(variable), __parameter(parameter),  __h(dt), __t(0)
 {
 }
 
-const double Numerical_Integration::get_t() const{
+const type_data Numerical_Integration::get_t() const{
     return (__t);
 }
 
-const double Numerical_Integration::get_dt() const{
+const type_data Numerical_Integration::get_dt() const{
     return (__h);
 }
 
-const double Numerical_Integration::get_variable(unsigned n) const{
+const type_data Numerical_Integration::get_variable(unsigned n) const{
     if (n < __variable.size()) {
         return (__variable[n]);
     } else {
@@ -29,7 +29,7 @@ const double Numerical_Integration::get_variable(unsigned n) const{
     }
 }
 
-const double Numerical_Integration::get_parameter(unsigned n) const{
+const type_data Numerical_Integration::get_parameter(unsigned n) const{
     if (n < __parameter.size()) {
         return (__parameter[n]);
     } else {
@@ -48,7 +48,7 @@ const unsigned Numerical_Integration::size_parameter() const{
 
 
 
-double Numerical_Integration::operator[] (const unsigned nIndex) {
+type_data Numerical_Integration::operator[] (const unsigned nIndex) {
     if (nIndex < __variable.size()) {
         return __variable[nIndex];
     } else {
@@ -56,7 +56,7 @@ double Numerical_Integration::operator[] (const unsigned nIndex) {
     }
 }
 
-double Numerical_Integration::operator[] (std::string nIndex) {
+type_data Numerical_Integration::operator[] (std::string nIndex) {
    if (__func->variable_name_index.count(nIndex)) {
        return __variable[__func->variable_name_index[nIndex]];
     } else {

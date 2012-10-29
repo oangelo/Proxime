@@ -6,8 +6,8 @@
 class thread_arg{
 public:
     Numerical_Integration *attractor;
-    std::vector< std::vector<double> > result;
-    double coordinate_value;
+    std::vector< type_container > result;
+    type_data coordinate_value;
     int coordinate_x, coordinate_y;
     int time, transiente,quadrant;
 };
@@ -19,21 +19,21 @@ void* thread_func(void* arguments);
  * Is better to use arrays that point to those objects!
  */
 
-std::vector< std::vector<double> > attractor_cross_axi(Numerical_Integration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,double coordinate_value,int quadrant);
+std::vector< type_container > attractor_cross_axi(Numerical_Integration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,type_data coordinate_value,int quadrant);
 
 //*
 template<class function>
-void bifurcation(std::vector<double> &variable,std::vector<double> &parameter,double dt,
-                 unsigned parameter_index,double coordinate_value,int quadrant,
+void bifurcation(type_container &variable,type_container &parameter,type_data dt,
+                 unsigned parameter_index,type_data coordinate_value,int quadrant,
                  int coordinate_x,int coordinate_y,
-                 double init,double end,unsigned n_points,
+                 type_data init,type_data end,unsigned n_points,
                  unsigned time,unsigned transiente,unsigned number_threads){
 
     std::vector<pthread_t> threads(number_threads);
     std::vector<Numerical_Integration*> attractors(n_points);
     //Generating the atractos objects//
     unsigned cont=0;
-    for (double c_parameter = init; c_parameter < end; c_parameter+=((double)(end-init))/n_points) {
+    for (type_data c_parameter = init; c_parameter < end; c_parameter+=((type_data)(end-init))/n_points) {
         parameter[parameter_index]=c_parameter;
         //memory leak!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	attractors[cont]=(new AdamsBashforth<function>(variable,parameter,dt));
@@ -81,10 +81,10 @@ template <class function>
 void portrail(Numerical_Integration & attractor,
               int time, int transiente,
               int coordinate_x,int coordinate_y,
-              double coordinate_value,int quadrant)
+              type_data coordinate_value,int quadrant)
 {
     std::cout << "Generating phase portrail of " << attractor.get_model_name() << std::endl;
-    std::vector< std::vector<double> > zeros;
+    std::vector< type_container > zeros;
     AdamsBashforth<function> attractor_aux(attractor);
     zeros = attractor_cross_axi(attractor_aux,time/2,transiente,coordinate_x,coordinate_y,coordinate_value,quadrant);
     std::cout << "Number of zeros = " << zeros.size() << std::endl;
@@ -113,104 +113,4 @@ void portrail(Numerical_Integration & attractor,
 }
 //*/
 //use calback functions to alter the parameter!
-template<class function>
-void MPI_BIFURCATIONS(std::vector<double> &variable,std::vector<double> &parameter,double dt,
-                 double coordinate_value,int quadrant,
-                 int coordinate_x,int coordinate_y,
-                 double init,double end,int n_points,
-                 int time,int transiente,void (*increment_func)(std::vector<double> &variable,std::vector<double> &parameter,double increment),int argc , char * argv[]){
-
-    
-   int total_steps=n_points;
-  
-   /***********************************MPI VARS****************************************************/
-   int MPI_MTAG1=1,MPI_MTAG2=2,MPI_MTAG3=3,MPI_MTAG4=4;
-   int MPI_MYID , MPI_NUMPROCS,MPI_ISLAVE,MPI_SLAVE_STEPS;
-   /***********************************************************************************************/
-   /************************************MPI INIT***************************************************/
-   MPI_Status MPI_STATUS ;
-   MPI_Init (&argc ,&argv );
-   MPI_Comm_size ( MPI_COMM_WORLD ,&MPI_NUMPROCS);
-   MPI_Comm_rank ( MPI_COMM_WORLD ,&MPI_MYID);
-   /************************************************************************************************/
-   MPI_SLAVE_STEPS=total_steps/(MPI_NUMPROCS-1);
-   //std::cout<< "slave steps = " << MPI_SLAVE_STEPS << std::endl;
-  /*######################################The Slave program########################################*/ 
-  std::cout << "Slave " << MPI_MYID << std::endl;
-  if(MPI_MYID!=0){
-    /*Generating the atractos objects*/
-    std::vector<Numerical_Integration*> attractors(MPI_SLAVE_STEPS);
-    double MY_PARAMETER_INTERVAL=end-init;
-    double MY_PARAMETER_STEP=(MY_PARAMETER_INTERVAL/(MPI_NUMPROCS-1))/MPI_SLAVE_STEPS;
-    //double MY_PARAMETER_END=init+(MPI_MYID)*(MY_PARAMETER_INTERVAL/(MPI_NUMPROCS-1));
-    double MY_PARAMETER_BEGIN=init+(MPI_MYID-1)*(MY_PARAMETER_INTERVAL/(MPI_NUMPROCS-1));
-
-    std::vector<double> x_zeros;
-    int size_vec_x;
-    std::vector<double> my_parameters(MPI_SLAVE_STEPS);
-    std::vector<int> size(MPI_SLAVE_STEPS);
-    
-    double count_parameter=MY_PARAMETER_BEGIN;
-    for (int count=0; count<MPI_SLAVE_STEPS;count++) {
-      increment_func(variable,parameter,count_parameter);
-      attractors[count]=(new AdamsBashforth<function>(variable,parameter,dt));
-      my_parameters[count]=count_parameter;
-      count_parameter+=MY_PARAMETER_STEP;
-    }
-
-     //std::cout << "ID = " <<MPI_MYID << std::endl;
-    for (int step = 0; step <MPI_SLAVE_STEPS; step++){
-      std::vector< std::vector<double> > zeros;    
-      zeros = attractor_cross_axi((attractors[step]),time,transiente,coordinate_x,coordinate_y,coordinate_value,quadrant);
-      
-      size[step]=zeros.size();
-      for(unsigned int i=0;i<zeros.size();i++){
-        x_zeros.push_back(zeros[i][0]);
-	
-      }
-      
-    }
-    for (unsigned int count = 0; count < attractors.size(); count++)
-    	delete attractors[count];
-    
-    size_vec_x=x_zeros.size();	
-    MPI_Send(&size_vec_x,1, MPI_INTEGER , 0, MPI_MTAG1, MPI_COMM_WORLD);
-    MPI_Send(&x_zeros[0],size_vec_x, MPI_DOUBLE_PRECISION , 0, MPI_MTAG2, MPI_COMM_WORLD);
-    MPI_Send(&size[0],MPI_SLAVE_STEPS, MPI_INTEGER , 0, MPI_MTAG3, MPI_COMM_WORLD);
-    MPI_Send(&my_parameters[0],MPI_SLAVE_STEPS, MPI_DOUBLE_PRECISION , 0, MPI_MTAG4, MPI_COMM_WORLD); 
-    }else{
-    /*################################The Master program############################################*/
-    	std::cout << "Master" << std::endl;
-        std::vector<double> x_zeros;
-	x_zeros.reserve(1000);
-	int size_vec_x;
-    	std::vector<double> my_parameters(MPI_SLAVE_STEPS);
-    	std::vector<int> size(MPI_SLAVE_STEPS);
-	
-	std::ofstream data_out;
-	std::string Filename = "Bifurcation.out";
-	data_out.open(Filename.c_str());
-	std::cout << "file_open" << std::endl;
-  	
-	for ( MPI_ISLAVE =1; MPI_ISLAVE < MPI_NUMPROCS ; MPI_ISLAVE++){
-		MPI_Recv(&size_vec_x,1, MPI_INTEGER, MPI_ISLAVE , MPI_MTAG1, MPI_COMM_WORLD,&MPI_STATUS);
-		x_zeros.resize(size_vec_x);		
-		MPI_Recv(&x_zeros[0],size_vec_x, MPI_DOUBLE_PRECISION, MPI_ISLAVE , MPI_MTAG2, MPI_COMM_WORLD,&MPI_STATUS);
-		MPI_Recv(&size[0],MPI_SLAVE_STEPS, MPI_INTEGER, MPI_ISLAVE , MPI_MTAG3, MPI_COMM_WORLD,&MPI_STATUS);
-		MPI_Recv(&my_parameters[0],MPI_SLAVE_STEPS, MPI_DOUBLE_PRECISION, MPI_ISLAVE , MPI_MTAG4, MPI_COMM_WORLD,&MPI_STATUS);
-		
-			int count=0;
-			for (int step = count; step < MPI_SLAVE_STEPS; step++){
-				for (int i = count; i < count+size[step]; i++){
-					data_out << my_parameters[step] << " ";
-					data_out << x_zeros[i] << std::endl;
-				}
-				count+=size[step];
-			}
-				
-	}
-     data_out.close();
-    }
-    MPI_Finalize();
-}
 

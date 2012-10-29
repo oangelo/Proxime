@@ -2,7 +2,7 @@
 #define ROSSLER_H 
 
 TEST(rossler, Lyapunov) {
-    vector<double> variable(3),parameter(3);
+    type_container variable(3),parameter(3);
     variable[0] = 2.61622;
     variable[1] = -6.32533;
     variable[2] = 0.0335135;
@@ -10,16 +10,18 @@ TEST(rossler, Lyapunov) {
     parameter[1]= 0.2;
     parameter[2]= 10.0;
     AdamsBashforth<rossler_func>  attractor(variable,parameter,0.0001);
-    vector<double> lambda = lyapunov<Jacobian_rossler_func>(attractor, pow(10, 6), pow(10, 6), 1, "teste");
+    type_container lambda = lyapunov<Jacobian_rossler_func>(attractor, pow(10, 6), pow(10, 6), 1, "teste");
     EXPECT_NEAR(lambda[0], 0.09, 0.02);
     EXPECT_NEAR(lambda[1], 0.0, 0.01);
     EXPECT_NEAR(lambda[2], -9.8, 0.4);
+    for(auto iten: lambda)
+        std::cout << iten << std::endl;
 
 }
 /*
 TEST(ODE, rossler_lyapunov) {
       
-  vector<double> variable(3),parameter(3);
+  type_container variable(3),parameter(3);
   variable[0] = 2.61622;
   variable[1] = -6.32533;
   variable[2] = 0.0335135;
@@ -34,19 +36,19 @@ TEST(ODE, rossler_lyapunov) {
 /*
 TEST(ODE, rossler_bifurcation) {
 
-        vector<double> variable(3),parameter(3);
+        type_container variable(3),parameter(3);
         variable[0] = 2.61622;
         variable[1] = -6.32533;
         variable[2] = 0.0335135;
         parameter[0]= 0.2;
         parameter[1]= 0.1;
         parameter[2]= 5.7;
-        double dt=0.001;
+        type_data dt=0.001;
         int parameter_index=1;
-        double coordinate_value=0;
+        type_data coordinate_value=0;
         int quadrant=-1;
         int coordinate_x=0, coordinate_y=1;
-        double init=1.0,end=2.0;int n_points=500;
+        type_data init=1.0,end=2.0;int n_points=500;
         int time=100000, transiente=1000000;
 
         bifurcation<rossler_func>(variable,parameter,dt,
@@ -60,14 +62,14 @@ TEST(ODE, rossler_bifurcation) {
 /*
 TEST(ODE, rossler_series) {
 
-        vector<double> variable(3),parameter(3);
+        type_container variable(3),parameter(3);
         variable[0] = 2.61622;
         variable[1] = -6.32533;
         variable[2] = 0.0335135;
         parameter[0]= 0.15;
         parameter[1]= 0.20;
         parameter[2]= 10;
-	//double c[9]={4,6,8.5,8.7,9,12,12.6,13,18};
+	//type_data c[9]={4,6,8.5,8.7,9,12,12.6,13,18};
 
         //for(unsigned cont=0;cont<9;cont++){
 	
@@ -89,24 +91,24 @@ TEST(ODE, rossler_series) {
 	//}
 }
 //*/
-void rossler_bif_inc_func(std::vector<double> &variable,std::vector<double> &parameter,double increment){
+void rossler_bif_inc_func(type_container &variable,type_container &parameter,type_data increment){
   parameter[1]=increment;
 }
 
 /*
 TEST(ODE, rossler_bifurcation_MPI) {
-        vector<double> variable(3),parameter(3);
+        type_container variable(3),parameter(3);
         variable[0] = 2.61622;
         variable[1] = -6.32533;
         variable[2] = 0.0335135;
         parameter[0]= 0.2;
         parameter[1]= 0.1;
         parameter[2]= 5.7;
-        double dt=0.001;
-        double coordinate_value=0;
+        type_data dt=0.001;
+        type_data coordinate_value=0;
         int quadrant=-1;
         int coordinate_x=0, coordinate_y=1;
-        double init=0.0,end=1.0;int n_points=100;
+        type_data init=0.0,end=1.0;int n_points=100;
         int time=100000, transiente=1000000;
 
         MPI_BIFURCATIONS<rossler_func>(variable,parameter,dt,

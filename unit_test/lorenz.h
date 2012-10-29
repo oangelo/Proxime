@@ -3,7 +3,7 @@
 
 TEST(Lorenz, Lyapunov) {
        
-       vector<double> variable(3), parameter(3);
+       type_container variable(3), parameter(3);
        variable[0] = -3.16;
        variable[1] = -5.31;
        variable[2] = 13.31;
@@ -13,7 +13,11 @@ TEST(Lorenz, Lyapunov) {
        parameter[P_BETA_LORENZ] = 8.0 / 3.0;
        
        AdamsMoulton<lorenz_func> attractor(variable, parameter, 0.0001);
-       vector<double> lambda = lyapunov<Jacobian_lorenz_func> (attractor, pow(10, 5), pow(10, 5), 1, "teste");
+       type_container lambda = lyapunov<Jacobian_lorenz_func> (attractor, pow(10, 5), pow(10, 5), 1, "teste");
+       
+       for(auto iten: lambda)
+           std::cout << iten << std::endl;
+
        EXPECT_NEAR(lambda[0], 0.9, 0.1);
        EXPECT_NEAR(lambda[1], 0.0, 0.1);
        EXPECT_NEAR(lambda[2], -14.57, 0.1);

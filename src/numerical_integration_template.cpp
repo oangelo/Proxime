@@ -10,11 +10,11 @@ void RungeKutta<function>::next(){
 template <class function>
 void RungeKutta<function>::RungeKutta_method()
 {
-    double k[__variable.size()][4];
-    double t = __t;
+    type_data k[__variable.size()][4];
+    type_data t = __t;
 
     unsigned i;
-    std::vector<double> aux_argument(__variable.size(), 0);
+    type_container aux_argument(__variable.size(), 0);
 
 
     //Generating K1*************************************************************
@@ -70,8 +70,8 @@ void RungeKutta<function>::RungeKutta_method()
 
 template <class function>
 void AdamsBashforth<function>::AdamsBashforth_method() {
-    std::vector<double> aux(__variable.size(), 0);
-    std::vector< std::vector<double> > results;
+    type_container aux(__variable.size(), 0);
+    std::vector< type_container > results;
 
     __func->set(__t, step4, __parameter);
     results.push_back(__func->get_result());
@@ -98,8 +98,8 @@ void AdamsBashforth<function>::AdamsBashforth_method() {
 
 template <class function>
 void AdamsMoulton<function>::AdamsMoulton_method() {
-    std::vector<double> aux(this->__variable.size(), 0);
-    std::vector< std::vector<double> > results;
+    type_container aux(this->__variable.size(), 0);
+    std::vector< type_container > results;
 
     this->__func->set(this->__t, this->step4, this->__parameter);
     results.push_back(this->__func->get_result());
