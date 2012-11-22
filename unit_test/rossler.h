@@ -16,7 +16,6 @@ TEST(rossler, Lyapunov) {
     EXPECT_NEAR(lambda[2], -9.8, 0.4);
     for(auto iten: lambda)
         std::cout << iten << std::endl;
-
 }
 /*
 TEST(ODE, rossler_lyapunov) {
