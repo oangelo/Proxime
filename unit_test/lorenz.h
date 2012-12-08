@@ -12,8 +12,8 @@ TEST(Lorenz, Lyapunov) {
        parameter[P_GAMMA_LORENZ] = 28;
        parameter[P_BETA_LORENZ] = 8.0 / 3.0;
        
-       AdamsMoulton<lorenz_func> attractor(variable, parameter, 0.0001);
-       type_container lambda = lyapunov<Jacobian_lorenz_func> (attractor, pow(10, 5), pow(10, 5), 1, "teste");
+       AdamsMoulton<LorenzFunction> attractor(variable, parameter, 0.0001);
+       type_container lambda = lyapunov<Jacobian_LorenzFunction> (attractor, pow(10, 5), pow(10, 5), 1, "teste");
        
        for(auto iten: lambda)
            std::cout << iten << std::endl;

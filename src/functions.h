@@ -11,14 +11,15 @@ typedef std::vector<type_data> type_container;
 
 class functions_capsule {
 public:
+  functions_capsule();
   virtual ~functions_capsule(){};
   typedef std::pair<std::string, unsigned> name_item;
   typedef std::map<std::string,unsigned> items; 
 
   virtual void set(type_data &t, type_container & variables, type_container & parameters)=0;
-  const type_data get_result(unsigned i) const;
+  type_data get_result(unsigned i) const;
   const type_container & get_result() const;
-  const unsigned size() const;
+  unsigned size() const;
  
   //map of the variables and index associated to them
   items variable_name_index,parameter_name_index;     
@@ -28,9 +29,9 @@ protected:
 };
 
 
-class rossler_func : public functions_capsule {
+class RosslerFunction : public functions_capsule {
 public:
-  rossler_func();
+  RosslerFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 
  protected:
@@ -43,9 +44,9 @@ public:
 
 };
 
-class Jacobian_rossler_func : public functions_capsule {
+class Jacobian_RosslerFunction : public functions_capsule {
 public:
-  Jacobian_rossler_func(){__result.clear();__result.resize(3);};
+  Jacobian_RosslerFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   type_data dx();
@@ -56,9 +57,9 @@ protected:
   type_data a,b,c,X_fiducial,Y_fiducial,Z_fiducial;
 };
 
-class lorenz_func : public functions_capsule {
+class LorenzFunction : public functions_capsule {
 public:
-  lorenz_func();
+  LorenzFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   type_data dx();
@@ -69,9 +70,9 @@ protected:
   type_data sigma,gamma,beta;
 };
 
-class Jacobian_lorenz_func : public functions_capsule {
+class Jacobian_LorenzFunction : public functions_capsule {
 public:
-  Jacobian_lorenz_func(){__result.clear();__result.resize(3);};
+  Jacobian_LorenzFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   type_data dx();
@@ -82,9 +83,9 @@ protected:
   type_data sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
 };
 
-class pendulum_func : public functions_capsule {
+class DoublePendulumFunction : public functions_capsule {
 public:
-  pendulum_func(){__result.clear();__result.resize(4);};
+  DoublePendulumFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   type_data dTheta1();
@@ -97,9 +98,9 @@ protected:
 
 };
 
-class jacobian_pendulum_func : public functions_capsule {
+class jacobian_DoublePendulumFunction : public functions_capsule {
 public:
-  jacobian_pendulum_func(){__result.clear();__result.resize(4);};
+  jacobian_DoublePendulumFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   void Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2);

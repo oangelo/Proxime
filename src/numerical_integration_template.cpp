@@ -10,7 +10,8 @@ void RungeKutta<function>::next(){
 template <class function>
 void RungeKutta<function>::RungeKutta_method()
 {
-    type_data k[__variable.size()][4];
+    //type_data k[__variable.size()][4];
+    std::vector<std::vector<double>> k(__variable.size(), std::vector<double>(4, 0));
     type_data t = __t;
 
     unsigned i;

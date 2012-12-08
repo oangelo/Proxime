@@ -23,7 +23,7 @@ std::vector<double> parameters;
 std::vector<double> init;
 
 int main( int argc , char * argv[]) {
-    for (size_t i = 1; i < argc; ++i)
+    for (int i = 1; i < argc; ++i)
     {
         if(strcmp(argv[i], "--model") == 0)
             if(strcmp(argv[i + 1] ,"rossler") == 0){
@@ -34,7 +34,7 @@ int main( int argc , char * argv[]) {
                 parameter[0]= 0.15;
                 parameter[1]= 0.2;
                 parameter[2]= 10.0;
-                model = new AdamsBashforth<rossler_func>(variable,parameter,0.0001);
+                model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.0001);
             } 
         if(strcmp(argv[i], "--step") == 0) {
             step = atoi(argv[i + 1]);
@@ -49,7 +49,7 @@ int main( int argc , char * argv[]) {
             std::cerr << "#>> iterations: " << iterations << std::endl; 
         }
     }
-    for (size_t i = 1; i < argc; ++i)
+    for (int i = 1; i < argc; ++i)
     {
  
         if(strcmp(argv[i], "--map") == 0) {
@@ -77,7 +77,7 @@ int main( int argc , char * argv[]) {
             parameter[P_M2]= 0.10;
             parameter[P_G]= 9.8;
 
-            for (size_t j = 1; j < argc; ++j){
+            for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--parameter") == 0 or strcmp(argv[j], "-p") == 0) {
                     parameter[P_L1]= atof(argv[j + 1]);
                     parameter[P_L2]= atof(argv[j + 2]);
@@ -93,7 +93,7 @@ int main( int argc , char * argv[]) {
                 }
             }
 
-            AdamsBashforth<pendulum_func> double_pendulum(variable,parameter,0.0001);
+            AdamsBashforth<DoublePendulumFunction> double_pendulum(variable,parameter,0.0001);
             for(unsigned i = 0; i < iterations; i++){
                 double_pendulum.next();
                 if(i % step == 0)

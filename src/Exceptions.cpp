@@ -9,26 +9,26 @@
 
 
 Index_error::Index_error(std::string message) throw()
- {
-            __message = message;
- }
+:message(message)
+{
+}
 
 Index_error::~Index_error() throw(){}
 
- const char* Index_error::what() const throw()
- {
-            return (__message.c_str());
- }
+const char* Index_error::what() const throw()
+{
+    return (message.c_str());
+}
 
- Value_error::Value_error(std::string message) throw()
-  {
-             __message = message;
-  }
+    Value_error::Value_error(std::string message) throw()
+:message(message)
+{
+}
 
- Value_error::~Value_error() throw(){}
+Value_error::~Value_error() throw(){}
 
-  const char* Value_error::what() const throw()
-  {
-             return (__message.c_str());
-  }
+const char* Value_error::what() const throw()
+{
+    return (message.c_str());
+}
 

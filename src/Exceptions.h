@@ -17,13 +17,13 @@ class Index_error: public std::exception
 {
     public:
 
-        Index_error(std::string message) throw() ;
+        Index_error(std::string message) throw();
         ~Index_error() throw ();
 
         virtual const char* what() const throw();
 
     protected:
-        std::string __message;
+        std::string message;
 
 };
 /*
@@ -40,7 +40,7 @@ class  Value_error: public std::exception
         virtual const char* what() const throw();
 
     protected:
-        std::string __message;
+        std::string message;
 
 };
 

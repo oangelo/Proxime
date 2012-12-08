@@ -13,16 +13,16 @@ class Numerical_Integration {
     public:
        Numerical_Integration(type_container variable, type_container parameter, type_data dt);
         virtual ~Numerical_Integration(){};
-        const type_data get_dt() const;
-        const type_data get_t() const;
-        const type_data get_variable(unsigned n) const;
+        type_data get_dt() const;
+        type_data get_t() const;
+        type_data get_variable(unsigned n) const;
         const type_container & get_variable() const {return(__variable);};
-        const type_data get_parameter(unsigned n) const;
+        type_data get_parameter(unsigned n) const;
         const std::string & get_model_name() const {return(__model_name);};
         const std::string & get_method_name() const {return(__method);};
 
-        const unsigned size_variable() const;
-        const unsigned size_parameter() const;
+        unsigned size_variable() const;
+        unsigned size_parameter() const;
 
         virtual void next() = 0;
 
@@ -62,7 +62,10 @@ template <class function>
 class AdamsBashforth: public Numerical_Integration{
     public:
         AdamsBashforth(type_container variable,type_container parameter,type_data dt)
-            :Numerical_Integration(variable,parameter,dt) {
+            :Numerical_Integration(variable,parameter,dt),
+            step1(), step2(), step3(), step4(), new_step()
+        
+        {
                 /*Pont to the class witch encapsulate the functions*/  
                 this->__func.reset(new function);
                 __func->set(__t, __variable, __parameter);
@@ -97,7 +100,8 @@ template <class function>
 class AdamsMoulton: public AdamsBashforth<function> {
     public:
         AdamsMoulton(type_container variable, type_container parameter, type_data dt)
-            :AdamsBashforth<function>(variable, parameter, dt) {
+            :AdamsBashforth<function>(variable, parameter, dt)  
+        {
             __N=1;
             //Pont to the class witch encapsulate the functions  
             this->__func.reset(new function);

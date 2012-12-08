@@ -9,19 +9,19 @@ std::ostream & operator<<(std::ostream &out, Numerical_Integration &object) {
 }
 
 Numerical_Integration::Numerical_Integration(type_container variable,type_container parameter,type_data dt):
-    __variable(variable), __parameter(parameter),  __h(dt), __t(0)
+    __func(),__variable(variable), __parameter(parameter),  __h(dt), __t(0), __model_name(), __method()
 {
 }
 
-const type_data Numerical_Integration::get_t() const{
+type_data Numerical_Integration::get_t() const{
     return (__t);
 }
 
-const type_data Numerical_Integration::get_dt() const{
+type_data Numerical_Integration::get_dt() const{
     return (__h);
 }
 
-const type_data Numerical_Integration::get_variable(unsigned n) const{
+type_data Numerical_Integration::get_variable(unsigned n) const{
     if (n < __variable.size()) {
         return (__variable[n]);
     } else {
@@ -29,7 +29,7 @@ const type_data Numerical_Integration::get_variable(unsigned n) const{
     }
 }
 
-const type_data Numerical_Integration::get_parameter(unsigned n) const{
+type_data Numerical_Integration::get_parameter(unsigned n) const{
     if (n < __parameter.size()) {
         return (__parameter[n]);
     } else {
@@ -37,11 +37,11 @@ const type_data Numerical_Integration::get_parameter(unsigned n) const{
     }
 }
 
-const unsigned Numerical_Integration::size_variable() const{
+unsigned Numerical_Integration::size_variable() const{
     return (__variable.size());
 }
 
-const unsigned Numerical_Integration::size_parameter() const{
+unsigned Numerical_Integration::size_parameter() const{
     return (__parameter.size());
 }
 

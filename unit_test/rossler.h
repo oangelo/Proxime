@@ -9,8 +9,8 @@ TEST(rossler, Lyapunov) {
     parameter[0]= 0.15;
     parameter[1]= 0.2;
     parameter[2]= 10.0;
-    AdamsBashforth<rossler_func>  attractor(variable,parameter,0.0001);
-    type_container lambda = lyapunov<Jacobian_rossler_func>(attractor, pow(10, 6), pow(10, 6), 1, "teste");
+    AdamsBashforth<RosslerFunction>  attractor(variable,parameter,0.0001);
+    type_container lambda = lyapunov<Jacobian_RosslerFunction>(attractor, pow(10, 6), pow(10, 6), 1, "teste");
     EXPECT_NEAR(lambda[0], 0.09, 0.02);
     EXPECT_NEAR(lambda[1], 0.0, 0.01);
     EXPECT_NEAR(lambda[2], -9.8, 0.4);

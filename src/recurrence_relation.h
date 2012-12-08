@@ -6,14 +6,15 @@ class recurrence_relation{
 public:
   recurrence_relation(std::vector<double> variable,std::vector<double> parameter);
   recurrence_relation();
-  const double get_t() const;
-  const double get_variable(unsigned n) const;
+  virtual ~recurrence_relation(){};
+  double get_t() const;
+  double get_variable(unsigned n) const;
   const std::vector<double> & get_variable() const;
-  const double get_parameter(unsigned n) const;
+  double get_parameter(unsigned n) const;
   const std::string & get_model_name() const;
   
-  const unsigned size_variable() const;
-  const unsigned size_parameter() const;
+  unsigned size_variable() const;
+  unsigned size_parameter() const;
   
   virtual void next()=0;
   virtual void next(unsigned steps)=0;

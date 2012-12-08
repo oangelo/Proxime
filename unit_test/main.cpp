@@ -14,7 +14,7 @@
 #include "../src/bifurcation_diagram.h"
 #include "../src/Lyapunov.h"
 #include "../src/recurrence_relation.h"
-//#include "t_map.h"
+#include "t_map.h"
 #include "rossler.h"
 //#include "type_data_pendulum.h"
 #include "lorenz.h"
@@ -32,7 +32,7 @@ TEST(ODE, wrong_access) {
     parameter[P_M2] = 0.10;
     parameter[P_G] = 9.8;
 
-    AdamsMoulton<lorenz_func> pendulo(variable, parameter, 0.00001);
+    AdamsMoulton<LorenzFunction> pendulo(variable, parameter, 0.00001);
     EXPECT_THROW(pendulo[4], Index_error);
     EXPECT_THROW(pendulo.get_variable(4), Index_error);
     EXPECT_THROW(pendulo.get_parameter(9), Index_error);
@@ -51,7 +51,7 @@ TEST(ODE, bad_integration) {
     parameter[P_M2] = 0.10;
     parameter[P_G] = 9.8;
 
-    EXPECT_THROW(AdamsMoulton<lorenz_func> pendulo(variable, parameter, 0.00001);, Value_error);
+    EXPECT_THROW(AdamsMoulton<LorenzFunction> pendulo(variable, parameter, 0.00001);, Value_error);
 
 }
 
@@ -67,7 +67,7 @@ TEST(ODE, assigment) {
     parameter[P_M2] = 0.10;
     parameter[P_G] = 9.8;
 
-    AdamsMoulton<lorenz_func> pendulo(variable, parameter, 0.00001);
+    AdamsMoulton<LorenzFunction> pendulo(variable, parameter, 0.00001);
 
     EXPECT_NEAR(pendulo[V_THETA1], 1.1, 0.1);
     EXPECT_NEAR(pendulo[V_THETA2], 2.2, 0.1);
@@ -88,7 +88,7 @@ TEST(ODE, size) {
     parameter[P_M2] = 0.10;
     parameter[P_G] = 9.8;
 
-    AdamsMoulton<lorenz_func> pendulo(variable, parameter, 0.00001);
+    AdamsMoulton<LorenzFunction> pendulo(variable, parameter, 0.00001);
 
     EXPECT_EQ(pendulo.size_variable(), 4);
     EXPECT_EQ(pendulo.size_parameter(), 5);

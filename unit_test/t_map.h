@@ -1,7 +1,24 @@
-TEST(ODE, logistic_map) {
-  ofstream data_file;
+#include <fstream>
+using namespace std;
+
+TEST(ODE, logistic_zoom) {
+    std::ofstream data_file;
   data_file.open("l_map_zoom.out");
   for(double a=3.8;a<3.9;a+=0.0001){
+    logistic_map m(0.3,a);
+    m.next(10000);
+    for(unsigned i=0;i<50;i++){
+      m.next();
+      data_file << a <<" "<< m.get_variable(0) << std::endl;
+    }
+  }
+  data_file.close();
+}
+
+TEST(ODE, logistic_bif) {
+    std::ofstream data_file;
+  data_file.open("l_map_bif.out");
+  for(double a=3.0;a<4.0;a+=0.001){
     logistic_map m(0.3,a);
     m.next(10000);
     for(unsigned i=0;i<50;i++){
