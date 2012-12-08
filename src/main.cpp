@@ -2,14 +2,12 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <math.h>
 #include <string>
+#include <cmath>
+#include <random>
 #include <stdlib.h>
 
 #include <mpi.h>
-#include <gsl/gsl_errno.h>
-#include <gsl/gsl_fft_real.h>
-#include <gsl/gsl_fft_halfcomplex.h>
 
 #include "bifurcation_diagram.h"
 #include "Lyapunov.h"
@@ -44,22 +42,65 @@ int main( int argc , char * argv[]) {
         }
         if(strcmp(argv[i], "--transient") == 0) {
             transient = atoi(argv[i + 1]);
-            std::cerr << "#>> step: " << transient << std::endl; 
+            std::cerr << "#>> transient: " << transient << std::endl; 
         }
         if(strcmp(argv[i], "--iterations") == 0) {
             iterations = atoi(argv[i + 1]);
             std::cerr << "#>> iterations: " << iterations << std::endl; 
         }
-
+    }
+    for (size_t i = 1; i < argc; ++i)
+    {
+ 
         if(strcmp(argv[i], "--map") == 0) {
             double a = atof(argv[i + 1]);
-            logistic_map m(0.3,a);
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_real_distribution<> dis(0,1);
+            logistic_map m(dis(gen), a);
             m.next(transient);
             for(unsigned i = 0; i < iterations; i++){
                 m.next(step);
                 std::cout << m.get_variable(0) << std::endl;
             }
         }
+
+        if(strcmp(argv[i], "--double_pendulum") == 0 or strcmp(argv[i], "-dp") == 0) {
+            type_container variable(4),parameter(5);
+            variable[V_THETA1] = M_PI/2.0;
+            variable[V_THETA2] = M_PI/2.0;
+            variable[V_OMEGA1] = 0.0;
+            variable[V_OMEGA2] = 0.0;
+            parameter[P_L1]= 0.30;
+            parameter[P_L2]= 0.30;
+            parameter[P_M1]= 0.10;
+            parameter[P_M2]= 0.10;
+            parameter[P_G]= 9.8;
+
+            for (size_t j = 1; j < argc; ++j){
+                if(strcmp(argv[j], "--parameter") == 0 or strcmp(argv[j], "-p") == 0) {
+                    parameter[P_L1]= atof(argv[j + 1]);
+                    parameter[P_L2]= atof(argv[j + 2]);
+                    parameter[P_M1]= atof(argv[j + 3]);
+                    parameter[P_M2]= atof(argv[j + 4]);
+                    parameter[P_G]=  atof(argv[j + 5]);
+                }
+                if(strcmp(argv[j], "--variable") == 0 or strcmp(argv[j], "-v") == 0) {
+                    variable[V_THETA1] = atof(argv[j + 1]);
+                    variable[V_THETA2] = atof(argv[j + 2]);
+                    variable[V_OMEGA1] = atof(argv[j + 3]);
+                    variable[V_OMEGA2] = atof(argv[j + 4]);
+                }
+            }
+
+            AdamsBashforth<pendulum_func> double_pendulum(variable,parameter,0.0001);
+            for(unsigned i = 0; i < iterations; i++){
+                double_pendulum.next();
+                if(i % step == 0)
+                    std::cout << double_pendulum << std::endl;
+            }
+        }
+
 
 
     }
