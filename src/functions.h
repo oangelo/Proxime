@@ -82,9 +82,9 @@ protected:
   type_data sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
 };
 
-class type_data_pendulum_func : public functions_capsule {
+class pendulum_func : public functions_capsule {
 public:
-  type_data_pendulum_func(){__result.clear();__result.resize(4);};
+  pendulum_func(){__result.clear();__result.resize(4);};
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   type_data dTheta1();
@@ -97,9 +97,9 @@ protected:
 
 };
 
-class jacobian_type_data_pendulum_func : public functions_capsule {
+class jacobian_pendulum_func : public functions_capsule {
 public:
-  jacobian_type_data_pendulum_func(){__result.clear();__result.resize(4);};
+  jacobian_pendulum_func(){__result.clear();__result.resize(4);};
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   void Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2);
