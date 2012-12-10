@@ -1,6 +1,6 @@
-rm chaos
+rm models 
 rm src/*.o
 rm src/*~
 clear
 make
-./chaos
+./models

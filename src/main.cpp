@@ -22,12 +22,43 @@ unsigned iterations = 1000;
 std::vector<double> parameters;
 std::vector<double> init;
 
+void help(){
+    std::cout << std::endl;
+    std::cout << "usage: " << std::endl;
+    std::cout << "  ./model [options] [model]" << std::endl;
+    std::cout << "models:" << std::endl;
+    std::cout << "  --logistic_map" << std::endl;
+    std::cout << "  --double_pendulum [model options]" << std::endl;
+    std::cout << "  --rossler [model options]" << std::endl;
+    std::cout << "model options:" << std::endl;
+    std::cout << " --parameters <real>[n]" << std::endl;
+    std::cout << " --initial_conditions <real>[n]" << std::endl;
+    std::cout << "options:" << std::endl;
+    std::cout << "  --step <integer>       number of steps to iterate before print the system properties" << std::endl;
+    std::cout << "  --transient <integer>  number of steps to irerate before print anything" << std::endl;
+    std::cout << "  --iterations <integer> total number of iterations" << std::endl;
+    std::cout << std::endl;
+    std::cout << "double pendulum:" << std::endl;
+    std::cout << "parameters: l1 l2 m1 m2 g" << std::endl;
+    std::cout << "variables: theta1 theta2 omega1 omega2" << std::endl;
+    std::cout << std::endl;
+}
+
 int main( int argc , char * argv[]) {
+    if(argc > 1){
+        if(strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0){
+            help();
+            return 0;
+        }
+    }else {
+        help();
+        return 0;
+    }
+        
     for (int i = 1; i < argc; ++i)
     {
-        if(strcmp(argv[i], "--model") == 0)
-            if(strcmp(argv[i + 1] ,"rossler") == 0){
-                type_container variable(3),parameter(3);
+        if(strcmp(argv[i], "--rossler") == 0) {
+                std::vector<double> variable(3),parameter(3);
                 variable[0] = 2.61622;
                 variable[1] = -6.32533;
                 variable[2] = 0.0335135;
@@ -35,7 +66,7 @@ int main( int argc , char * argv[]) {
                 parameter[1]= 0.2;
                 parameter[2]= 10.0;
                 model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.0001);
-            } 
+        } 
         if(strcmp(argv[i], "--step") == 0) {
             step = atoi(argv[i + 1]);
             std::cerr << "#>> step: " << step << std::endl; 
@@ -52,7 +83,7 @@ int main( int argc , char * argv[]) {
     for (int i = 1; i < argc; ++i)
     {
  
-        if(strcmp(argv[i], "--map") == 0) {
+        if(strcmp(argv[i], "--logistic_map") == 0) {
             double a = atof(argv[i + 1]);
             std::random_device rd;
             std::mt19937 gen(rd());
@@ -78,18 +109,18 @@ int main( int argc , char * argv[]) {
             parameter[P_G]= 9.8;
 
             for (int j = 1; j < argc; ++j){
-                if(strcmp(argv[j], "--parameter") == 0 or strcmp(argv[j], "-p") == 0) {
+                if(strcmp(argv[j], "--parameters") == 0 or strcmp(argv[j], "-p") == 0) {
                     parameter[P_L1]= atof(argv[j + 1]);
                     parameter[P_L2]= atof(argv[j + 2]);
                     parameter[P_M1]= atof(argv[j + 3]);
                     parameter[P_M2]= atof(argv[j + 4]);
                     parameter[P_G]=  atof(argv[j + 5]);
                 }
-                if(strcmp(argv[j], "--variable") == 0 or strcmp(argv[j], "-v") == 0) {
-                    variable[V_THETA1] = atof(argv[j + 1]);
-                    variable[V_THETA2] = atof(argv[j + 2]);
-                    variable[V_OMEGA1] = atof(argv[j + 3]);
-                    variable[V_OMEGA2] = atof(argv[j + 4]);
+                if(strcmp(argv[j], "--initial_conditions") == 0 or strcmp(argv[j], "-v") == 0) {
+                    variable[V_THETA1] = (M_PI / 180) * atof(argv[j + 1]);
+                    variable[V_THETA2] = (M_PI / 180) * atof(argv[j + 2]);
+                    variable[V_OMEGA1] = (M_PI / 180) * atof(argv[j + 3]);
+                    variable[V_OMEGA2] = (M_PI / 180) * atof(argv[j + 4]);
                 }
             }
 
@@ -110,5 +141,4 @@ int main( int argc , char * argv[]) {
 
     return 0;
 }
-
 
