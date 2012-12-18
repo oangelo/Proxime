@@ -20,7 +20,7 @@ void* thread_func(void* arguments) {
     return(NULL);
 }
 
-std::vector< type_container > attractor_cross_axi(Numerical_Integration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,type_data coordinate_value,int quadrant)
+std::vector< type_container > attractor_cross_axi(NumericalIntegration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,type_data coordinate_value,int quadrant)
 {
     type_container value((*attractor).size_variable()),next_value((*attractor).size_variable()),aux(2);
     std::vector< type_container > zeros;

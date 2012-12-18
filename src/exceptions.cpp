@@ -5,7 +5,7 @@
  * Created on 4 de Junho de 2010, 15:55
  */
 
-#include "Exceptions.h"
+#include "exceptions.h"
 
 
 Index_error::Index_error(std::string message) throw()

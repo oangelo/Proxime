@@ -5,7 +5,7 @@
 
 class thread_arg{
 public:
-    Numerical_Integration *attractor;
+    NumericalIntegration *attractor;
     std::vector< type_container > result;
     type_data coordinate_value;
     int coordinate_x, coordinate_y;
@@ -19,7 +19,7 @@ void* thread_func(void* arguments);
  * Is better to use arrays that point to those objects!
  */
 
-std::vector< type_container > attractor_cross_axi(Numerical_Integration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,type_data coordinate_value,int quadrant);
+std::vector< type_container > attractor_cross_axi(NumericalIntegration *attractor,int time,int transiente,int coordinate_x,int coordinate_y,type_data coordinate_value,int quadrant);
 
 //*
 template<class function>
@@ -30,7 +30,7 @@ void bifurcation(type_container &variable,type_container &parameter,type_data dt
                  unsigned time,unsigned transiente,unsigned number_threads){
 
     std::vector<pthread_t> threads(number_threads);
-    std::vector<Numerical_Integration*> attractors(n_points);
+    std::vector<NumericalIntegration*> attractors(n_points);
     //Generating the atractos objects//
     unsigned cont=0;
     for (type_data c_parameter = init; c_parameter < end; c_parameter+=((type_data)(end-init))/n_points) {
@@ -78,7 +78,7 @@ void bifurcation(type_container &variable,type_container &parameter,type_data dt
 //*/
 /*
 template <class function>
-void portrail(Numerical_Integration & attractor,
+void portrail(NumericalIntegration & attractor,
               int time, int transiente,
               int coordinate_x,int coordinate_y,
               type_data coordinate_value,int quadrant)

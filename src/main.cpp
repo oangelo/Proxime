@@ -10,12 +10,12 @@
 #include <mpi.h>
 
 #include "bifurcation_diagram.h"
-#include "Lyapunov.h"
+#include "lyapunov.h"
 #include "recurrence_relation.h"
 
 using namespace std;
 
-Numerical_Integration* model = NULL;
+NumericalIntegration* model = NULL;
 unsigned step = 1;
 unsigned transient = 1000;
 unsigned iterations = 1000;

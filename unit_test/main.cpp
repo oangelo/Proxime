@@ -12,7 +12,7 @@
 #include "gtest/gtest.h"
 
 #include "../src/bifurcation_diagram.h"
-#include "../src/Lyapunov.h"
+#include "../src/lyapunov.h"
 #include "../src/recurrence_relation.h"
 #include "t_map.h"
 #include "rossler.h"

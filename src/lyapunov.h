@@ -29,7 +29,7 @@ void GramSchmidt(std::vector<type_container> & vec_space, type_container & modul
 }
 
 template <class jacobian_function>
-void ortogonal_space_norm(Numerical_Integration & fiducial,
+void ortogonal_space_norm(NumericalIntegration & fiducial,
 std::vector<type_container> & ortogonal_space,
 type_container & Jparameters,
 type_container & modulo) {
@@ -56,7 +56,7 @@ type_container & modulo) {
 }
 
 template <class jacobian_function>
-type_container lyapunov(Numerical_Integration & fiducial, unsigned number_steps, 
+type_container lyapunov(NumericalIntegration & fiducial, unsigned number_steps, 
         unsigned transients_steps, int number_of_points_to_print,std::string file_name) {
     /*Be carfull with vertors of a class, because the vector will copy the object!*/
     type_container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
@@ -114,7 +114,7 @@ type_container lyapunov(Numerical_Integration & fiducial, unsigned number_steps,
 }
 
 template <class jacobian_function>
-type_data lyapunov_max(Numerical_Integration & fiducial, unsigned number_steps, unsigned transients_steps) {
+type_data lyapunov_max(NumericalIntegration & fiducial, unsigned number_steps, unsigned transients_steps) {
     /*Be carfull with vertors of a class, because the vector will copy the object!*/
     type_container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
     type_container space_vec;
