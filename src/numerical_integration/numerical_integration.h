@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "exceptions.h"
-#include "../functions.h"
+#include "../functions/functions.h"
 
 
 class NumericalIntegration {
