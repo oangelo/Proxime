@@ -37,6 +37,7 @@ void help(){
     std::cout << "  --step <integer>       number of steps to iterate before print the system properties" << std::endl;
     std::cout << "  --transient <integer>  number of steps to irerate before print anything" << std::endl;
     std::cout << "  --iterations <integer> total number of iterations" << std::endl;
+    std::cout << "  --lyapunov             calculates the system lyapunov" << std::endl;
     std::cout << std::endl;
     std::cout << "double pendulum:" << std::endl;
     std::cout << "parameters: l1 l2 m1 m2 g" << std::endl;
@@ -54,19 +55,10 @@ int main( int argc , char * argv[]) {
         help();
         return 0;
     }
-        
+
     for (int i = 1; i < argc; ++i)
     {
-        if(strcmp(argv[i], "--rossler") == 0) {
-                std::vector<double> variable(3),parameter(3);
-                variable[0] = 2.61622;
-                variable[1] = -6.32533;
-                variable[2] = 0.0335135;
-                parameter[0]= 0.15;
-                parameter[1]= 0.2;
-                parameter[2]= 10.0;
-                model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.0001);
-        } 
+
         if(strcmp(argv[i], "--step") == 0) {
             step = atoi(argv[i + 1]);
             std::cerr << "#>> step: " << step << std::endl; 
@@ -82,7 +74,7 @@ int main( int argc , char * argv[]) {
     }
     for (int i = 1; i < argc; ++i)
     {
- 
+
         if(strcmp(argv[i], "--logistic_map") == 0) {
             double a = atof(argv[i + 1]);
             std::random_device rd;
@@ -94,6 +86,29 @@ int main( int argc , char * argv[]) {
                 m.next(step);
                 std::cout << m.get_variable(0) << std::endl;
             }
+        }
+
+        if(strcmp(argv[i], "--rossler") == 0) {
+            std::vector<double> variable(3),parameter(3);
+            variable[0] = 2.61622;
+            variable[1] = -6.32533;
+            variable[2] = 0.0335135;
+            parameter[0]= 0.15;
+            parameter[1]= 0.2;
+            parameter[2]= 10.0;
+            model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.0001);
+            if(strcmp(argv[i+1], "--lyapunov") == 0) {
+                std::string file_name(argv[i + 2]);
+                std::cerr << " #>> Calculating Lyapunov exponent" << std::endl;
+                lyapunov<Jacobian_RosslerFunction> (*model, iterations, transient, step, file_name);
+                return 0;
+            }
+            for(unsigned i = 0; i < iterations; i++){
+                model->next();
+                if(i % step == 0)
+                    std::cout << *model << std::endl;
+            }
+
         }
 
         if(strcmp(argv[i], "--double_pendulum") == 0 or strcmp(argv[i], "-dp") == 0) {
@@ -119,21 +134,25 @@ int main( int argc , char * argv[]) {
                 if(strcmp(argv[j], "--initial_conditions") == 0 or strcmp(argv[j], "-v") == 0) {
                     variable[V_THETA1] = (M_PI / 180) * atof(argv[j + 1]);
                     variable[V_THETA2] = (M_PI / 180) * atof(argv[j + 2]);
-                    variable[V_OMEGA1] = (M_PI / 180) * atof(argv[j + 3]);
-                    variable[V_OMEGA2] = (M_PI / 180) * atof(argv[j + 4]);
+                    variable[V_OMEGA1] = atof(argv[j + 3]);
+                    variable[V_OMEGA2] = atof(argv[j + 4]);
                 }
             }
 
-            AdamsBashforth<DoublePendulumFunction> double_pendulum(variable,parameter,0.0001);
-            for(unsigned i = 0; i < iterations; i++){
-                double_pendulum.next();
-                if(i % step == 0)
-                    std::cout << double_pendulum << std::endl;
+            model = new AdamsBashforth<DoublePendulumFunction>(variable,parameter,0.00001);
+            if(strcmp(argv[i + 1], "--lyapunov") == 0) {
+                std::cerr << "#>> Calculating Lyapunov exponent" << std::endl;
+                std::string file_name(argv[i + 2]);
+                lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, transient, step, file_name);
+                return 0;
             }
+            for(unsigned i = 0; i < iterations; i++){
+                model->next();
+                if(i % step == 0)
+                    std::cout << *model << std::endl;
+            }
+            
         }
-
-
-
     }
 
     if(model)
