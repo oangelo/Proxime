@@ -274,8 +274,8 @@ type_data DoublePendulumFunction::dOmega1() {
                 * - theta2)) / l1 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1));
     return (func);
 }
-inline
 
+inline
 type_data DoublePendulumFunction::dOmega2() {
     type_data func;
     func =  -(m2 * cos(theta1 - theta2) * g * sin(theta1) + cos(theta1 - theta2) * g * 
@@ -285,14 +285,16 @@ type_data DoublePendulumFunction::dOmega2() {
              * sin(theta1 - theta2) * m1) / l2 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1));
     return (func);
 }
-inline
 
-jacobian_DoublePendulumFunction::jacobian_DoublePendulumFunction():
+Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction():
   theta1(),theta2(),omega1(),omega2(),
   l1(),l2(),m1(),m2(),g()
-{__result.clear();__result.resize(4);}
+{
+    __result.clear();
+    __result.resize(4);
+}
 
-void jacobian_DoublePendulumFunction::set(type_data& t, type_container& variables, type_container& parameters){
+void Jacobian_DoublePendulumFunction::set(type_data& t, type_container& variables, type_container& parameters){
 
     theta1 = variables[0];
     theta2 = variables[1];
@@ -322,7 +324,7 @@ void jacobian_DoublePendulumFunction::set(type_data& t, type_container& variable
 }
 
 inline
-void jacobian_DoublePendulumFunction::Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2)
+void Jacobian_DoublePendulumFunction::Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2)
 {
 
     Jacobian[0][0] = -(-m2 * g * cos(theta1) - g * cos(theta1) * m1 - cos(theta1 - theta2) * m2 * l2 * pow(omega2, 0.2e1) - m2 * sin(theta1 - theta2) * g * sin(theta2) + m2 * pow(sin(theta1 - theta2), 0.2e1) * l1 * pow(omega1, 0.2e1) - m2 * pow(cos(theta1 - theta2), 0.2e1) * l1 * pow(omega1, 0.2e1)) / l1 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1)) - 0.2e1 * (-m2 * g * sin(theta1) - g * sin(theta1) * m1 - m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) + m2 * cos(theta1 - theta2) * g * sin(theta2) - m2 * cos(theta1 - theta2) * l1 * pow(omega1, 0.2e1) * sin(theta1 - theta2)) / l1 * pow(-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1), -0.2e1) * m2 * cos(theta1 - theta2) * sin(theta1 - theta2);
@@ -346,14 +348,14 @@ void jacobian_DoublePendulumFunction::Matrix_Jacob(type_data theta1, type_data t
 }
 
 inline
-type_data jacobian_DoublePendulumFunction::JdTheta1() {
+type_data Jacobian_DoublePendulumFunction::JdTheta1() {
     type_data func;
     func =  +Jacobian[2][0] * theta1 + Jacobian[2][1] * theta2 + Jacobian[2][2] * omega1 + Jacobian[2][3] * omega2;
     return (func);
 }
 
 inline
-type_data jacobian_DoublePendulumFunction::JdTheta2() {
+type_data Jacobian_DoublePendulumFunction::JdTheta2() {
     type_data func;
     func = + Jacobian[3][0] * theta1 + Jacobian[3][1] * theta2 + Jacobian[3][2] * omega1
             + Jacobian[3][3] * omega2;
@@ -361,7 +363,7 @@ type_data jacobian_DoublePendulumFunction::JdTheta2() {
 }
 
 inline
-type_data jacobian_DoublePendulumFunction::JdOmega1() {
+type_data Jacobian_DoublePendulumFunction::JdOmega1() {
     type_data func;
     func =  + Jacobian[0][0] * theta1 + Jacobian[0][1] * theta2 + Jacobian[0][2] * omega1
             + Jacobian[0][3] * omega2;
@@ -369,7 +371,7 @@ type_data jacobian_DoublePendulumFunction::JdOmega1() {
 }
 
 inline
-type_data jacobian_DoublePendulumFunction::JdOmega2() {
+type_data Jacobian_DoublePendulumFunction::JdOmega2() {
     type_data func;
     func =  + Jacobian[1][0] * theta1 + Jacobian[1][1] * theta2 + Jacobian[1][2] * omega1
             + Jacobian[1][3] * omega2;

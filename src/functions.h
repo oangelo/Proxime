@@ -98,9 +98,9 @@ protected:
 
 };
 
-class jacobian_DoublePendulumFunction : public functions_capsule {
+class Jacobian_DoublePendulumFunction : public functions_capsule {
 public:
-  jacobian_DoublePendulumFunction();
+  Jacobian_DoublePendulumFunction();
   void set(type_data &t, type_container & variables, type_container & parameters);
 protected:
   void Matrix_Jacob(type_data theta1, type_data theta2,type_data omega1, type_data omega2);
