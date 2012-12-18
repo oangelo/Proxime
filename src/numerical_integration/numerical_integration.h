@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "exceptions.h"
-#include "functions.h"
+#include "../functions.h"
 
 
 class NumericalIntegration {
@@ -43,9 +43,4 @@ class NumericalIntegration {
 
 };
 
-#include "runge_kutta.h"
-#include "adams_bashforth.h"
-#include "adams_moulton.h"
-
-#include "numerical_integration_template.cpp"
 #endif //_NUMERICLA_INTEGRATION_

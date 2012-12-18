@@ -1,5 +1,5 @@
 #include <pthread.h>
-#include "numerical_integration.h"
+#include "numerical_integration/adams_bashforth.h"
 #include <fstream>
 #include <mpi.h>
 

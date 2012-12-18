@@ -1,5 +1,8 @@
 #ifndef RUNGE_KUTTA_H
 #define RUNGE_KUTTA_H 
+
+#include "numerical_integration.h"
+
 template <class function>
 class RungeKutta: public NumericalIntegration{
     public:  

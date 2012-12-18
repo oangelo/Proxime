@@ -1,6 +1,9 @@
 #ifndef ADAMS_BASHFORTH_H
 #define ADAMS_BASHFORTH_H 
 
+#include "numerical_integration.h"
+#include "runge_kutta.h"
+
 template <class function>
 class AdamsBashforth: public NumericalIntegration{
     public:

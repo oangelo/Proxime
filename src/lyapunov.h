@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "numerical_integration.h"   
+#include "numerical_integration/adams_moulton.h"   
 
 
 type_data Dot(type_container v1, type_container v2) {

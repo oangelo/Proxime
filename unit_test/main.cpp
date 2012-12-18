@@ -11,6 +11,7 @@
 #include <gsl/gsl_fft_halfcomplex.h>
 #include "gtest/gtest.h"
 
+#include "../src/numerical_integration/adams_moulton.h"
 #include "../src/bifurcation_diagram.h"
 #include "../src/lyapunov.h"
 #include "../src/recurrence_relation.h"

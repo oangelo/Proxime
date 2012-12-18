@@ -1,5 +1,9 @@
 #ifndef ADAMS_MOULTON_H
 #define ADAMS_MOULTON_H 
+
+#include "numerical_integration.h"
+#include "adams_bashforth.h"
+
 template <class function>
 class AdamsMoulton: public AdamsBashforth<function> {
     public:
