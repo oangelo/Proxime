@@ -34,7 +34,7 @@ std::vector<type_container> & ortogonal_space,
 type_container & Jparameters,
 type_container & modulo) {
   
-    RungeKutta<jacobian_function>* jacobian[fiducial.size_variable()];
+    std::vector<RungeKutta<jacobian_function>*> jacobian(fiducial.size_variable());
     
     //Integrating the fiducial trajectory and getting the variables for the Jacobian
     fiducial.next();
@@ -57,7 +57,7 @@ type_container & modulo) {
 
 template <class jacobian_function>
 type_container lyapunov(Numerical_Integration & fiducial, unsigned number_steps, 
-        unsigned transients_steps, int steps_to_print,std::string file_name) {
+        unsigned transients_steps, int number_of_points_to_print,std::string file_name) {
     /*Be carfull with vertors of a class, because the vector will copy the object!*/
     type_container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
     std::vector<type_container> ortogonal_space;
@@ -98,7 +98,7 @@ type_container lyapunov(Numerical_Integration & fiducial, unsigned number_steps,
         for (unsigned i = 0; i < fiducial.size_variable(); i++)
             Lambda[i] = (steps * Lambda[i] + log(modulo[i])) / (steps + 1);
         cont_print++;
-        if (cont_print == (number_steps / steps_to_print)) {
+        if (cont_print == (number_steps / number_of_points_to_print)) {
             cont_print = 0;
             data_lyapunov << (steps) * fiducial.get_dt() << " ";
             for (unsigned i = 0; i < fiducial.size_variable(); i++)
@@ -108,8 +108,8 @@ type_container lyapunov(Numerical_Integration & fiducial, unsigned number_steps,
     }
     data_lyapunov.close();
     
-    for(unsigned i=0;i<Lambda.size();i++)
-      Lambda[i]=Lambda[i]/fiducial.get_dt();
+    for(unsigned i = 0; i < Lambda.size(); i++)
+      Lambda[i] = Lambda[i] / fiducial.get_dt();
     return(Lambda);
 }
 
