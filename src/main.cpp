@@ -3,11 +3,12 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <cmath>
 #include <random>
 #include <stdlib.h>
 
-#include <mpi.h>
+//#include <mpi.h>
 
 #include "bifurcation_diagram.h"
 #include "lyapunov.h"

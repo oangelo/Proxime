@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include "numerical_integration/adams_bashforth.h"
 #include <fstream>
-#include <mpi.h>
+//#include <mpi.h>
 
 class thread_arg{
 public:

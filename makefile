@@ -1,10 +1,9 @@
 # neste template de Makefile so muda a lista
 # dos SOURCES e o nome do EXECUTABLE.
 
-CC=mpic++
+CC=g++
 CFLAGS=-c -Wall -g -std=c++0x  -Weffc++ -Wextra -pedantic
-LDFLAGS=  -lm -lgsl -lgslcblas
-#-lglut -lGLU -lGL
+LDFLAGS=  -lm 
 SOURCES=  src/main.cpp src/recurrence_relation.cpp src/bifurcation_diagram.cpp src/numerical_integration/exceptions.cpp src/functions/functions.cpp  src/numerical_integration/numerical_integration.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=models
