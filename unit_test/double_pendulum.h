@@ -26,14 +26,11 @@ TEST(ODE, type_data_pendulum_bifurcation) {
         int time=pow(10,5),transiente=pow(10,3);
         
 	
-       /*    
-	MPI_BIFURCATIONS<type_data_pendulum_func>(variable,parameter,dt,
+        AttractorCrossAxis(variable,parameter,dt,
                              coordinate_value,quadrant,
                              coordinate_x,coordinate_y,
                              init,end,n_points,
                              time,transiente,&dp_bif_inc_func,g_argc,g_argv);        
-	*/
-	//*
 
         for(int angle = 1;angle < 6;angle++){
             variable[V_THETA1] = angle * M_PI / 10.0;

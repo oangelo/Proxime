@@ -35,10 +35,11 @@ void help(){
     std::cout << " --parameters <real>[n]" << std::endl;
     std::cout << " --initial_conditions <real>[n]" << std::endl;
     std::cout << "options:" << std::endl;
-    std::cout << "  --step <integer>       number of steps to iterate before print the system properties" << std::endl;
-    std::cout << "  --transient <integer>  number of steps to irerate before print anything" << std::endl;
-    std::cout << "  --iterations <integer> total number of iterations" << std::endl;
-    std::cout << "  --lyapunov             calculates the system lyapunov" << std::endl;
+    std::cout << "  --step <integer>                 number of steps to iterate before print the system properties" << std::endl;
+    std::cout << "  --transient <integer>            number of steps to irerate before print anything" << std::endl;
+    std::cout << "  --iterations <integer>           total number of iterations" << std::endl;
+    std::cout << "  --lyapunov                       calculates the system lyapunov" << std::endl;
+    std::cout << "  --bifurcation <option> <integer> option: variable, parameter " << std::endl;
     std::cout << std::endl;
     std::cout << "double pendulum:" << std::endl;
     std::cout << "parameters: l1 l2 m1 m2 g" << std::endl;
@@ -75,7 +76,6 @@ int main( int argc , char * argv[]) {
     }
     for (int i = 1; i < argc; ++i)
     {
-
         if(strcmp(argv[i], "--logistic_map") == 0) {
             double a = atof(argv[i + 1]);
             std::random_device rd;
@@ -147,12 +147,31 @@ int main( int argc , char * argv[]) {
                 lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, transient, step, file_name);
                 return 0;
             }
-            for(unsigned i = 0; i < iterations; i++){
-                model->next();
-                if(i % step == 0)
-                    std::cout << *model << std::endl;
+            if(argc > i + 1)
+                if(strcmp(argv[i + 1], "--print") == 0) 
+                    for(unsigned i = 0; i < iterations; i++){
+                        model->next();
+                        if(i % step == 0)
+                            std::cout << *model << std::endl;
+                    }
+
+                
+        }
+        if(strcmp(argv[i], "--bifurcations") == 0) {
+            std::cerr << "#>> Calculating bifurcations" << std::endl;
+            double control_parameter = std::numeric_limits<double>::signaling_NaN();
+            if(argc > i + 2){
+                if(strcmp(argv[i + 1], "variable") == 0) 
+                    control_parameter = model->get_variable(atoi(argv[i + 2]));
+                if(strcmp(argv[i + 1], "parameter") == 0) 
+                    control_parameter = model->get_parameter(atoi(argv[i + 2]));
             }
-            
+
+            type_data coordinate_value = 0.75;
+            int coordinate_x = 2, coordinate_y = 3;
+            auto results = AttractorCrossAxis(*model, iterations, transient, coordinate_x, coordinate_y, coordinate_value);
+            for(auto i: results)
+                std::cout << control_parameter << " " << i << std::endl;
         }
     }
 
