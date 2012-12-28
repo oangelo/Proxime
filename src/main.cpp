@@ -172,12 +172,16 @@ int main( int argc , char * argv[]) {
             for(auto i: results)
                 std::cout << control_parameter << " " << i << std::endl;
         }
-        if(strcmp(argv[i], "--print") == 0) 
+        if(strcmp(argv[i], "--print") == 0) {
+                for(unsigned i = 0; i < transient; i++){
+                    model->next();
+                }
                 for(unsigned i = 0; i < iterations; i++){
                     model->next();
                     if(i % step == 0)
                         std::cout << *model << std::endl;
                 }
+        }
 
     }
 
