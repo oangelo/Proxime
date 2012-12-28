@@ -12,15 +12,15 @@ TEST(Lorenz, Lyapunov) {
        parameter[P_GAMMA_LORENZ] = 28;
        parameter[P_BETA_LORENZ] = 8.0 / 3.0;
        
-       AdamsMoulton<LorenzFunction> attractor(variable, parameter, 0.0001);
-       type_container lambda = lyapunov<Jacobian_LorenzFunction> (attractor, pow(10, 5), pow(10, 5), 1, "teste");
+       AdamsMoulton<LorenzFunction> attractor(variable, parameter, 0.001);
+       type_container lambda = lyapunov<Jacobian_LorenzFunction> (attractor, pow(10, 6), pow(10, 7), 1, "teste");
        
        for(auto iten: lambda)
            std::cout << iten << std::endl;
 
-       EXPECT_NEAR(lambda[0], 0.9, 0.1);
-       EXPECT_NEAR(lambda[1], 0.0, 0.1);
-       EXPECT_NEAR(lambda[2], -14.57, 0.1);
+       EXPECT_NEAR(lambda[0], 0.907, 0.01);
+       EXPECT_NEAR(lambda[1], 0.0000, 0.001);
+       EXPECT_NEAR(lambda[2], -14.574, 0.01);
          
 }
 
