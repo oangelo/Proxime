@@ -102,11 +102,13 @@ int main( int argc , char * argv[]) {
             parameter[1]= 0.2;
             parameter[2]= 10.0;
             model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.0001);
-            if(strcmp(argv[i+1], "--lyapunov") == 0) {
-                std::string file_name(argv[i + 2]);
-                std::cerr << " #>> Calculating Lyapunov exponent" << std::endl;
-                lyapunov<Jacobian_RosslerFunction> (*model, iterations, transient, step, file_name);
-                return 0;
+            for (int j = 1; j < argc; ++j){
+                if(strcmp(argv[j], "--lyapunov") == 0) {
+                    std::string file_name(argv[i + 1]);
+                    std::cerr << " #>> Calculating Lyapunov exponent" << std::endl;
+                    lyapunov<Jacobian_RosslerFunction> (*model, iterations, transient, step, file_name);
+                    return 0;
+                }
             }
         }
 
@@ -124,6 +126,7 @@ int main( int argc , char * argv[]) {
 
             for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--parameters") == 0 or strcmp(argv[j], "-p") == 0) {
+                    std::cerr << "#>> setting the initial parameters" << std::endl;
                     parameter[P_L1]= atof(argv[j + 1]);
                     parameter[P_L2]= atof(argv[j + 2]);
                     parameter[P_M1]= atof(argv[j + 3]);
@@ -131,18 +134,25 @@ int main( int argc , char * argv[]) {
                     parameter[P_G]=  atof(argv[j + 5]);
                 }
                 if(strcmp(argv[j], "--initial_conditions") == 0 or strcmp(argv[j], "-v") == 0) {
-                    variable[V_THETA1] = (M_PI / 180) * atof(argv[j + 1]);
-                    variable[V_THETA2] = (M_PI / 180) * atof(argv[j + 2]);
+                    std::cerr << "#>> setting the initial conditions " << std::endl;
+                    variable[V_THETA1] = (M_PI / 180.0) * atof(argv[j + 1]);
+                    variable[V_THETA2] = (M_PI / 180.0) * atof(argv[j + 2]);
                     variable[V_OMEGA1] = atof(argv[j + 3]);
                     variable[V_OMEGA2] = atof(argv[j + 4]);
+                    std::cerr << "#>>  thetha1: " <<  variable[V_THETA1] << std::endl;
+                    std::cerr << "#>>  thetha2: " <<  variable[V_THETA2] << std::endl;
+                    std::cerr << "#>>  Omega1: " <<  variable[V_OMEGA1] << std::endl;
+                    std::cerr << "#>>  Omega2: " <<  variable[V_OMEGA2] << std::endl;
                 }
             }
-            model = new AdamsBashforth<DoublePendulumFunction>(variable,parameter,0.00001);
-            if(strcmp(argv[i + 1], "--lyapunov") == 0) {
-                std::cerr << "#>> Calculating Lyapunov exponent" << std::endl;
-                std::string file_name(argv[i + 2]);
-                lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, transient, step, file_name);
-                return 0;
+            model = new AdamsBashforth<DoublePendulumFunction>(variable, parameter, 0.00001);
+            for (int j = 1; j < argc; ++j){
+                if(strcmp(argv[j], "--lyapunov") == 0) {
+                    std::cerr << "#>> Calculating Lyapunov exponent" << std::endl;
+                    std::string file_name(argv[j + 1]);
+                    lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, transient, step, file_name);
+                    return 0;
+                }
             }
         }
     }
