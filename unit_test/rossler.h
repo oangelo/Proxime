@@ -1,5 +1,8 @@
-#ifndef ROSSLER_H
-#define ROSSLER_H 
+#ifndef ROSSLER_teste_H
+#define ROSSLER_teste_H 
+
+#include "../src/functions/rossler.h"
+
 
 TEST(rossler, Lyapunov) {
     type_container variable(3),parameter(3);
@@ -17,21 +20,6 @@ TEST(rossler, Lyapunov) {
     for(auto iten: lambda)
         std::cout << iten << std::endl;
 }
-/*
-TEST(ODE, rossler_lyapunov) {
-      
-  type_container variable(3),parameter(3);
-  variable[0] = 2.61622;
-  variable[1] = -6.32533;
-  variable[2] = 0.0335135;
-  parameter[0]= 0.1;
-  parameter[1]= 0.1;
-  parameter[2]= 9;
-  AdamsBashforth<rossler_func>  attractor(variable,parameter,0.001);
-  lyapunov<Jacobian_rossler_func>(attractor,2*pow(10,7),2*pow(10,6),1000,"rossler9");  
-
-}
-//*/
 /*
 TEST(ODE, rossler_bifurcation) {
 

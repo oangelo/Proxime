@@ -1,5 +1,7 @@
-#ifndef LORENZ_H
-#define LORENZ_H 
+#ifndef LORENZ_test_H
+#define LORENZ_test_H 
+
+#include "../src/functions/lorenz.h"
 
 TEST(Lorenz, Lyapunov) {
        

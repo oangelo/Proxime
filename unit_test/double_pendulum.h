@@ -1,12 +1,17 @@
 #ifndef type_data_PENDULUM_H
 #define type_data_PENDULUM_H 
+
+#include "../src/functions/double_pendulum.h"
+
+/*
 void dp_bif_inc_func(std::type_container &variable,std::type_container &parameter,type_data increment){
       variable[V_THETA1] = increment;
       variable[V_THETA2] = 0;    
 }
+*/
 
 TEST(ODE, type_data_pendulum_bifurcation) {
-    
+/*    
         type_container variable(4),parameter(5);
         variable[V_THETA1] = M_PI/2.0;
         variable[V_THETA2] = M_PI/2.0;
