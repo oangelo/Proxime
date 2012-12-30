@@ -1,5 +1,5 @@
 rm tests
 rm test_unit/*~
 clear
-make -f maketests -B
+make -B
 ./tests
