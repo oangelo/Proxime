@@ -10,6 +10,9 @@
 
 //#include <mpi.h>
 
+#include "functions/double_pendulum.h"
+#include "functions/lorenz.h"
+#include "functions/rossler.h"
 #include "bifurcation_diagram.h"
 #include "lyapunov.h"
 #include "recurrence_relation.h"
