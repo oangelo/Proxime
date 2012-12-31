@@ -15,9 +15,9 @@
 #include "../src/recurrence_relation.h"
 
 #include "t_map.h"
+#include "lorenz.h"
 #include "rossler.h"
 #include "double_pendulum.h"
-#include "lorenz.h"
 
 
 TEST(ODE, wrong_access) {

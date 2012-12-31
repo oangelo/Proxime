@@ -3,6 +3,21 @@
 
 #include "../src/functions/rossler.h"
 
+TEST(rossler, MaxLyapunov) {
+    type_container variable(3),parameter(3);
+    variable[0] = 2.61622;
+    variable[1] = -6.32533;
+    variable[2] = 2.0335135;
+    parameter[0]= 0.15;
+    parameter[1]= 0.2;
+    parameter[2]= 10.0;
+    AdamsBashforth<RosslerFunction>  attractor(variable,parameter,0.001);
+    for (size_t i = 0; i < 100000; ++i)
+        attractor.next();
+    double lambda = MaxLyapunov<Jacobian_RosslerFunction>(attractor, pow(10, 7), pow(10, 3));
+    EXPECT_NEAR(lambda, 0.0890, 0.005);
+    std::cout << lambda << std::endl;
+}
 
 TEST(rossler, Lyapunov) {
     type_container variable(3),parameter(3);
@@ -13,7 +28,9 @@ TEST(rossler, Lyapunov) {
     parameter[1]= 0.2;
     parameter[2]= 10.0;
     AdamsBashforth<RosslerFunction>  attractor(variable,parameter,0.001);
-    type_container lambda = lyapunov<Jacobian_RosslerFunction>(attractor, pow(10, 7), pow(10, 7), 1, "teste");
+    for (size_t i = 0; i < 100000; ++i)
+        attractor.next();
+    type_container lambda = Lyapunov<Jacobian_RosslerFunction>(attractor, pow(10, 7), pow(10, 3), 1, "teste");
     EXPECT_NEAR(lambda[0], 0.0890, 0.01);
     EXPECT_NEAR(lambda[1], 0.0000, 0.001);
     EXPECT_NEAR(lambda[2], -9.802, 0.02);

@@ -42,7 +42,8 @@ void help(){
     std::cout << "  --step <integer>                 number of steps to iterate before print the system properties" << std::endl;
     std::cout << "  --transient <integer>            number of steps to irerate before print anything" << std::endl;
     std::cout << "  --iterations <integer>           total number of iterations" << std::endl;
-    std::cout << "  --lyapunov                       calculates the system lyapunov" << std::endl;
+    std::cout << "  --lyapunov <string>              calculates the system lyapunov, and print on a file" << std::endl;
+    std::cout << "  --max_lyapunov                   calculates the system maximum lyapunov" << std::endl;
     std::cout << "  --bifurcation <option> <integer> X <integer> Y <integer> value <real>" << std::endl;
     std::cout << "                                   option: variable, parameter, X = variable to use as coordinate x, " << std::endl;
     std::cout << "                                   Y = variable to use as coordinate y, " << std::endl;
@@ -109,9 +110,21 @@ int main( int argc , char * argv[]) {
                 if(strcmp(argv[j], "--lyapunov") == 0) {
                     std::string file_name(argv[i + 1]);
                     std::cerr << " #>> Calculating Lyapunov exponent" << std::endl;
-                    lyapunov<Jacobian_RosslerFunction> (*model, iterations, transient, step, file_name);
+                    for(unsigned i = 0; i < transient; i++){
+                        model->next();
+                    }
+                    Lyapunov<Jacobian_RosslerFunction> (*model, iterations, 1000, step, file_name);
                     return 0;
                 }
+                if(strcmp(argv[j], "--lyapunov") == 0) {
+                    std::cerr << " #>> Calculating Maximum Lyapunov exponent" << std::endl;
+                    for(unsigned i = 0; i < transient; i++){
+                        model->next();
+                    }
+                    std::cout << MaxLyapunov<Jacobian_RosslerFunction> (*model, iterations, 1000) << std::endl;
+                    return 0;
+                }
+
             }
         }
 
@@ -153,7 +166,18 @@ int main( int argc , char * argv[]) {
                 if(strcmp(argv[j], "--lyapunov") == 0) {
                     std::cerr << "#>> Calculating Lyapunov exponent" << std::endl;
                     std::string file_name(argv[j + 1]);
-                    lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, transient, step, file_name);
+                    for(unsigned i = 0; i < transient; i++){
+                        model->next();
+                    }
+                    Lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, 100000, step, file_name);
+                    return 0;
+                }
+                if(strcmp(argv[j], "--max_lyapunov") == 0) {
+                    std::cerr << "#>> Calculating maximum lyapunov exponent" << std::endl;
+                    for(unsigned i = 0; i < transient; i++){
+                        model->next();
+                    }
+                    std::cout << MaxLyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, 100000) << std::endl;
                     return 0;
                 }
             }
