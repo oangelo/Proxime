@@ -56,7 +56,7 @@ type_container & modulo) {
 }
 
 template <class jacobian_function>
-type_container Lyapunov(NumericalIntegration & fiducial, unsigned number_steps, 
+type_container Lyapunov(NumericalIntegration& fiducial, unsigned number_steps, 
         unsigned transients_steps, int number_of_points_to_print,std::string file_name) {
     /*Be carfull with vertors of a class, because the vector will copy the object!*/
     type_container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
@@ -89,11 +89,12 @@ type_container Lyapunov(NumericalIntegration & fiducial, unsigned number_steps,
     /*****************************************************************************/
     unsigned cont_print = 0;
     for (unsigned steps = 0; steps < number_steps; steps++) {
-        OrtogonalSpaceNorm<jacobian_function > (fiducial,ortogonal_space, Jparameters, modulo);
-        //Print the result
+        OrtogonalSpaceNorm<jacobian_function>(fiducial, ortogonal_space, Jparameters, modulo);
+        //calculating the mean
         for (unsigned i = 0; i < fiducial.size_variable(); i++)
             Lambda[i] = (steps * Lambda[i] + log(modulo[i])) / (steps + 1);
-        cont_print++;
+        //printing the result
+        ++cont_print;
         if (cont_print == (number_steps / number_of_points_to_print)) {
             cont_print = 0;
             data_lyapunov << (steps) * fiducial.get_dt() << " ";
@@ -104,8 +105,9 @@ type_container Lyapunov(NumericalIntegration & fiducial, unsigned number_steps,
     }
     data_lyapunov.close();
     
+    //returning the result
     for(unsigned i = 0; i < Lambda.size(); i++)
-      Lambda[i] = Lambda[i] / fiducial.get_dt();
+      Lambda[i] /= fiducial.get_dt();
     return(Lambda);
 }
 

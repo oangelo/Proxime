@@ -71,22 +71,24 @@ TEST(ODE, type_data_pendulum_bifurcation) {
 
 }
 
-/*
-TEST(ODE, type_data_Pendulum_Lyapunov) {
-    type_container variable(4),parameter(8);
-    variable[V_THETA1] = 120*M_PI/180.0;
-    variable[V_THETA2] = -120*M_PI/180.0;
+//*
+TEST(Double_Pendulum, Lyapunov) {
+    std::vector<double> variable(4),parameter(5);
+    variable[V_THETA1] = 5*M_PI/10.0;
+    variable[V_THETA2] = 5*M_PI/10.0;
     variable[V_OMEGA1] = 0.0;
     variable[V_OMEGA2] = 0.0;
-    parameter[P_L1]= 0.057;
-    parameter[P_L2]= 0.025;
-    parameter[P_M1]= 32.243767+13.05691;
-    parameter[P_M2]= 87.7+12.576;
-    parameter[P_G]= 9.799403;
+    parameter[P_L1]= 0.30;
+    parameter[P_L2]= 0.30;
+    parameter[P_M1]= 0.10;
+    parameter[P_M2]= 0.10;
+    parameter[P_G]= 9.8;
 
-    
+    RungeKutta<DoublePendulumFunction> model(variable, parameter, 0.0001); 
+    double max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, 2000000, 20000);
+    std::cout << max_lyapunov << std::endl;
 
-    lyapunov<jacobian_type_data_pendulum_func>(attractor,pow(10,6),pow(10,6),1,"test");
+    EXPECT_NEAR(max_lyapunov, 1.7, 0.2);
 }
 //*/
 /*
