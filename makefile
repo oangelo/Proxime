@@ -16,4 +16,8 @@ $(EXECUTABLE): $(OBJECTS)
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
 
+install:
+	sudo cp $(EXECUTABLE) /usr/local/bin
 
+uninstall:
+	sudo rm /usr/local/bin/$(EXECUTABLE)
