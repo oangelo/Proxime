@@ -51,7 +51,7 @@ void help(){
     std::cout << std::endl;
     std::cout << "double pendulum:" << std::endl;
     std::cout << "parameters: l1 l2 m1 m2 g" << std::endl;
-    std::cout << "variables: theta1 theta2 omega1 omega2" << std::endl;
+    std::cout << "variables: theta1 theta2 omega1 omega2  (in degrees)" << std::endl;
     std::cout << std::endl;
 }
 
@@ -148,6 +148,12 @@ int main( int argc , char * argv[]) {
                     parameter[P_M1]= atof(argv[j + 3]);
                     parameter[P_M2]= atof(argv[j + 4]);
                     parameter[P_G]=  atof(argv[j + 5]);
+                    std::cerr << "#>>  l1: " <<  parameter[P_L1] << std::endl;
+                    std::cerr << "#>>  l2: " <<  parameter[P_L1] << std::endl;
+                    std::cerr << "#>>  m1: " <<  parameter[P_M2] << std::endl;
+                    std::cerr << "#>>  m2: " <<  parameter[P_M2] << std::endl;
+                    std::cerr << "#>>  g:  " <<  parameter[P_G] << std::endl;
+
                 }
                 if(strcmp(argv[j], "--initial_conditions") == 0 or strcmp(argv[j], "-v") == 0) {
                     std::cerr << "#>> setting the initial conditions " << std::endl;
@@ -155,10 +161,10 @@ int main( int argc , char * argv[]) {
                     variable[V_THETA2] = (M_PI / 180.0) * atof(argv[j + 2]);
                     variable[V_OMEGA1] = atof(argv[j + 3]);
                     variable[V_OMEGA2] = atof(argv[j + 4]);
-                    std::cerr << "#>>  thetha1: " <<  variable[V_THETA1] << std::endl;
-                    std::cerr << "#>>  thetha2: " <<  variable[V_THETA2] << std::endl;
-                    std::cerr << "#>>  Omega1: " <<  variable[V_OMEGA1] << std::endl;
-                    std::cerr << "#>>  Omega2: " <<  variable[V_OMEGA2] << std::endl;
+                    std::cerr << "#>>  thetha1: " <<  variable[V_THETA1] << " rad" << std::endl;
+                    std::cerr << "#>>  thetha2: " <<  variable[V_THETA2] << " rad" << std::endl;
+                    std::cerr << "#>>  Omega1:  " <<  variable[V_OMEGA1] << " rad/[t]" << std::endl;
+                    std::cerr << "#>>  Omega2:  " <<  variable[V_OMEGA2] << " rad/[t]" << std::endl;
                 }
             }
             model = new AdamsBashforth<DoublePendulumFunction>(variable, parameter, 0.00001);
