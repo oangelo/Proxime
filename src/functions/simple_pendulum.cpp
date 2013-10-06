@@ -15,8 +15,8 @@ void SimplePendulumFunction::set(double& t, std::vector<double>& variables, std:
     l = parameters[P_L];
     g = parameters[P_G];
     
-    __result[0]=dTheta();
-    __result[1]=dOmega();
+    __result[V_THETA]=dTheta();
+    __result[V_OMEGA]=dOmega();
    
 }
 
@@ -28,6 +28,6 @@ double SimplePendulumFunction::dTheta() {
 
 double SimplePendulumFunction::dOmega() {
     double func;
-    func = (g/l) * sin(theta);
+    func = -(g/l) * sin(theta);
     return (func);
 }
