@@ -34,6 +34,9 @@ protected:
   type_data Jacobian[4][4];
 };
 
+double DoublePendulumEnergy(double theta1, double theta2, double omega1, double omega2, double l1, double l2, double m1, double m2, double g);
+
+
 enum variables {
   V_THETA1, V_THETA2, V_OMEGA1, V_OMEGA2
 };

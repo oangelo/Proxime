@@ -141,3 +141,14 @@ double Jacobian_DoublePendulumFunction::JdOmega2() {
     return (func);
 }
 
+double DoublePendulumEnergy(double theta1, double theta2, double omega1, double omega2,
+double l1, double l2, double m1, double m2, double g){
+    double energy = m1 * (l1 * l1 * pow(cos(theta1), 0.2e1) * pow(omega1, 0.2e1) +
+    l1 * l1 * pow(sin(theta1), 0.2e1) * pow(omega1, 0.2e1)) / 0.2e1 + m2
+    * (pow(l1 * cos(theta1) * omega1 + l2 * cos(theta2) *
+    omega2, 0.2e1) + pow(l1 * sin(theta1) * omega1 + l2 *
+    sin(theta2) * omega2, 0.2e1)) / 0.2e1 - m1 * g * l1 *
+    cos(theta1) + m2 * g * (-l1 * cos(theta1) - l2 *
+    cos(theta2));
+    return energy;
+}

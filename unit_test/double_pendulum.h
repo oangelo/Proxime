@@ -3,6 +3,56 @@
 
 #include "../src/functions/double_pendulum.h"
 
+TEST(DoublePendulum, Energy) {
+     type_container variable(4),parameter(5);
+     variable[V_THETA1] = 4*M_PI/10;
+     variable[V_THETA2] = 4*M_PI/10;
+     variable[V_OMEGA1] = 0.0;
+     variable[V_OMEGA2] = 0.0;
+     parameter[P_L1]= 0.30;
+     parameter[P_L2]= 0.30;
+     parameter[P_M1]= 0.10;
+     parameter[P_M2]= 0.10;
+     parameter[P_G]= 9.8;
+
+     parameter[P_L1]= 0.30;
+     parameter[P_L2]= 0.30;
+     parameter[P_M1]= 0.10;
+     parameter[P_M2]= 0.10;
+     parameter[P_G]= 9.8;
+
+     double delta_t = 0.0001;
+     
+
+    RungeKutta<DoublePendulumFunction> model(variable, parameter, delta_t); 
+    double energy_0 = DoublePendulumEnergy(variable[V_THETA1],variable[V_THETA2], variable[V_OMEGA1], variable[V_OMEGA1],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    for(size_t i = 0; i < 1000000; ++i){
+        model.next();
+        double energy = DoublePendulumEnergy(model[V_THETA1], model[V_THETA2], model[V_OMEGA1], model[V_OMEGA2],
+        parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+        EXPECT_NEAR((energy - energy_0) / energy_0, 0.0, 0.0001);
+    }
+}
+
+TEST(DoublePendulum, Lyapunov) {
+    std::vector<double> variable(4),parameter(5);
+    variable[V_THETA1] = 5*M_PI/10.0;
+    variable[V_THETA2] = 5*M_PI/10.0;
+    variable[V_OMEGA1] = 0.0;
+    variable[V_OMEGA2] = 0.0;
+    parameter[P_L1]= 0.30;
+    parameter[P_L2]= 0.30;
+    parameter[P_M1]= 0.10;
+    parameter[P_M2]= 0.10;
+    parameter[P_G]= 9.8;
+
+    RungeKutta<DoublePendulumFunction> model(variable, parameter, 0.0001); 
+    double max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, 2000000, 20000);
+    EXPECT_NEAR(max_lyapunov, 1.7, 0.2);
+}
+
+
 /*
 void dp_bif_inc_func(std::type_container &variable,std::type_container &parameter,type_data increment){
       variable[V_THETA1] = increment;
@@ -72,24 +122,6 @@ TEST(ODE, type_data_pendulum_bifurcation) {
 }
 
 //*
-TEST(Double_Pendulum, Lyapunov) {
-    std::vector<double> variable(4),parameter(5);
-    variable[V_THETA1] = 5*M_PI/10.0;
-    variable[V_THETA2] = 5*M_PI/10.0;
-    variable[V_OMEGA1] = 0.0;
-    variable[V_OMEGA2] = 0.0;
-    parameter[P_L1]= 0.30;
-    parameter[P_L2]= 0.30;
-    parameter[P_M1]= 0.10;
-    parameter[P_M2]= 0.10;
-    parameter[P_G]= 9.8;
-
-    RungeKutta<DoublePendulumFunction> model(variable, parameter, 0.0001); 
-    double max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, 2000000, 20000);
-    std::cout << max_lyapunov << std::endl;
-
-    EXPECT_NEAR(max_lyapunov, 1.7, 0.2);
-}
 //*/
 /*
 TEST(ODE, type_data_Pendulum_Lyapunov_MAX_MPI) {
@@ -199,44 +231,5 @@ TEST(ODE, type_data_pendulum_bifurcation) {
         }
 }
 */
-
-TEST(ODE, type_data_pendulum_ENERGY) {
-   /*
-     type_container variable(4),parameter(5);
-     variable[V_THETA1] = 4*M_PI/10;
-     variable[V_THETA2] = 4*M_PI/10;
-     variable[V_OMEGA1] = 0.0;
-     variable[V_OMEGA2] = 0.0;
-     parameter[P_L1]= 0.30;
-     parameter[P_L2]= 0.30;
-     parameter[P_M1]= 0.10;
-     parameter[P_M2]= 0.10;
-     parameter[P_G]= 9.8;
-
-     cout.precision(10);
-     parameter[P_L1]= 0.30;
-     parameter[P_L2]= 0.30;
-     parameter[P_M1]= 0.10;
-     parameter[P_M2]= 0.10;
-     parameter[P_G]= 9.8;
-
-     type_data_pendulum dp_attractor(variable,parameter,0.00001);
-     std::ofstream file;
-     std::string Filename ="./energy/energia_0.4PI_Rk_0.00001.out";
-     file.open(Filename.c_str());
-     type_data Eref=2*0.882;
-     //dp_attractor.next();
-     type_data E0=dp_attractor.get_energy();
-     cout << "# E0 =  " << endl;
-     for(int i=0;i<10000;i++){
-         for(int j=0;j<10000;j++){
-             dp_attractor.next();
-         }
-         file  << dp_attractor.get_t()  << " " << fabs((dp_attractor.get_energy()-E0)/Eref) << endl;
-     }
-     file.close();
-     //*/
-
-}
 
 #endif /* type_data_PENDULUM_H */
