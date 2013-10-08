@@ -69,6 +69,26 @@ TEST(Simple_Pendulum, CrossModels) {
     }
 }
 
+
+TEST(Simple_Pendulum, Energy) {
+    double theta_0 = M_PI / 2;
+    double l=0.30; double g = 9.8;
+    double delta_t = 0.0001;
+
+    std::vector<double> variable(2),parameter(2);
+    variable[SimplePendulumFunction::V_THETA] = theta_0;
+    variable[SimplePendulumFunction::V_OMEGA] = 0.0;
+    parameter[SimplePendulumFunction::P_L]= l;
+    parameter[SimplePendulumFunction::P_G]= g;
+
+    RungeKutta<SimplePendulumFunction> model(variable, parameter, delta_t); 
+    double energy_0 = SimplePendulumEnergy(theta_0, 0, l, 1, g);
+    for(size_t i = 0; i < 100000; ++i){
+        model.next();
+        EXPECT_NEAR(SimplePendulumEnergy(model[0], model[1], l, 1, g), energy_0, 0.001);
+    }
+}
+
 TEST(Simple_Pendulum, Phase_Space) {
     double theta_0 = M_PI / 40;
     double l=0.30; double g = 9.8;

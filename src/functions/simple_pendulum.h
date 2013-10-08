@@ -25,6 +25,6 @@ protected:
     type_data l, g;
 };
 
-
+double SimplePendulumEnergy(double theta, double omega, double l, double m, double g);
 
 #endif /* SIMPLE_PENDULUM_H */

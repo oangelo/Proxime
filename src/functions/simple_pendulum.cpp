@@ -1,8 +1,7 @@
 #include "simple_pendulum.h"
 
 SimplePendulumFunction::SimplePendulumFunction()
-:theta(),
-l(), g()
+:theta(), omega(), l(), g()
 {
     __result.clear();
     __result.resize(2);
@@ -30,4 +29,8 @@ double SimplePendulumFunction::dOmega() {
     double func;
     func = -(g/l) * sin(theta);
     return (func);
+}
+
+double SimplePendulumEnergy(double theta, double omega, double l, double m, double g){
+    return m * pow(l * omega, 2) / 2 - m * g * (l * cos(theta));
 }
