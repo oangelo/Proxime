@@ -1,5 +1,12 @@
 #include "numerical_integration/adams_bashforth.h"
 
-//function that teturns the x cross value
-type_container AttractorCrossAxis(NumericalIntegration &attractor, int steps,
-        int transiente, int coordinate_x = 0, int coordinate_y = 1, type_data y_coordinate_value = 0, int x_side = 1);
+/* This function computes the Poincaré section of a phase plane 
+   at Y = y_section_values and retuns the X values. This can be
+   used to build a bifurcation diagram.
+*/
+type_container PhasePlaneSection(NumericalIntegration &attractor, unsigned transient, unsigned iterations, 
+        unsigned coordinate_x, unsigned coordinate_y, double y_section_value, bool (*cross)(double, double, double));
+
+
+bool CrossUpDown(double before, double after, double reference);
+bool CrossUpDown(double before, double after, double reference);

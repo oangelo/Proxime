@@ -1,13 +1,25 @@
 #include "bifurcation_diagram.h"
 
+bool CrossUpDown(double before, double after, double reference){
+    if(before > reference and after < reference)
+        return true;
+    else
+        return false;
+};
 
-type_container AttractorCrossAxis(NumericalIntegration &attractor, int steps, int transiente,
-        int coordinate_x, int coordinate_y, type_data y_coordinate_value, int x_side)
-{
+bool CrossDownUp(double before, double after, double reference){
+    if(before < reference and after > reference)
+        return true;
+    else
+        return false;
+};
+
+type_container PhasePlaneSection(NumericalIntegration &attractor, unsigned transient, unsigned iterations, 
+        unsigned coordinate_x, unsigned coordinate_y, double y_section_value, bool (*cross)(double, double, double)){
     type_container value(attractor.size_variable()), next_value(attractor.size_variable());
     type_container zeros;
 
-    for (int i = 0; i < transiente; i++){
+    for (int i = 0; i < transient; i++){
         try {
             attractor.next();
         }
@@ -19,7 +31,7 @@ type_container AttractorCrossAxis(NumericalIntegration &attractor, int steps, in
         }
     }
     next_value = attractor.get_variable();
-    for (int i=0; i < steps; i++){
+    for (int i=0; i < iterations; i++){
         value = next_value;
         try {
             attractor.next();
@@ -31,12 +43,9 @@ type_container AttractorCrossAxis(NumericalIntegration &attractor, int steps, in
             return(zeros);
         }
         next_value = attractor.get_variable();
-        if (x_side * value[coordinate_x] > 0) {
-            if (((value[coordinate_y] > y_coordinate_value) && (next_value[coordinate_y] < y_coordinate_value))
-                    || ((value[coordinate_y] < y_coordinate_value) && (next_value[coordinate_y] > y_coordinate_value)))
-            {
-                zeros.push_back(value[coordinate_x]);
-            }
+        if(cross(value[coordinate_y], next_value[coordinate_y], y_section_value))
+        {
+            zeros.push_back(value[coordinate_x]);
         }
     }
     return(zeros);
