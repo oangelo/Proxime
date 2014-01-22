@@ -105,7 +105,21 @@ int main( int argc , char * argv[]) {
             parameter[0]= 0.15;
             parameter[1]= 0.2;
             parameter[2]= 10.0;
-            model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.0001);
+            for (int j = 1; j < argc; ++j){
+                if(strcmp(argv[j], "--parameters") == 0 or strcmp(argv[j], "-p") == 0) {
+                    std::cerr << "#>> setting the parameters" << std::endl;
+                    parameter[0]= atof(argv[j + 1]);
+                    parameter[1]= atof(argv[j + 2]);
+                    parameter[2]= atof(argv[j + 3]);
+                }
+                if(strcmp(argv[j], "--initial_conditions") == 0 or strcmp(argv[j], "-v") == 0) {
+                    std::cerr << "#>> setting the initial conditions " << std::endl;
+                    variable[0] = atof(argv[j + 1]);
+                    variable[1] = atof(argv[j + 2]);
+                    variable[2] = atof(argv[j + 3]);
+                }
+            }
+            model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.001);
             for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--lyapunov") == 0) {
                     std::string file_name(argv[i + 1]);
@@ -211,7 +225,7 @@ int main( int argc , char * argv[]) {
                     coordinate_value = atoi(argv[j + 1]);
             }
 
-            auto results = AttractorCrossAxis(*model, iterations, transient, coordinate_x, coordinate_y, coordinate_value);
+            auto results = PhasePlaneSection(*model, coordinate_x, coordinate_y, coordinate_value);
             for(auto i: results)
                 std::cout << control_parameter << " " << i << std::endl;
         }
