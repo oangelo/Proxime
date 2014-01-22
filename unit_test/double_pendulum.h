@@ -2,43 +2,13 @@
 #define type_data_PENDULUM_H 
 
 #include "../src/functions/double_pendulum.h"
+#include <fstream>
+#include <iostream>
 
-TEST(DoublePendulum, Energy) {
-     type_container variable(4),parameter(5);
-     variable[V_THETA1] = 4*M_PI/10;
-     variable[V_THETA2] = 4*M_PI/10;
-     variable[V_OMEGA1] = 0.0;
-     variable[V_OMEGA2] = 0.0;
-     parameter[P_L1]= 0.30;
-     parameter[P_L2]= 0.30;
-     parameter[P_M1]= 0.10;
-     parameter[P_M2]= 0.10;
-     parameter[P_G]= 9.8;
-
-     parameter[P_L1]= 0.30;
-     parameter[P_L2]= 0.30;
-     parameter[P_M1]= 0.10;
-     parameter[P_M2]= 0.10;
-     parameter[P_G]= 9.8;
-
-     double delta_t = 0.0001;
-     
-
-    RungeKutta<DoublePendulumFunction> model(variable, parameter, delta_t); 
-    double energy_0 = DoublePendulumEnergy(variable[V_THETA1],variable[V_THETA2], variable[V_OMEGA1], variable[V_OMEGA1],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
-    for(size_t i = 0; i < 1000000; ++i){
-        model.next();
-        double energy = DoublePendulumEnergy(model[V_THETA1], model[V_THETA2], model[V_OMEGA1], model[V_OMEGA2],
-        parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
-        EXPECT_NEAR((energy - energy_0) / energy_0, 0.0, 0.0001);
-    }
-}
-
-TEST(DoublePendulum, Lyapunov) {
+TEST(DoublePendulum, ZeroLyapunov) {
     std::vector<double> variable(4),parameter(5);
-    variable[V_THETA1] = 5*M_PI/10.0;
-    variable[V_THETA2] = 5*M_PI/10.0;
+    variable[V_THETA1] = M_PI / 10;
+    variable[V_THETA2] = M_PI / 10;
     variable[V_OMEGA1] = 0.0;
     variable[V_OMEGA2] = 0.0;
     parameter[P_L1]= 0.30;
@@ -49,150 +19,152 @@ TEST(DoublePendulum, Lyapunov) {
 
     RungeKutta<DoublePendulumFunction> model(variable, parameter, 0.0001); 
     double max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, 2000000, 20000);
-    EXPECT_NEAR(max_lyapunov, 1.7, 0.2);
+    EXPECT_NEAR(max_lyapunov, 0, 0.01);
 }
 
+TEST(DoublePendulum, PositiveLyapunov) {
+    std::vector<double> variable(4),parameter(5);
+    variable[V_THETA1] = M_PI / 1.1;
+    variable[V_THETA2] = M_PI / 1.1;
+    variable[V_OMEGA1] = 0.0;
+    variable[V_OMEGA2] = 0.0;
+    parameter[P_L1]= 0.30;
+    parameter[P_L2]= 0.30;
+    parameter[P_M1]= 0.10;
+    parameter[P_M2]= 0.10;
+    parameter[P_G]= 9.8;
 
-/*
-void dp_bif_inc_func(std::type_container &variable,std::type_container &parameter,type_data increment){
-      variable[V_THETA1] = increment;
-      variable[V_THETA2] = 0;    
-}
-*/
-
-TEST(ODE, type_data_pendulum_bifurcation) {
-/*    
-        type_container variable(4),parameter(5);
-        variable[V_THETA1] = M_PI/2.0;
-        variable[V_THETA2] = M_PI/2.0;
-        variable[V_OMEGA1] = 0.0;
-        variable[V_OMEGA2] = 0.0;
-        parameter[P_L1]= 0.30;
-        parameter[P_L2]= 0.30;
-        parameter[P_M1]= 0.10;
-        parameter[P_M2]= 0.10;
-        parameter[P_G]= 9.8;
-     
-        type_data dt=0.0001;
-        type_data coordinate_value=0.75;
-        int quadrant=1;
-        int coordinate_x=2, coordinate_y=3;
-        type_data init=0.1,end=M_PI;int n_points=10000;
-        int time=pow(10,5),transiente=pow(10,3);
-        
-	
-        AttractorCrossAxis(variable,parameter,dt,
-                             coordinate_value,quadrant,
-                             coordinate_x,coordinate_y,
-                             init,end,n_points,
-                             time,transiente,&dp_bif_inc_func,g_argc,g_argv);        
-
-        for(int angle = 1;angle < 6;angle++){
-            variable[V_THETA1] = angle * M_PI / 10.0;
-            variable[V_THETA2] = 0;
-            std::stringstream file;
-            file <<  "dp_ns_series_" << angle <<"_.out";
-
-            AdamsBashforth<type_data_pendulum_func> attractor(variable,parameter,0.0001);
-            std::ofstream dp_data;
-            std::string file_name=file.str();
-            dp_data.open(file_name.c_str());
-            for(int i=0;i<pow(10,4);i++)
-                for(int j=0;j<pow(10,3);j++) 
-                    attractor.next();
- 
-            for(int i=0;i<pow(10,4);i++){
-                for(int j=0;j<pow(10,3);j++) 
-                    attractor.next();
-                dp_data << attractor  << endl; 
-                //old_var = attractor.get_variable();	  
-            }
-            dp_data.close();
-        }
-	//*/
-        //type_data_pendulum dp_attractor(variable,parameter,0.001);
-
-
-
-        //portrail<type_data_pendulum>(dp_attractor,1000000,1000000,0,1,0,-1);
-        //gen_atractor(dp_attractor,100000,1000000);
-    //*/
-
-
+    RungeKutta<DoublePendulumFunction> model(variable, parameter, 0.0001); 
+    double max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, 2000000, 20000);
+    EXPECT_TRUE(max_lyapunov > 1);
 }
 
-//*
-//*/
-/*
-TEST(ODE, type_data_Pendulum_Lyapunov_MAX_MPI) {
-  
-    int total_steps=100;
-  
-  int MPI_MTAG1=1,MPI_MTAG2=2;
-  int MPI_MYID , MPI_NUMPROCS,MPI_ISLAVE,MPI_SLAVE_STEPS;
-  
-  MPI_Status MPI_STATUS ;
-  MPI_Init (&argc ,&argv );
-  MPI_Comm_size ( MPI_COMM_WORLD ,&MPI_NUMPROCS);
-  MPI_Comm_rank ( MPI_COMM_WORLD ,&MPI_MYID);
-  
-  MPI_SLAVE_STEPS=total_steps/MPI_NUMPROCS;
-  type_data lyapunov[MPI_SLAVE_STEPS];
-  //The Slave program 
-  if(MPI_MYID!=0){
-    type_data angle;
-    int cont=0;
-    for (int step = (MPI_MYID-1)*MPI_SLAVE_STEPS; step < MPI_MYID*MPI_SLAVE_STEPS; step++){
-	    angle = ((type_data)step)/100.0;
-            type_container variable(4), parameter(8);
-            variable[V_THETA1] = angle * M_PI;
-            variable[V_THETA2] = angle*M_PI;
-            variable[V_OMEGA1] = 0.0;
-            variable[V_OMEGA2] = 0.0;
-            parameter[P_L1] = 0.30;
-            parameter[P_L2] = 0.30;
-            parameter[P_M1] = 2*0.10;
-            parameter[P_M2] = 0.10;
-            parameter[P_G] = 9.8;
-            type_data_pendulum pendulo(variable, parameter, 0.00001);       
-            lyapunov[cont] = 
-lyapunov_max<Jacob_type_data_pendulum>(pendulo,640000000,200000);
-	    cont++;
+TEST(DoublePendulum, Energy_CrossMethods) {
+    type_container variable(4),parameter(5);
+    variable[V_THETA1] = M_PI / 20;
+    variable[V_THETA2] = M_PI / 20;
+    variable[V_OMEGA1] = 0.1;
+    variable[V_OMEGA2] = 0.1;
+    parameter[P_L1]= 0.30;
+    parameter[P_L2]= 0.30;
+    parameter[P_M1]= 0.1;
+    parameter[P_M2]= 0.1;
+    parameter[P_G]= 9.8;
+
+    double delta_t = pow(10, -5);
+
+    double energy0 = DoublePendulumEnergy(variable[V_THETA1],variable[V_THETA2], variable[V_OMEGA1], variable[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+
+    RungeKutta<DoublePendulumFunction> model1(variable, parameter, delta_t); 
+    AdamsBashforth<DoublePendulumFunction> model2(variable, parameter, delta_t); 
+    AdamsMoulton<DoublePendulumFunction> model3(variable, parameter, delta_t); 
+
+    for(size_t i = 0; i < 100000; ++i){
+        model1.next();
+        model2.next();
+        model3.next();
     }
-    MPI_Send(&lyapunov,MPI_SLAVE_STEPS, MPI_type_data_PRECISION , 0, MPI_MTAG1, MPI_COMM_WORLD);
-  }else{
-	//The Master program
-	ofstream data_lyapunov;
-	std::string Filename = 
-"/nfs/fiscomp/angelo/lyapunov_angles_simetric_2m2.out";
-	data_lyapunov.open(Filename.c_str());
-	type_data angle;
-	int cont;
-  	for ( MPI_ISLAVE =1; MPI_ISLAVE < MPI_NUMPROCS ; MPI_ISLAVE++){
-		MPI_Recv(&lyapunov,MPI_SLAVE_STEPS, MPI_type_data_PRECISION, MPI_ISLAVE , MPI_MTAG1, MPI_COMM_WORLD,&MPI_STATUS);
-		if (data_lyapunov.is_open()) {
-		  cont=0;
-		  for (int step = (MPI_ISLAVE-1)*MPI_SLAVE_STEPS; step < MPI_ISLAVE*MPI_SLAVE_STEPS; step++){
-			angle = ((type_data)step)/10.0;
-			data_lyapunov << angle << " ";
-			data_lyapunov << lyapunov[cont] << endl;
-			cont++;
-		  }
-		}else{ cout << "Unable to open file"; }
-      }
-      data_lyapunov.close();
-  }
-    
-  MPI_Finalize();
-  
+
+    double energy1 = DoublePendulumEnergy(model1[V_THETA1], model1[V_THETA2], model1[V_OMEGA1], model1[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    double energy2 = DoublePendulumEnergy(model2[V_THETA1], model2[V_THETA2], model2[V_OMEGA1], model2[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    double energy3 = DoublePendulumEnergy(model3[V_THETA1], model3[V_THETA2], model3[V_OMEGA1], model3[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+
+    EXPECT_NEAR(energy1, energy0, 0.00000001);
+    EXPECT_NEAR(energy2, energy0, 0.00000001);
+    EXPECT_NEAR(energy3, energy0, 0.00000001);
+
+    EXPECT_NEAR(energy1, energy2, 0.00000001);
+    EXPECT_NEAR(energy1, energy3, 0.00000001);
+    EXPECT_NEAR(energy2, energy3, 0.00000001);
+}
+
+TEST(DoublePendulum, EnergyConservation) {
+     type_container variable(4),parameter(5);
+     variable[V_THETA1] = M_PI / 2;
+     variable[V_THETA2] = M_PI / 2;
+     variable[V_OMEGA1] = 0.0;
+     variable[V_OMEGA2] = 0.0;
+     parameter[P_L1]= 0.3;
+     parameter[P_L2]= 0.3;
+     parameter[P_M1]= 0.1;
+     parameter[P_M2]= 0.1;
+     parameter[P_G]= 9.8;
+     double delta_t = pow(10, -5);
+     
+
+    double energy_0 = DoublePendulumEnergy(variable[V_THETA1],variable[V_THETA2], variable[V_OMEGA1], variable[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+
+
+    RungeKutta<DoublePendulumFunction> model1(variable, parameter, delta_t); 
+    AdamsBashforth<DoublePendulumFunction> model2(variable, parameter, delta_t); 
+    AdamsMoulton<DoublePendulumFunction> model3(variable, parameter, delta_t); 
+
+    double sum1 = 0, sum2 = 0, sum3 = 0;
+
+    for(size_t i = 0; i < pow(10, 6); ++i){
+        model1.next(); model2.next(); model3.next();
+    double energy1 = DoublePendulumEnergy(model1[V_THETA1], model1[V_THETA2], model1[V_OMEGA1], model1[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    double energy2 = DoublePendulumEnergy(model2[V_THETA1], model2[V_THETA2], model2[V_OMEGA1], model2[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    double energy3 = DoublePendulumEnergy(model3[V_THETA1], model3[V_THETA2], model3[V_OMEGA1], model3[V_OMEGA2],
+            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+        sum1 += fabs(energy1 - energy_0);
+        sum2 += fabs(energy2 - energy_0);
+        sum3 += fabs(energy3 - energy_0);
+    }
+    EXPECT_NEAR(sum1, 0.0, 0.0000001);
+    EXPECT_NEAR(sum2, 0.0, 0.0000001);
+    EXPECT_NEAR(sum3, 0.0, 0.0000001);
+}
+
+/*
+TEST(ODE, Pendulum_Bifurcation_Diagram) {
+        type_container variable(4),parameter(5);
+        variable[V_THETA1] = 0.0;
+        variable[V_THETA2] = 0.0;
+        variable[V_OMEGA1] = 0.0;
+        variable[V_OMEGA2] = 0.0;
+        parameter[P_L1]= 0.30;
+        parameter[P_L2]= 0.30;
+        parameter[P_M1]= 0.10;
+        parameter[P_M2]= 0.10;
+        parameter[P_G]= 9.8;
+     
+        type_data dt=0.0001;
+        type_data coordinate_value=0.0;
+        int quadrant=1;
+        int coordinate_x=2, coordinate_y=3;
+        int time=pow(10,5),transiente=pow(10,3);
+        
+        std::ofstream file;
+        file.open("DP_bifurcation_diagram_simetric.out");
+	
+        for(double theta = 0.10; theta < M_PI; theta += 0.0005){
+            variable[V_THETA1] = theta;
+            variable[V_THETA2] = theta;
+            AdamsBashforth<DoublePendulumFunction> model(variable, parameter, dt); 
+            for(size_t i(0); i < pow(10,5); i++)
+                model.next();
+            type_container zero = PhasePlaneSection(model, coordinate_x, coordinate_y, coordinate_value, 8);        
+            for(auto item: zero)
+                file << (180.0 * theta) / M_PI << " " << item << std::endl;
+        }
+        file.close();
 }
 //*/
-/*
-TEST(ODE, type_data_pendulum_bifurcation) {
-    
+
+
+
+TEST(ODE, Pendulum_Phase_Plane) {
         type_container variable(4),parameter(5);
-        variable[V_THETA1] = M_PI/2.0;
-        variable[V_THETA2] = M_PI/2.0;
+        variable[V_THETA1] = M_PI/5.0;
+        variable[V_THETA2] = M_PI/5.0;
         variable[V_OMEGA1] = 0.0;
         variable[V_OMEGA2] = 0.0;
         parameter[P_L1]= 0.30;
@@ -206,30 +178,27 @@ TEST(ODE, type_data_pendulum_bifurcation) {
         int quadrant=1;
         int coordinate_x=2, coordinate_y=3;
         type_data init=0.1,end=M_PI;int n_points=10000;
-        int time=pow(10,5),transiente=pow(10,3);
+        int time=4*pow(10,5),transiente=pow(10,3);
         
+        std::ofstream file;
+        file.open("DP_phase_plane.out");
 	
-        for(int angle = 1;angle < 6;angle++){
-            variable[V_THETA1] = angle * M_PI / 10.0;
-            variable[V_THETA2] = 0;
-            std::stringstream file;
-            file <<  "dp_ns_series_" << angle <<"_.out";
+        RungeKutta<DoublePendulumFunction> model(variable, parameter, 0.0001); 
+        type_container zero = PhasePlaneSection(model, coordinate_x, coordinate_y, coordinate_value, 10);        
+        for(auto item: zero)
+            file << item << " " << coordinate_value << std::endl;
+        file << std::endl;
+        file << std::endl;
 
-            AdamsBashforth<type_data_pendulum_func> attractor(variable,parameter,0.0001);
-            std::ofstream dp_data;
-            std::string file_name=file.str();
-            dp_data.open(file_name.c_str());
-            for(int i=0;i<pow(10,3);i++)
-                    attractor.next();
- 
-            for(int i=0;i<5*pow(10,3);i++){
-                for(int j=0;j<pow(10,3);j++) 
-                    attractor.next();
-                dp_data << attractor  << endl; 
+        RungeKutta<DoublePendulumFunction> orbit(variable, parameter, 0.0001); 
+        for(size_t i = 0; i <  transiente; ++i)
+            orbit.next();
+        for(size_t i = 0; i <  (time / 10); ++i){
+            file << orbit << std::endl;
+            for(size_t j = 0; j <  10; ++j){
+                orbit.next();
             }
-            dp_data.close();
         }
 }
-*/
 
 #endif /* type_data_PENDULUM_H */
