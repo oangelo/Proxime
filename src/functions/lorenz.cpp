@@ -1,24 +1,10 @@
 #include "lorenz.h"
 
 functions_capsule::functions_capsule():
-  variable_name_index(), parameter_name_index(), func_name(), __result()
+  variable_name_index(), parameter_name_index(), func_name(), result()
 
 {}
 
-
-value functions_capsule::get_result(unsigned i) const {
-  return (__result[i]);
-  
-}
-
-const container & functions_capsule::get_result() const {
-  return(__result);
-}
-
-
-unsigned functions_capsule::size() const{
-      return(__result.size());
-}
 
 LorenzFunction::LorenzFunction():
 X(),Y(),Z(), sigma(), gamma(), beta()
@@ -26,13 +12,13 @@ X(),Y(),Z(), sigma(), gamma(), beta()
     //model name
     func_name = "Lorenz System";
     //variables names
-    name_item variable_init[3] = {name_item("x",0), name_item("y",1), name_item("z",2)};
-    name_item parameter_init[3] = {name_item("sigma",0), name_item("gamma",1), name_item("beta",2)};
-    variable_name_index.insert(variable_init, variable_init + 3);
-    parameter_name_index.insert(parameter_init, parameter_init + 3);
+//    name_item variable_init[3] = {name_item("x",0), name_item("y",1), name_item("z",2)};
+//    name_item parameter_init[3] = {name_item("sigma",0), name_item("gamma",1), name_item("beta",2)};
+//    variable_name_index.insert(variable_init, variable_init + 3);
+//    parameter_name_index.insert(parameter_init, parameter_init + 3);
     //init internal variables
-    __result.clear();
-    __result.resize(3);
+    result.clear();
+    result.resize(3);
 }
 
 inline
@@ -64,9 +50,9 @@ void LorenzFunction::set(value &t,container & variables,container & parameters){
     gamma=parameters[1];
     beta=parameters[2];
     
-    __result[0]=dx();
-    __result[1]=dy();
-    __result[2]=dz();
+    result[0]=dx();
+    result[1]=dy();
+    result[2]=dz();
 
     t=t;
 }
@@ -75,8 +61,8 @@ void LorenzFunction::set(value &t,container & variables,container & parameters){
 Jacobian_LorenzFunction::Jacobian_LorenzFunction():
 X(), Y(), Z(), sigma(), gamma(), beta(), X_fiducial(), Y_fiducial(), Z_fiducial()
 {
-    __result.clear();
-    __result.resize(3);
+    result.clear();
+    result.resize(3);
 }
 
 inline
@@ -112,9 +98,9 @@ void Jacobian_LorenzFunction::set(value &t,container & variables,container & par
     Y_fiducial=parameters[4];
     Z_fiducial=parameters[5];
     
-    __result[0]=dx();
-    __result[1]=dy();
-    __result[2]=dz();
+    result[0]=dx();
+    result[1]=dy();
+    result[2]=dz();
 
     t=t;
 }

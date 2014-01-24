@@ -3,8 +3,8 @@
 SimplePendulumFunction::SimplePendulumFunction()
 :theta(), omega(), l(), g()
 {
-    __result.clear();
-    __result.resize(2);
+    result.clear();
+    result.resize(2);
 }
 
 void SimplePendulumFunction::set(value& t, container& variables, container& parameters){ 
@@ -14,8 +14,8 @@ void SimplePendulumFunction::set(value& t, container& variables, container& para
     l = parameters[P_L];
     g = parameters[P_G];
     
-    __result[V_THETA]=dTheta();
-    __result[V_OMEGA]=dOmega();
+    result[V_THETA]=dTheta();
+    result[V_OMEGA]=dOmega();
    
 }
 
@@ -38,8 +38,8 @@ value SimplePendulumEnergy(value theta, value omega, value l, value m, value g){
 SimplePendulum_H::SimplePendulum_H()
 :p(), q(), l(), g(), m()
 {
-    __result.clear();
-    __result.resize(2);
+    result.clear();
+    result.resize(2);
 }
 
 void SimplePendulum_H::set(value& t, container& variables, container& parameters){ 
@@ -50,8 +50,8 @@ void SimplePendulum_H::set(value& t, container& variables, container& parameters
     g = parameters[P_G];
     m = parameters[P_M];
     
-    __result[0]=Vq();
-    __result[1]=Tp();
+    result[0]=Vq();
+    result[1]=Tp();
    
 }
 

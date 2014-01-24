@@ -16,11 +16,12 @@
 #include "../src/lyapunov.h"
 #include "../src/recurrence_relation.h"
 
+#include "functions.h"
+#include "double_pendulum.h"
 //#include "simple_pendulum.h"
 //#include "t_map.h"
 //#include "lorenz.h"
-#include "double_pendulum.h"
-#include "rossler.h"
+//#include "rossler.h"
 
 
 TEST(ODE, wrong_access) {

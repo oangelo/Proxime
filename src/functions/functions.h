@@ -24,15 +24,19 @@ public:
   virtual ~functions_capsule(){};
 
   virtual void set(value &t, container & variables, container & parameters) = 0;
+
   value get_result(unsigned i) const;
+  value get_result(std::string) const;
   const container & get_result() const;
+
+  //amount of functions and variables 
   unsigned size() const;
- 
-  //map of the variables and index associated to them
-  items variable_name_index,parameter_name_index;     
+
+  typedef std::map<std::string, size_t> items; 
+  items variable_name_index,parameter_name_index;
 protected:
   std::string func_name;
-  container __result;
+  container result;
 };
 
 #endif /* FUNCTIONS_H*/

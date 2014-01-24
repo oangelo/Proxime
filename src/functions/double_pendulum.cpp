@@ -4,8 +4,8 @@ DoublePendulumFunction::DoublePendulumFunction()
 :theta1(), theta2(), omega1(), omega2(),
 l1(), l2(), m1(), m2(), g()
 {
-    __result.clear();
-    __result.resize(4);
+    result.clear();
+    result.resize(4);
 }
 
 void DoublePendulumFunction::set(value& t, container& variables, container& parameters){ 
@@ -20,10 +20,10 @@ void DoublePendulumFunction::set(value& t, container& variables, container& para
     m2 = parameters[3];
     g = parameters[4];
     
-    __result[0]=dTheta1();
-    __result[1]=dTheta2();
-    __result[2]=dOmega1();
-    __result[3]=dOmega2();
+    result[0]=dTheta1();
+    result[1]=dTheta2();
+    result[2]=dOmega1();
+    result[3]=dOmega2();
    
 }
 value DoublePendulumFunction::dTheta1() {
@@ -61,8 +61,8 @@ Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction()
 l1(), l2(), m1(), m2(), g(),
 Jacobian()
 {
-    __result.clear();
-    __result.resize(4);
+    result.clear();
+    result.resize(4);
 }
 void Jacobian_DoublePendulumFunction::set(value& t, container& variables, container& parameters){
 
@@ -85,10 +85,10 @@ void Jacobian_DoublePendulumFunction::set(value& t, container& variables, contai
     
     Matrix_Jacob(_theta1,_theta2,_omega1,_omega2);
 
-    __result[0]=JdTheta1();
-    __result[1]=JdTheta2();
-    __result[2]=JdOmega1();
-    __result[3]=JdOmega2();
+    result[0]=JdTheta1();
+    result[1]=JdTheta2();
+    result[2]=JdOmega1();
+    result[3]=JdOmega2();
 }
 
 void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,value omega1, value omega2)
@@ -157,8 +157,8 @@ DoublePendulum_H::DoublePendulum_H()
 :q1(), q2(), p1(), p2(),
 l1(), l2(), m1(), m2(), g()
 {
-    __result.clear();
-    __result.resize(4);
+    result.clear();
+    result.resize(4);
 }
 
 void DoublePendulum_H::set(value& t, container& variables, container& parameters){ 
@@ -173,10 +173,10 @@ void DoublePendulum_H::set(value& t, container& variables, container& parameters
     m2 = parameters[P_M2];
     g  = parameters[P_G];
     
-    __result[V_Q1]=Vq1();
-    __result[V_Q2]=Vq2();
-    __result[V_P1]=Tp1();
-    __result[V_P2]=Tp2();
+    result[V_Q1]=Vq1();
+    result[V_Q2]=Vq2();
+    result[V_P1]=Tp1();
+    result[V_P2]=Tp2();
    
 }
 
