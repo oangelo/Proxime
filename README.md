@@ -13,5 +13,11 @@ And offer these models:
 * Lorenz Attractor
 * Double Pendulum
 
-***
-I'm developing this program as part of a Ph.D. in computational physics. Even though there are many tools that do the same, I'm using it to study how to develop numerical integration code that would be easy to extend and simple to use and understand. To do this, now I'm using polimorfism and templates and any C++ feature I may found convenient.  
+Code directives
+===============
+The code should use Google C++ Style.
+For consistence, the code should only use these variable types:
+value, container and labels,
+defined on src/functions/functions.h
+
+

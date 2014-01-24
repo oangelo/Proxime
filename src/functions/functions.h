@@ -8,17 +8,22 @@
 #include <map>
 #include <string>
 
+
+/****************************************
+ * These types must be used every where,*
+ * to make the precision consistent.    *
+ ****************************************/
 typedef double value;
 typedef std::vector<value> container ;
+typedef std::map<std::string, double> labels; 
+/****************************************/
 
 class functions_capsule {
 public:
   functions_capsule();
   virtual ~functions_capsule(){};
-  typedef std::pair<std::string, unsigned> name_item;
-  typedef std::map<std::string,unsigned> items; 
 
-  virtual void set(value &t, container & variables, container & parameters)=0;
+  virtual void set(value &t, container & variables, container & parameters) = 0;
   value get_result(unsigned i) const;
   const container & get_result() const;
   unsigned size() const;
