@@ -1,24 +1,24 @@
 #include "bifurcation_diagram.h"
 
-bool CrossUpDown(double before, double after, double reference){
+bool CrossUpDown(value before, value after, value reference){
     if(before > reference and after < reference)
         return true;
     else
         return false;
 };
 
-bool CrossDownUp(double before, double after, double reference){
+bool CrossDownUp(value before, value after, value reference){
     if(before < reference and after > reference)
         return true;
     else
         return false;
 };
 
-type_container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate_x,
-        unsigned coordinate_y, double y_section_value, unsigned qt_points, bool (*cross)(double, double, double)){
+container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate_x,
+        unsigned coordinate_y, value y_section_value, unsigned qt_points, bool (*cross)(value, value, value)){
 
-    type_container value(attractor.size_variable()), next_value(attractor.size_variable());
-    type_container zeros;
+    container value(attractor.size_variable()), next_value(attractor.size_variable());
+    container zeros;
     size_t max_iterations(pow(10,7));
 
     next_value = attractor.get_variable();

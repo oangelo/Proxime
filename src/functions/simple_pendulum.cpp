@@ -7,7 +7,7 @@ SimplePendulumFunction::SimplePendulumFunction()
     __result.resize(2);
 }
 
-void SimplePendulumFunction::set(double& t, std::vector<double>& variables, std::vector<double>& parameters){ 
+void SimplePendulumFunction::set(value& t, container& variables, container& parameters){ 
     theta = variables[V_THETA];
     omega = variables[V_OMEGA];
     
@@ -19,19 +19,19 @@ void SimplePendulumFunction::set(double& t, std::vector<double>& variables, std:
    
 }
 
-double SimplePendulumFunction::dTheta() {
-    double func;
+value SimplePendulumFunction::dTheta() {
+    value func;
     func = omega;
     return (func);
 }
 
-double SimplePendulumFunction::dOmega() {
-    double func;
+value SimplePendulumFunction::dOmega() {
+    value func;
     func = -(g/l) * sin(theta);
     return (func);
 }
 
-double SimplePendulumEnergy(double theta, double omega, double l, double m, double g){
+value SimplePendulumEnergy(value theta, value omega, value l, value m, value g){
     return m * pow(l * omega, 2) / 2 - m * g * (l * cos(theta));
 }
 
@@ -42,7 +42,7 @@ SimplePendulum_H::SimplePendulum_H()
     __result.resize(2);
 }
 
-void SimplePendulum_H::set(double& t, std::vector<double>& variables, std::vector<double>& parameters){ 
+void SimplePendulum_H::set(value& t, container& variables, container& parameters){ 
     p = variables[V_P];
     q = variables[V_Q];
     
@@ -55,14 +55,14 @@ void SimplePendulum_H::set(double& t, std::vector<double>& variables, std::vecto
    
 }
 
-double SimplePendulum_H::Vq() {
-    double func;
+value SimplePendulum_H::Vq() {
+    value func;
     func =  l * m * g * sin(q);
     return (func);
 }
 
-double SimplePendulum_H::Tp() {
-    double func;
+value SimplePendulum_H::Tp() {
+    value func;
     func =  p / (m * pow(l, 2));
     return (func);
 }

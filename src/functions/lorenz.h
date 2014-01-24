@@ -7,27 +7,27 @@
 class LorenzFunction : public functions_capsule {
 public:
   LorenzFunction();
-  void set(type_data &t, type_container & variables, type_container & parameters);
+  void set(value &t, container & variables, container & parameters);
 protected:
-  type_data dx();
-  type_data dy();
-  type_data dz();
+  value dx();
+  value dy();
+  value dz();
   
-  type_data X,Y,Z;
-  type_data sigma,gamma,beta;
+  value X,Y,Z;
+  value sigma,gamma,beta;
 };
 
 class Jacobian_LorenzFunction : public functions_capsule {
 public:
   Jacobian_LorenzFunction();
-  void set(type_data &t, type_container & variables, type_container & parameters);
+  void set(value &t, container & variables, container & parameters);
 protected:
-  type_data dx();
-  type_data dy();
-  type_data dz();
+  value dx();
+  value dy();
+  value dz();
   
-  type_data X,Y,Z;
-  type_data sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
+  value X,Y,Z;
+  value sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
 };
 
 enum lorenz_enum {

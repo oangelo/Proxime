@@ -3,15 +3,15 @@
 #include "numerical_integration/adams_moulton.h"   
 
 
-type_data Dot(type_container v1, type_container v2) {
-    type_data escalar = 0;
+value Dot(container v1, container v2) {
+    value escalar = 0;
     for (unsigned cont = 0; cont < v1.size(); cont++)
         escalar += (v1[cont]) * v2[cont];
     return (escalar);
 }
 
-void GramSchmidt(std::vector<type_container> & vec_space, type_container & modulo) {
-    std::vector<type_container> aux_space = vec_space;
+void GramSchmidt(std::vector<container> & vec_space, container & modulo) {
+    std::vector<container> aux_space = vec_space;
     modulo.resize(vec_space.size());
     modulo[0] = sqrt(Dot(aux_space[0], aux_space[0]));
     for (unsigned i = 1; i < vec_space.size(); i++) {
@@ -30,9 +30,9 @@ void GramSchmidt(std::vector<type_container> & vec_space, type_container & modul
 
 template <class jacobian_function>
 void OrtogonalSpaceNorm(NumericalIntegration & fiducial,
-std::vector<type_container> & ortogonal_space,
-type_container & Jparameters,
-type_container & modulo) {
+std::vector<container> & ortogonal_space,
+container & Jparameters,
+container & modulo) {
   
     std::vector<RungeKutta<jacobian_function>*> jacobian(fiducial.size_variable());
     
@@ -56,12 +56,12 @@ type_container & modulo) {
 }
 
 template <class jacobian_function>
-type_container Lyapunov(NumericalIntegration& fiducial, unsigned number_steps, 
+container Lyapunov(NumericalIntegration& fiducial, unsigned number_steps, 
         unsigned transients_steps, int number_of_points_to_print,std::string file_name) {
     /*Be carfull with vertors of a class, because the vector will copy the object!*/
-    type_container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
-    std::vector<type_container> ortogonal_space(fiducial.size_variable(), std::vector<double>(fiducial.size_variable()));
-    type_container Lambda(fiducial.size_variable(), 0), modulo(fiducial.size_variable(), 0);
+    container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
+    std::vector<container> ortogonal_space(fiducial.size_variable(), container(fiducial.size_variable()));
+    container Lambda(fiducial.size_variable(), 0), modulo(fiducial.size_variable(), 0);
     std::ofstream data_lyapunov;
     std::string Filename = "lyapunov_"+fiducial.get_model_name()+"_"+fiducial.get_method_name()+file_name+".out";
     data_lyapunov.open(Filename.c_str());
@@ -112,12 +112,12 @@ type_container Lyapunov(NumericalIntegration& fiducial, unsigned number_steps,
 }
 
 template <class jacobian_function>
-type_data MaxLyapunov(NumericalIntegration & fiducial, unsigned number_steps, unsigned transients_steps) {
+value MaxLyapunov(NumericalIntegration & fiducial, unsigned number_steps, unsigned transients_steps) {
     /*Be carfull with vertors of a class, because the vector will copy the object!*/
-    type_container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
-    type_container space_vec(fiducial.size_variable());
-    type_data Lambda;
-    type_data modulo;
+    container Jparameters(fiducial.size_variable() + fiducial.size_parameter());
+    container space_vec(fiducial.size_variable());
+    value Lambda;
+    value modulo;
     NumericalIntegration* jacobian;
     //Initial Conditions##################################
     modulo = 1;

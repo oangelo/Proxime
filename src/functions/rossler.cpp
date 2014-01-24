@@ -16,7 +16,7 @@ X(), Y(), Z(), a(), b(), c()
 }
 
 inline
-void RosslerFunction::set(type_data &t, type_container & variables, type_container & parameters){
+void RosslerFunction::set(value &t, container & variables, container & parameters){
       
     X=variables[0];
     Y=variables[1];
@@ -34,20 +34,20 @@ void RosslerFunction::set(type_data &t, type_container & variables, type_contain
 }
 
 inline
-type_data RosslerFunction::dx() {
-    type_data func =  (-Y - Z);
+value RosslerFunction::dx() {
+    value func =  (-Y - Z);
     return(func);
 }
 
 inline
-type_data RosslerFunction::dy() {
-    type_data func = X +a* Y;
+value RosslerFunction::dy() {
+    value func = X +a* Y;
     return(func);
 }
 
 inline
-type_data RosslerFunction::dz() {
-    type_data func = b + Z*(X-c);
+value RosslerFunction::dz() {
+    value func = b + Z*(X-c);
     return(func);  
 }
 
@@ -60,7 +60,7 @@ X(),Y(),Z(),a(),b(),c(),X_fiducial(),Y_fiducial(),Z_fiducial()
 }
 
 inline
-void Jacobian_RosslerFunction::set(type_data &t,type_container & variables,type_container & parameters){
+void Jacobian_RosslerFunction::set(value &t,container & variables,container & parameters){
     X=variables[0];
     Y=variables[1];
     Z=variables[2];
@@ -80,19 +80,19 @@ void Jacobian_RosslerFunction::set(type_data &t,type_container & variables,type_
 }
 
 inline
-type_data Jacobian_RosslerFunction::dx() {
-    type_data func =  -Y-Z;
+value Jacobian_RosslerFunction::dx() {
+    value func =  -Y-Z;
     return(func);
 }
 
 inline
-type_data Jacobian_RosslerFunction::dy() {
-    type_data func = X+a*Y;
+value Jacobian_RosslerFunction::dy() {
+    value func = X+a*Y;
     return(func);
 }
 
 inline
-type_data Jacobian_RosslerFunction::dz() {
-    type_data func = +Z_fiducial*X +(X_fiducial-c)*Z;
+value Jacobian_RosslerFunction::dz() {
+    value func = +Z_fiducial*X +(X_fiducial-c)*Z;
     return(func);
 }

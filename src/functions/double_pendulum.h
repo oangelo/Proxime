@@ -6,35 +6,35 @@
 class DoublePendulumFunction : public functions_capsule {
 public:
   DoublePendulumFunction();
-  void set(type_data &t, type_container & variables, type_container & parameters);
+  void set(value &t, container & variables, container & parameters);
 protected:
-  type_data dTheta1();
-  type_data dTheta2();
-  type_data dOmega1();
-  type_data dOmega2();
+  value dTheta1();
+  value dTheta2();
+  value dOmega1();
+  value dOmega2();
   
-  type_data theta1,theta2,omega1,omega2;
-  type_data l1,l2,m1,m2,g;
+  value theta1,theta2,omega1,omega2;
+  value l1,l2,m1,m2,g;
 
 };
 
 class Jacobian_DoublePendulumFunction : public functions_capsule {
 public:
   Jacobian_DoublePendulumFunction();
-  void set(type_data &t, type_container & variables, type_container & parameters);
+  void set(value &t, container & variables, container & parameters);
 protected:
-  void Matrix_Jacob(type_data theta1, type_data theta2, type_data omega1, type_data omega2);
-  type_data JdTheta1();
-  type_data JdTheta2();
-  type_data JdOmega1();
-  type_data JdOmega2();
+  void Matrix_Jacob(value theta1, value theta2, value omega1, value omega2);
+  value JdTheta1();
+  value JdTheta2();
+  value JdOmega1();
+  value JdOmega2();
 
-  type_data theta1, theta2, omega1, omega2;
-  type_data l1, l2, m1, m2, g;
-  type_data Jacobian[4][4];
+  value theta1, theta2, omega1, omega2;
+  value l1, l2, m1, m2, g;
+  value Jacobian[4][4];
 };
 
-double DoublePendulumEnergy(double theta1, double theta2, double omega1, double omega2, double l1, double l2, double m1, double m2, double g);
+value DoublePendulumEnergy(value theta1, value theta2, value omega1, value omega2, value l1, value l2, value m1, value m2, value g);
 
 
 enum variables {
@@ -44,5 +44,32 @@ enum variables {
 enum parameters {
   P_L1, P_L2, P_M1, P_M2, P_G, P_THETA1, P_THETA2, P_OMEGA1, P_OMEGA2
 };
+
+class DoublePendulum_H: public functions_capsule {
+    public:
+        DoublePendulum_H();
+        void set(value &t, container & variables, container & parameters);
+
+        enum variables {
+            V_Q1, V_Q2, V_P1, V_P2
+        };
+
+        enum parameters {
+            P_L1, P_L2, P_M1, P_M2, P_G 
+        };
+
+    protected:
+        value Vq1();
+        value Vq2();
+        value Tp1();
+        value Tp2();
+
+        value q1, q2, p1, p2;
+        value l1,l2,m1,m2,g;
+};
+
+value omega1_H(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
+value omega2_H(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
+value DoublePendulumHamiltonian(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
 
 #endif /* DOUBLE_PENDULUM_H */

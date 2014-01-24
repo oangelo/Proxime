@@ -7,28 +7,28 @@
 class RosslerFunction : public functions_capsule {
 public:
   RosslerFunction();
-  void set(type_data &t, type_container & variables, type_container & parameters);
+  void set(value &t, container & variables, container & parameters);
 
  protected:
-  type_data dx();
-  type_data dy();
-  type_data dz();
+  value dx();
+  value dy();
+  value dz();
   
-  type_data X,Y,Z;
-  type_data a,b,c;
+  value X,Y,Z;
+  value a,b,c;
 
 };
 
 class Jacobian_RosslerFunction : public functions_capsule {
 public:
   Jacobian_RosslerFunction();
-  void set(type_data &t, type_container & variables, type_container & parameters);
+  void set(value &t, container & variables, container & parameters);
 protected:
-  type_data dx();
-  type_data dy();
-  type_data dz();
+  value dx();
+  value dy();
+  value dz();
   
-  type_data X,Y,Z;
-  type_data a,b,c,X_fiducial,Y_fiducial,Z_fiducial;
+  value X,Y,Z;
+  value a,b,c,X_fiducial,Y_fiducial,Z_fiducial;
 };
 #endif /* ROSSLER_H */

@@ -6,7 +6,7 @@
 template <class function>
 class RungeKutta: public NumericalIntegration{
     public:  
-        RungeKutta(type_container variable,type_container parameter,type_data dt)
+        RungeKutta(container variable,container parameter,value dt)
             :NumericalIntegration(variable,parameter,dt) {
                 /*Point to the class witch encapsulate the functions*/  
                 __func.reset(new function);
@@ -29,12 +29,12 @@ void RungeKutta<function>::next(){
 template <class function>
 void RungeKutta<function>::RungeKutta_method()
 {
-    //type_data k[__variable.size()][4];
-    std::vector<std::vector<double>> k(__variable.size(), std::vector<double>(4, 0));
-    type_data t = __t;
+    //value k[__variable.size()][4];
+    std::vector<container> k(__variable.size(), container(4, 0));
+    value t = __t;
 
     unsigned i;
-    type_container aux_argument(__variable.size(), 0);
+    container aux_argument(__variable.size(), 0);
 
 
     //Generating K1*************************************************************

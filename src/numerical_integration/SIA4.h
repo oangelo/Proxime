@@ -8,7 +8,7 @@
 template <class function>
 class SIA4: public NumericalIntegration{
     public:
-        SIA4(type_container variable, type_container parameter, type_data dt)
+        SIA4(container variable, container parameter, value dt)
             :NumericalIntegration(variable, parameter, dt), q(), p(), a(), b()
     {
         //Initializing the variables
@@ -21,8 +21,8 @@ class SIA4: public NumericalIntegration{
         this->__func.reset(new function);
         __func->set(__t, q, __parameter);
 
-        double a1, a2, a3, a4;
-        double b1, b2, b3, b4;
+        value a1, a2, a3, a4;
+        value b1, b2, b3, b4;
         a1 = a4 = (1.0 / 6.0) * (2.0 + pow(2.0, 1.0 / 3.0) + pow(2.0,  -1.0 / 3.0));
         a2 = a3 = (1.0 / 6.0) * (1.0 - pow(2.0, 1.0 / 3.0) - pow(2.0,  -1.0 / 3.0));
         b1 = 0;
@@ -36,7 +36,7 @@ class SIA4: public NumericalIntegration{
 
         virtual void next(){
             SIA4_method();
-            std::vector<double> aux;
+            container aux;
             for(auto i: q)
                 aux.push_back(i);
             for(auto i: p)
@@ -46,23 +46,22 @@ class SIA4: public NumericalIntegration{
 
         virtual ~SIA4(){};
     protected:
-        std::vector<double> a;  
-        std::vector<double> b;  
-        void H(std::vector<double> aux_q, std::vector<double> aux_p, std::vector<double>& Uq, std::vector<double>& Tp);
+        void H(container aux_q, container aux_p, container& Uq, container& Tp);
 
         void SIA4_method();
-        type_container q, p;
+        container q, p;
+        container a, b;  
 };
 
 template <class function>
-void SIA4<function>::H(std::vector<double> aux_q, std::vector<double> aux_p, std::vector<double>& Uq, std::vector<double>& Tp){
-        std::vector<double> aux;
+void SIA4<function>::H(container aux_q, container aux_p, container& Uq, container& Tp){
+        container aux;
         for(auto i: aux_q)
             aux.push_back(i);
         for(auto i: aux_p)
             aux.push_back(i);
         __func->set(__t, aux, __parameter);
-        std::vector<double> H(__func->get_result());
+        container H(__func->get_result());
         for(size_t i = 0; i < H.size() / 2; ++i)
             Uq.push_back(H[i]);
         for(size_t i = H.size() / 2; i < H.size(); ++i)
@@ -72,20 +71,19 @@ void SIA4<function>::H(std::vector<double> aux_q, std::vector<double> aux_p, std
 
 template <class function>
 void SIA4<function>::SIA4_method() {
-    type_container aux_q, aux_p;
+    container aux_q, aux_p;
     aux_q = q;
     aux_p = p;
     __t = __t + __h;
     for(size_t k = 0; k < 4; ++k){
+        container Uq, Tp;
+        H(aux_q, aux_p, Uq, Tp);
         for(size_t i = 0; i < p.size(); ++i){
-            std::vector<double> Uq, Tp;
-            H(aux_q, aux_p, Uq, Tp);
             aux_p[i] = aux_p[i] - b[k] * Uq[i] * __h; 
-
         }
+        Uq.clear(), Tp.clear();
+        H(aux_q, aux_p, Uq, Tp);
         for(size_t i = 0; i < q.size(); ++i){
-            std::vector<double> Uq, Tp;
-            H(aux_q, aux_p, Uq, Tp);
             aux_q[i] = aux_q[i] + a[k] * Tp[i] * __h;
         }
     }

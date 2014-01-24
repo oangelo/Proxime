@@ -2,26 +2,27 @@
 
 std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
     unsigned i;
+    out << std::setprecision(12) << object.get_t() << "\t";
     for (i = 0; i < object.size_variable()-1; i++)
         out << object[i] << "\t";
     out << object[i];
     return out;
 }
 
-NumericalIntegration::NumericalIntegration(type_container variable,type_container parameter,type_data dt):
+NumericalIntegration::NumericalIntegration(container variable,container parameter,value dt):
     __func(),__variable(variable), __parameter(parameter),  __h(dt), __t(0), __model_name(), __method()
 {
 }
 
-type_data NumericalIntegration::get_t() const{
+value NumericalIntegration::get_t() const{
     return (__t);
 }
 
-type_data NumericalIntegration::get_dt() const{
+value NumericalIntegration::get_dt() const{
     return (__h);
 }
 
-type_data NumericalIntegration::get_variable(unsigned n) const{
+value NumericalIntegration::get_variable(unsigned n) const{
     if (n < __variable.size()) {
         return (__variable[n]);
     } else {
@@ -29,7 +30,7 @@ type_data NumericalIntegration::get_variable(unsigned n) const{
     }
 }
 
-type_data NumericalIntegration::get_parameter(unsigned n) const{
+value NumericalIntegration::get_parameter(unsigned n) const{
     if (n < __parameter.size()) {
         return (__parameter[n]);
     } else {
@@ -48,7 +49,7 @@ unsigned NumericalIntegration::size_parameter() const{
 
 
 
-type_data NumericalIntegration::operator[] (const unsigned nIndex) {
+value NumericalIntegration::operator[] (const unsigned nIndex) {
     if (nIndex < __variable.size()) {
         return __variable[nIndex];
     } else {
@@ -56,7 +57,7 @@ type_data NumericalIntegration::operator[] (const unsigned nIndex) {
     }
 }
 
-type_data NumericalIntegration::operator[] (std::string nIndex) {
+value NumericalIntegration::operator[] (std::string nIndex) {
    if (__func->variable_name_index.count(nIndex)) {
        return __variable[__func->variable_name_index[nIndex]];
     } else {

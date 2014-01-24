@@ -7,7 +7,7 @@
 template <class function>
 class AdamsBashforth: public NumericalIntegration{
     public:
-        AdamsBashforth(type_container variable,type_container parameter,type_data dt)
+        AdamsBashforth(container variable,container parameter,value dt)
             :NumericalIntegration(variable,parameter,dt),
             step1(variable.size()), step2(variable.size()), step3(variable.size()), step4(variable.size()), new_step(variable.size())
 
@@ -37,24 +37,24 @@ class AdamsBashforth: public NumericalIntegration{
         virtual ~AdamsBashforth(){};
     protected:
         void AdamsBashforth_method();
-        type_container step1, step2, step3, step4, new_step;
+        container step1, step2, step3, step4, new_step;
 };
 
 template <class function>
 void AdamsBashforth<function>::AdamsBashforth_method() {
-    type_container aux(__variable.size());
+    container aux(__variable.size());
 
     __func->set(__t, step4, __parameter);
-    std::vector<double> function_step4(__func->get_result());
+    container function_step4(__func->get_result());
 
     __func->set(__t, step3, __parameter);
-    std::vector<double> function_step3(__func->get_result());
+    container function_step3(__func->get_result());
 
     __func->set(__t, step2, __parameter);
-    std::vector<double> function_step2(__func->get_result());
+    container function_step2(__func->get_result());
 
     __func->set(__t, step1, __parameter);
-    std::vector<double> function_step1(__func->get_result());
+    container function_step1(__func->get_result());
 
     for (unsigned i = 0; i < __variable.size(); i++) {
         aux[i]  = 55 * function_step4[i];

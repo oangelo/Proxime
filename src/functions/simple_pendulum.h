@@ -6,7 +6,7 @@
 class SimplePendulumFunction : public functions_capsule {
 public:
     SimplePendulumFunction();
-    void set(type_data &t, type_container & variables, type_container & parameters);
+    void set(value &t, container & variables, container & parameters);
 
     enum variables {
       V_THETA,
@@ -18,11 +18,11 @@ public:
     };
 
 protected:
-    type_data dTheta();
-    type_data dOmega();
+    value dTheta();
+    value dOmega();
 
-    type_data theta, omega;
-    type_data l, g;
+    value theta, omega;
+    value l, g;
 };
 
 //The equation for the simpletic integration of the simple pendulum
@@ -30,7 +30,7 @@ protected:
 class SimplePendulum_H: public functions_capsule {
 public:
     SimplePendulum_H();
-    void set(type_data &t, type_container & variables, type_container & parameters);
+    void set(value &t, container & variables, container & parameters);
 
     enum variables {
       V_Q, V_P
@@ -41,13 +41,13 @@ public:
     };
 
 protected:
-    type_data Vq();
-    type_data Tp();
+    value Vq();
+    value Tp();
 
-    type_data p, q;
-    type_data l, g, m;
+    value p, q;
+    value l, g, m;
 };
 
-double SimplePendulumEnergy(double theta, double omega, double l, double m, double g);
+value SimplePendulumEnergy(value theta, value omega, value l, value m, value g);
 
 #endif /* SIMPLE_PENDULUM_H */

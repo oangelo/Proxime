@@ -11,19 +11,20 @@
 #include "../src/functions/lorenz.h"
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/numerical_integration/adams_moulton.h"
+#include "../src/numerical_integration/SIA4.h"
 #include "../src/bifurcation_diagram.h"
 #include "../src/lyapunov.h"
 #include "../src/recurrence_relation.h"
 
-#include "simple_pendulum.h"
-#include "double_pendulum.h"
+//#include "simple_pendulum.h"
 //#include "t_map.h"
 //#include "lorenz.h"
-//#include "rossler.h"
+#include "double_pendulum.h"
+#include "rossler.h"
 
 
 TEST(ODE, wrong_access) {
-    type_container variable(4), parameter(5);
+    container variable(4), parameter(5);
     variable[V_THETA1] = 5 * M_PI / 10;
     variable[V_THETA2] = 5 * M_PI / 10;
     variable[V_OMEGA1] = 0.0;
@@ -41,8 +42,8 @@ TEST(ODE, wrong_access) {
 }
 
 TEST(ODE, bad_integration) {
-    type_data aux = 0;
-    type_container variable(4), parameter(5);
+    value aux = 0;
+    container variable(4), parameter(5);
     variable[V_THETA1] = 1;
     variable[V_THETA2] = 1 / aux;
     variable[V_OMEGA1] = 0.0;
@@ -58,7 +59,7 @@ TEST(ODE, bad_integration) {
 }
 
 TEST(ODE, assigment) {
-    type_container variable(4), parameter(5);
+    container variable(4), parameter(5);
     variable[V_THETA1] = 1.1;
     variable[V_THETA2] = 2.2;
     variable[V_OMEGA1] = 3.3;
@@ -79,7 +80,7 @@ TEST(ODE, assigment) {
 
 TEST(ODE, size) {
 
-    type_container variable(4), parameter(5);
+    container variable(4), parameter(5);
     variable[V_THETA1] = 5 * M_PI / 10;
     variable[V_THETA2] = 5 * M_PI / 10;
     variable[V_OMEGA1] = 0.0;

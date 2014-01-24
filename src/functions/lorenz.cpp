@@ -6,12 +6,12 @@ functions_capsule::functions_capsule():
 {}
 
 
-type_data functions_capsule::get_result(unsigned i) const {
+value functions_capsule::get_result(unsigned i) const {
   return (__result[i]);
   
 }
 
-const type_container & functions_capsule::get_result() const {
+const container & functions_capsule::get_result() const {
   return(__result);
 }
 
@@ -36,26 +36,26 @@ X(),Y(),Z(), sigma(), gamma(), beta()
 }
 
 inline
-type_data LorenzFunction::dx() {
-    type_data func =  (-sigma*X +sigma*Y);
+value LorenzFunction::dx() {
+    value func =  (-sigma*X +sigma*Y);
     return(func);
 }
 
 inline
-type_data LorenzFunction::dy() {
-    type_data func = (gamma-Z)*X - Y;
+value LorenzFunction::dy() {
+    value func = (gamma-Z)*X - Y;
     return(func);
 }
 
 inline
-type_data LorenzFunction::dz() {
-    type_data func = X*Y-beta*Z;
+value LorenzFunction::dz() {
+    value func = X*Y-beta*Z;
     return(func);
 }
 
 
 inline
-void LorenzFunction::set(type_data &t,type_container & variables,type_container & parameters){
+void LorenzFunction::set(value &t,container & variables,container & parameters){
     X=variables[0];
     Y=variables[1];
     Z=variables[2];
@@ -80,26 +80,26 @@ X(), Y(), Z(), sigma(), gamma(), beta(), X_fiducial(), Y_fiducial(), Z_fiducial(
 }
 
 inline
-type_data Jacobian_LorenzFunction::dx() {
-    type_data func = + (-sigma*X +sigma*Y);
+value Jacobian_LorenzFunction::dx() {
+    value func = + (-sigma*X +sigma*Y);
     return(func);
 }
 
 inline
-type_data Jacobian_LorenzFunction::dy() {
-    type_data func =+(-Z_fiducial+gamma)*X - Y-X_fiducial*Z;
+value Jacobian_LorenzFunction::dy() {
+    value func =+(-Z_fiducial+gamma)*X - Y-X_fiducial*Z;
     return(func);
 }
 
 inline
-type_data Jacobian_LorenzFunction::dz() {
-    type_data func =  +Y_fiducial*X +X_fiducial*Y -beta*Z;
+value Jacobian_LorenzFunction::dz() {
+    value func =  +Y_fiducial*X +X_fiducial*Y -beta*Z;
     return(func);
 }
 
 
 inline
-void Jacobian_LorenzFunction::set(type_data &t,type_container & variables,type_container & parameters){
+void Jacobian_LorenzFunction::set(value &t,container & variables,container & parameters){
 
     X=variables[0];
     Y=variables[1];

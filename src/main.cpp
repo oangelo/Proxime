@@ -23,8 +23,8 @@ NumericalIntegration* model = NULL;
 unsigned step = 1;
 unsigned transient = 1000;
 unsigned iterations = 1000;
-std::vector<double> parameters;
-std::vector<double> init;
+container parameters;
+container init;
 
 void help(){
     std::cout << std::endl;
@@ -32,7 +32,7 @@ void help(){
     std::cout << "  ./model [options] [model]" << std::endl;
     std::cout << "models:" << std::endl;
     std::cout << "  --logistic_map" << std::endl;
-    std::cout << "  --double_pendulum [model options]" << std::endl;
+    std::cout << "  --value_pendulum [model options]" << std::endl;
     std::cout << "  --rossler [model options]" << std::endl;
     std::cout << "model options:" << std::endl;
     std::cout << " --parameters <real>[n]" << std::endl;
@@ -49,7 +49,7 @@ void help(){
     std::cout << "                                   Y = variable to use as coordinate y, " << std::endl;
     std::cout << "                                   value = value were the trajectory corss Y, " << std::endl;
     std::cout << std::endl;
-    std::cout << "double pendulum:" << std::endl;
+    std::cout << "value pendulum:" << std::endl;
     std::cout << "parameters: l1 l2 m1 m2 g" << std::endl;
     std::cout << "variables: theta1 theta2 omega1 omega2  (in degrees)" << std::endl;
     std::cout << std::endl;
@@ -85,7 +85,7 @@ int main( int argc , char * argv[]) {
     for (int i = 1; i < argc; ++i)
     {
         if(strcmp(argv[i], "--logistic_map") == 0) {
-            double a = atof(argv[i + 1]);
+            value a = atof(argv[i + 1]);
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_real_distribution<> dis(0,1);
@@ -98,7 +98,7 @@ int main( int argc , char * argv[]) {
         }
 
         if(strcmp(argv[i], "--rossler") == 0) {
-            std::vector<double> variable(3),parameter(3);
+            container variable(3),parameter(3);
             variable[0] = 2.61622;
             variable[1] = -6.32533;
             variable[2] = 0.0335135;
@@ -142,8 +142,8 @@ int main( int argc , char * argv[]) {
             }
         }
 
-        if(strcmp(argv[i], "--double_pendulum") == 0 or strcmp(argv[i], "-dp") == 0) {
-            type_container variable(4),parameter(5);
+        if(strcmp(argv[i], "--value_pendulum") == 0 or strcmp(argv[i], "-dp") == 0) {
+            container variable(4),parameter(5);
             variable[V_THETA1] = M_PI/2.0;
             variable[V_THETA2] = M_PI/2.0;
             variable[V_OMEGA1] = 0.0;
@@ -208,10 +208,10 @@ int main( int argc , char * argv[]) {
         
         if(strcmp(argv[i], "--bifurcations") == 0) {
             std::cerr << "#>> Calculating bifurcations" << std::endl;
-            type_data coordinate_value = 0.0;
+            value coordinate_value = 0.0;
             int coordinate_x = 0, coordinate_y = 2;
 
-            double control_parameter = std::numeric_limits<double>::signaling_NaN();
+            value control_parameter = std::numeric_limits<value>::signaling_NaN();
             for (int j = i; j < argc; ++j) {
                 if(strcmp(argv[j], "variable") == 0) 
                     control_parameter = model->get_variable(atoi(argv[i + 1]));

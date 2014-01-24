@@ -7,7 +7,7 @@
 template <class function>
 class AdamsMoulton: public AdamsBashforth<function> {
     public:
-        AdamsMoulton(type_container variable, type_container parameter, type_data dt)
+        AdamsMoulton(container variable, container parameter, value dt)
             :AdamsBashforth<function>(variable, parameter, dt)  
         {
             __N=1;
@@ -46,8 +46,8 @@ class AdamsMoulton: public AdamsBashforth<function> {
 
 template <class function>
 void AdamsMoulton<function>::AdamsMoulton_method() {
-    type_container aux(this->__variable.size(), 0);
-    std::vector< type_container > results;
+    container aux(this->__variable.size(), 0);
+    std::vector< container > results;
 
     this->__func->set(this->__t, this->step4, this->__parameter);
     results.push_back(this->__func->get_result());
