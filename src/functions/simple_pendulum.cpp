@@ -1,10 +1,9 @@
 #include "simple_pendulum.h"
 
 SimplePendulumFunction::SimplePendulumFunction()
-:theta(), omega(), l(), g()
+:functions_capsule("Simple Pendulum", 2),
+theta(), omega(), l(), g()
 {
-    result.clear();
-    result.resize(2);
 }
 
 void SimplePendulumFunction::set(value& t, container& variables, container& parameters){ 
@@ -36,7 +35,8 @@ value SimplePendulumEnergy(value theta, value omega, value l, value m, value g){
 }
 
 SimplePendulum_H::SimplePendulum_H()
-:p(), q(), l(), g(), m()
+:functions_capsule("Simple Pendulum Hamiltonian", 2),
+p(), q(), l(), g(), m()
 {
     result.clear();
     result.resize(2);

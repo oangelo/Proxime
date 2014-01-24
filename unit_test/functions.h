@@ -9,9 +9,9 @@ TEST(Functions, Rossler) {
     
     RosslerFunction func;
     func.set(t, variables, parameters);
-    EXPECT_EQ(func.get_result(0), -2);
-    EXPECT_EQ(func.get_result(1), 2);
-    EXPECT_EQ(func.get_result(2), 1);
+    EXPECT_EQ(func.get_result("x"), -2);
+    EXPECT_EQ(func.get_result("y"), 2);
+    EXPECT_EQ(func.get_result("z"), 1);
 }
 
 #endif /* TEST_FUNCTIONS_H */

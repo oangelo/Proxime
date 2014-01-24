@@ -1,34 +1,27 @@
 #include "rossler.h"
 
 RosslerFunction::RosslerFunction():
+functions_capsule("Rössler System", 3, 
+                  dictionary{{"x",0},{"y",1},{"z",2},},
+                  dictionary{{"a",0},{"b",1},{"c",2},}),
 X(), Y(), Z(), a(), b(), c()
 {
-    //model name
-    func_name="Rössler System";
-    //variables names
-//    name_item variable_init[3] = {name_item("x",0), name_item("y",1), name_item("z",2)};
-//    name_item parameter_init[3] = {name_item("a",0), name_item("b",1), name_item("c",2)};
-//    variable_name_index.insert(variable_init, variable_init + 3);
-//    parameter_name_index.insert(parameter_init, parameter_init + 3);
-    //init internal variables
-    result.clear();
-    result.resize(3);
 }
 
 inline
 void RosslerFunction::set(value &t, container & variables, container & parameters){
       
-    X=variables[0];
-    Y=variables[1];
-    Z=variables[2];
+    X=variables[index_var["x"]];
+    Y=variables[index_var["y"]];
+    Z=variables[index_var["z"]];
 
-    a=parameters[0];
-    b=parameters[1];
-    c=parameters[2];
+    a=parameters[index_par["a"]];
+    b=parameters[index_par["b"]];
+    c=parameters[index_par["c"]];
   
-    result[0]=RosslerFunction::dx();
-    result[1]=RosslerFunction::dy();
-    result[2]=RosslerFunction::dz();
+    result[index_var["x"]]=RosslerFunction::dx();
+    result[index_var["y"]]=RosslerFunction::dy();
+    result[index_var["z"]]=RosslerFunction::dz();
     
     t=t;
 }
@@ -53,6 +46,9 @@ value RosslerFunction::dz() {
 
 
 Jacobian_RosslerFunction::Jacobian_RosslerFunction():
+functions_capsule("Rössler Jacobian", 3, 
+                  dictionary{{"x",0},{"y",1},{"z",2},}, 
+                  dictionary{{"a",0},{"b",1},{"c",2},{"x",3},{"y",4},{"z",5},}),
 X(),Y(),Z(),a(),b(),c(),X_fiducial(),Y_fiducial(),Z_fiducial()
 {
     result.clear();

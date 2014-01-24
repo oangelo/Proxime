@@ -1,12 +1,10 @@
 #include "double_pendulum.h"
 
 DoublePendulumFunction::DoublePendulumFunction()
-:theta1(), theta2(), omega1(), omega2(),
+:functions_capsule("Double Pendulum", 4),
+theta1(), theta2(), omega1(), omega2(),
 l1(), l2(), m1(), m2(), g()
-{
-    result.clear();
-    result.resize(4);
-}
+{} 
 
 void DoublePendulumFunction::set(value& t, container& variables, container& parameters){ 
     theta1 = variables[0];
@@ -57,7 +55,8 @@ value DoublePendulumFunction::dOmega2() {
 }
 
 Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction() 
-:theta1(), theta2(), omega1(), omega2(),
+:functions_capsule("Double Pendulum Jacobian", 4),
+theta1(), theta2(), omega1(), omega2(),
 l1(), l2(), m1(), m2(), g(),
 Jacobian()
 {
@@ -154,7 +153,8 @@ value l1, value l2, value m1, value m2, value g){
 }
 
 DoublePendulum_H::DoublePendulum_H()
-:q1(), q2(), p1(), p2(),
+:functions_capsule("Double Pendulum Hamiltonian", 4),
+q1(), q2(), p1(), p2(),
 l1(), l2(), m1(), m2(), g()
 {
     result.clear();

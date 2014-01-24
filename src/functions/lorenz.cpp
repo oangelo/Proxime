@@ -1,16 +1,10 @@
 #include "lorenz.h"
 
-functions_capsule::functions_capsule():
-  variable_name_index(), parameter_name_index(), func_name(), result()
-
-{}
-
-
 LorenzFunction::LorenzFunction():
+functions_capsule("Lorenz System", 3),
 X(),Y(),Z(), sigma(), gamma(), beta()
 {
     //model name
-    func_name = "Lorenz System";
     //variables names
 //    name_item variable_init[3] = {name_item("x",0), name_item("y",1), name_item("z",2)};
 //    name_item parameter_init[3] = {name_item("sigma",0), name_item("gamma",1), name_item("beta",2)};
@@ -59,6 +53,7 @@ void LorenzFunction::set(value &t,container & variables,container & parameters){
 
 
 Jacobian_LorenzFunction::Jacobian_LorenzFunction():
+functions_capsule("Lorenz System Jacobian", 3),
 X(), Y(), Z(), sigma(), gamma(), beta(), X_fiducial(), Y_fiducial(), Z_fiducial()
 {
     result.clear();

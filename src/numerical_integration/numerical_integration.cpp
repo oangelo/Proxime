@@ -58,11 +58,10 @@ value NumericalIntegration::operator[] (const unsigned nIndex) {
 }
 
 value NumericalIntegration::operator[] (std::string nIndex) {
-   if (__func->variable_name_index.count(nIndex)) {
-       return __variable[__func->variable_name_index[nIndex]];
-    } else {
-        throw Index_error("Wrong access to VARIABLES");
-    }
+//   if (__func->variable_name_index.count(nIndex)) {
+//       return __variable[__func->variable_name_index[nIndex]];
+//    } else {
+//        throw Index_error("Wrong access to VARIABLES");
+//    }
 }
-
 
