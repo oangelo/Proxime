@@ -22,7 +22,6 @@ typedef std::map<std::string, size_t> dictionary;
 class functions_capsule {
 public:
   functions_capsule(std::string function_name, size_t variable_amount, dictionary index_variables, dictionary index_parameters);
-  functions_capsule(std::string function_name, size_t variable_amount);
   virtual ~functions_capsule(){};
 
   virtual void set(value &t, container & variables, container & parameters) = 0;

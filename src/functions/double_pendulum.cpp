@@ -1,27 +1,29 @@
 #include "double_pendulum.h"
 
-DoublePendulumFunction::DoublePendulumFunction()
-:functions_capsule("Double Pendulum", 4),
+DoublePendulumFunction::DoublePendulumFunction():
+functions_capsule("Double Pendulum", 4, 
+                  dictionary{{"theta1",0},{"theta2",1},{"omega1",2},{"omega2",3},},
+                  dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},}),
 theta1(), theta2(), omega1(), omega2(),
 l1(), l2(), m1(), m2(), g()
 {} 
 
 void DoublePendulumFunction::set(value& t, container& variables, container& parameters){ 
-    theta1 = variables[0];
-    theta2 = variables[1];
-    omega1 = variables[2];
-    omega2 = variables[3];
+    theta1 = variables[index_var["theta1"]];
+    theta2 = variables[index_var["theta2"]];
+    omega1 = variables[index_var["omega1"]];
+    omega2 = variables[index_var["omega2"]];
     
-    l1 = parameters[0];
-    l2 = parameters[1];
-    m1 = parameters[2];
-    m2 = parameters[3];
-    g = parameters[4];
+    l1 = parameters[index_par["l1"]];
+    l2 = parameters[index_par["l2"]];
+    m1 = parameters[index_par["m1"]];
+    m2 = parameters[index_par["m2"]];
+    g  = parameters[index_par["g"]];
     
-    result[0]=dTheta1();
-    result[1]=dTheta2();
-    result[2]=dOmega1();
-    result[3]=dOmega2();
+    result[index_var["theta1"]]=dTheta1();
+    result[index_var["theta2"]]=dTheta2();
+    result[index_var["omega1"]]=dOmega1();
+    result[index_var["omega2"]]=dOmega2();
    
 }
 value DoublePendulumFunction::dTheta1() {
@@ -54,40 +56,38 @@ value DoublePendulumFunction::dOmega2() {
 
 }
 
-Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction() 
-:functions_capsule("Double Pendulum Jacobian", 4),
+Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction(): 
+functions_capsule("Double Pendulum Jacobian", 4, 
+                  dictionary{{"theta1",0},{"theta2",1},{"omega1",2},{"omega2",3},},
+                  dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},{"theta1",5},{"theta2",6},{"omega1",7},{"omega2",8},}),
 theta1(), theta2(), omega1(), omega2(),
 l1(), l2(), m1(), m2(), g(),
 Jacobian()
-{
-    result.clear();
-    result.resize(4);
-}
+{}
 void Jacobian_DoublePendulumFunction::set(value& t, container& variables, container& parameters){
 
-    theta1 = variables[0];
-    theta2 = variables[1];
-    omega1 = variables[2];
-    omega2 = variables[3];
-      
+    theta1 = variables[index_var["theta1"]];
+    theta2 = variables[index_var["theta2"]];
+    omega1 = variables[index_var["omega1"]];
+    omega2 = variables[index_var["omega2"]];
     
-    l1 = parameters[0];
-    l2 = parameters[1];
-    m1 = parameters[2];
-    m2 = parameters[3];
-    g = parameters[4];
-    value _theta1 = parameters[5];
-    value _theta2 = parameters[6];
-    value _omega1 = parameters[7];
-    value _omega2 = parameters[8];
+    l1 = parameters[index_par["l1"]];
+    l2 = parameters[index_par["l2"]];
+    m1 = parameters[index_par["m1"]];
+    m2 = parameters[index_par["m2"]];
+    g  = parameters[index_par["g"]];
+    value _theta1 = parameters[index_par["theta1"]];
+    value _theta2 = parameters[index_par["theta2"]];
+    value _omega1 = parameters[index_par["omega1"]];
+    value _omega2 = parameters[index_par["omega2"]];
 
     
     Matrix_Jacob(_theta1,_theta2,_omega1,_omega2);
 
-    result[0]=JdTheta1();
-    result[1]=JdTheta2();
-    result[2]=JdOmega1();
-    result[3]=JdOmega2();
+    result[index_var["theta1"]]=JdTheta1();
+    result[index_var["theta2"]]=JdTheta2();
+    result[index_var["omega1"]]=JdOmega1();
+    result[index_var["omega2"]]=JdOmega2();
 }
 
 void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,value omega1, value omega2)
@@ -152,31 +152,30 @@ value l1, value l2, value m1, value m2, value g){
     return energy;
 }
 
-DoublePendulum_H::DoublePendulum_H()
-:functions_capsule("Double Pendulum Hamiltonian", 4),
+DoublePendulum_H::DoublePendulum_H(): 
+functions_capsule("Double Pendulum", 3, 
+                  dictionary{{"q1",0},{"q2",1},{"p1",2},{"p2",3},},
+                  dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},}),
 q1(), q2(), p1(), p2(),
 l1(), l2(), m1(), m2(), g()
-{
-    result.clear();
-    result.resize(4);
-}
+{ }
 
 void DoublePendulum_H::set(value& t, container& variables, container& parameters){ 
-    q1 = variables[V_Q1];
-    q2 = variables[V_Q2];
-    p1 = variables[V_P1];
-    p2 = variables[V_P2];
-    
-    l1 = parameters[P_L1];
-    l2 = parameters[P_L2];
-    m1 = parameters[P_M1];
-    m2 = parameters[P_M2];
-    g  = parameters[P_G];
-    
-    result[V_Q1]=Vq1();
-    result[V_Q2]=Vq2();
-    result[V_P1]=Tp1();
-    result[V_P2]=Tp2();
+    q1 = variables[index_var["q1"]];
+    q2 = variables[index_var["q2"]];
+    p1 = variables[index_var["p1"]];
+    p2 = variables[index_var["p2"]];
+
+    l1 = parameters[index_par["l1"]];
+    l2 = parameters[index_par["l2"]];
+    m1 = parameters[index_par["m1"]];
+    m2 = parameters[index_par["m2"]];
+    g  = parameters[index_par["g"]];
+   
+    result[index_var["q1"]]=Vq1();
+    result[index_var["q2"]]=Vq2();
+    result[index_var["p1"]]=Tp1();
+    result[index_var["p2"]]=Tp2();
    
 }
 

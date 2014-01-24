@@ -1,17 +1,19 @@
 #include "simple_pendulum.h"
 
 SimplePendulumFunction::SimplePendulumFunction()
-:functions_capsule("Simple Pendulum", 2),
+:functions_capsule("Simple Pendulum", 3, 
+                  dictionary{{"theta",0},{"omega",1}},
+                  dictionary{{"l",0},{"g",1},}),
 theta(), omega(), l(), g()
 {
 }
 
 void SimplePendulumFunction::set(value& t, container& variables, container& parameters){ 
-    theta = variables[V_THETA];
-    omega = variables[V_OMEGA];
+    theta = variables[index_var["theta"]];
+    omega = variables[index_var["omega"]];
     
-    l = parameters[P_L];
-    g = parameters[P_G];
+    l = parameters[index_par["l"]];
+    g = parameters[index_par["g"]];
     
     result[V_THETA]=dTheta();
     result[V_OMEGA]=dOmega();
@@ -35,11 +37,11 @@ value SimplePendulumEnergy(value theta, value omega, value l, value m, value g){
 }
 
 SimplePendulum_H::SimplePendulum_H()
-:functions_capsule("Simple Pendulum Hamiltonian", 2),
+:functions_capsule("Simple Pendulum", 2, 
+                  dictionary{{"q",0},{"p",1}},
+                  dictionary{{"l",0},{"g",1},}),
 p(), q(), l(), g(), m()
 {
-    result.clear();
-    result.resize(2);
 }
 
 void SimplePendulum_H::set(value& t, container& variables, container& parameters){ 

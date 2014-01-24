@@ -16,12 +16,6 @@ unsigned functions_capsule::size() const{
     return result.size();
 }
 
-functions_capsule::functions_capsule(std::string function_name, size_t variable_amount):
-function_name(function_name), result(variable_amount)
-{
-
-}
-
 functions_capsule::functions_capsule(std::string function_name, size_t variable_amount,
                                      dictionary index_variables, dictionary index_parameters):
 function_name(function_name), result(variable_amount),
