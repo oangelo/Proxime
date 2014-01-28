@@ -17,6 +17,16 @@ new_step(variable.size())
     step4 = model.get_variable();
 }
 
+NumericalIntegration& AdamsBashforth::operator++(){
+    AdamsBashforth_method();
+    step1 = step2;
+    step2 = step3;
+    step3 = step4;
+    step4 = new_step;
+    variable = step1;
+    time = time + dt;
+}
+
 void AdamsBashforth::next(){
     AdamsBashforth_method();
     step1 = step2;

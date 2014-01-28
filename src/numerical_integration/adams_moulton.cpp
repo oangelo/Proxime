@@ -16,6 +16,21 @@ AdamsMoulton::AdamsMoulton(FunctionCapsule & function, container variable, value
 
 };
 
+
+NumericalIntegration& AdamsMoulton::operator++(){
+    AdamsBashforth_method();
+    step1 = step2;
+    step2 = step3;
+    step3 = step4;
+    step4 = new_step;
+    for (unsigned i = 0; i < __N; i++) {
+        AdamsMoulton_method();
+    };  
+    step4 = new_step;
+    time  += dt;
+    variable = step1;
+}
+
 void AdamsMoulton::next() {
     AdamsBashforth_method();
     step1 = step2;

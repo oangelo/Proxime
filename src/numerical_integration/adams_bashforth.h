@@ -8,6 +8,7 @@ class AdamsBashforth: public NumericalIntegration{
     public:
         AdamsBashforth(FunctionCapsule & function, container variable, value dt);
         virtual void next();
+        virtual NumericalIntegration& operator++();
         virtual ~AdamsBashforth(){};
     protected:
         void AdamsBashforth_method();

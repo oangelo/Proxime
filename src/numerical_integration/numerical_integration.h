@@ -20,14 +20,16 @@ class NumericalIntegration {
         const container & get_variable() const {return(variable);};
         const std::string & get_model_name() const {return(model_name);};
         const std::string & get_method_name() const {return(method);};
-        labels_and_values GetLabelsValues();
+        labels_values get_labels_values() ;
 
-        unsigned size_variable() const;
+        unsigned size() const;
 
+        virtual NumericalIntegration& operator++() = 0;
         virtual void next() = 0;
 
         //return the variables
-        value operator[] (std::string nIndex);
+        const value operator[] (std::string index) const;
+        const value operator[] (size_t index) const;
         //return the variable ready to print
         friend std::ostream& operator<< (std::ostream &out, NumericalIntegration &object);
 

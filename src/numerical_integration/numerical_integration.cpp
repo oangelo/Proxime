@@ -1,11 +1,10 @@
 #include "numerical_integration.h"
 
 std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
-    unsigned i;
-    out << std::setprecision(12) << object.get_t() << "\t";
-    for (i = 0; i < object.size_variable()-1; i++)
-        out << object[i] << "\t";
-    out << object[i];
+    out << std::setprecision(12) << object.get_t() << ",";
+    for (size_t i(0); i < object.size()-1; i++)
+        out << object[i] << ",";
+    out << object[object.size() - 1];
     return out;
 }
 
@@ -21,30 +20,29 @@ value NumericalIntegration::get_dt() const{
     return (dt);
 }
 
-value NumericalIntegration::get_variable(unsigned n) const{
-    if (n < variable.size()) {
-        return (variable[n]);
-    } else {
-        throw Index_error("Wrong access to VARIABLES");
-    }
-}
-
-unsigned NumericalIntegration::size_variable() const{
+unsigned NumericalIntegration::size() const{
     return (variable.size());
 }
 
-
-value NumericalIntegration::operator[] (const unsigned nIndex) {
-    if (nIndex < variable.size()) {
-        return variable[nIndex];
+const value NumericalIntegration::operator[] (const size_t index) const{
+    if (index < variable.size()) {
+        return variable[index];
     } else {
         throw Index_error("Wrong access to VARIABLES");
     }
 }
 
+const value NumericalIntegration::operator[] (std::string index) const {
+    dictionary::iterator it((function->index_var).find(index));
+   if (it != (function->index_var).end()) {
+       return variable[function->index_var[index]];
+    } else {
+        throw Index_error("Wrong access to VARIABLES");
+    }
+}
 
-labels_and_values NumericalIntegration::GetLabelsValues(){
-    labels_and_values aux; 
+labels_values NumericalIntegration::get_labels_values() {
+    labels_values aux; 
     for(container::iterator it(variable.begin()); it != variable.end(); ++it){
             std::string label((*function).GetLabel(std::distance(variable.begin(), it)));
             aux[label] = *it;
@@ -52,11 +50,4 @@ labels_and_values NumericalIntegration::GetLabelsValues(){
     return aux;
 }
 
-value NumericalIntegration::operator[] (std::string nIndex) {
-//   if (function->variable_name_index.count(nIndex)) {
-//       return variable[function->variable_name_index[nIndex]];
-//    } else {
-//        throw Index_error("Wrong access to VARIABLES");
-//    }
-}
 

@@ -8,6 +8,7 @@ class RungeKutta: public NumericalIntegration{
         RungeKutta(FunctionCapsule & function, container variable,value dt);
         ~RungeKutta();
         virtual void next();
+        virtual NumericalIntegration& operator++();
     protected:
         void RungeKutta_method();
 };
