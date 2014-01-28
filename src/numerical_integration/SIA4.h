@@ -18,8 +18,8 @@ class SIA4: public NumericalIntegration{
         for(size_t i = variable.size() / 2; i < variable.size(); ++i){
             p.push_back(variable[i]);
         }
-        this->__func.reset(new function);
-        __func->set(__t, q, __parameter);
+        this->function.reset(new function);
+        function->set(time, q, __parameter);
 
         value a1, a2, a3, a4;
         value b1, b2, b3, b4;
@@ -41,7 +41,7 @@ class SIA4: public NumericalIntegration{
                 aux.push_back(i);
             for(auto i: p)
                 aux.push_back(i);
-            __variable = aux;
+            variable = aux;
         }
 
         virtual ~SIA4(){};
@@ -60,8 +60,8 @@ void SIA4<function>::H(container aux_q, container aux_p, container& Uq, containe
             aux.push_back(i);
         for(auto i: aux_p)
             aux.push_back(i);
-        __func->set(__t, aux, __parameter);
-        container H(__func->get_result());
+        function->set(time, aux, __parameter);
+        container H(function->get_result());
         for(size_t i = 0; i < H.size() / 2; ++i)
             Uq.push_back(H[i]);
         for(size_t i = H.size() / 2; i < H.size(); ++i)
@@ -74,17 +74,17 @@ void SIA4<function>::SIA4_method() {
     container aux_q, aux_p;
     aux_q = q;
     aux_p = p;
-    __t = __t + __h;
+    time = time + dt;
     for(size_t k = 0; k < 4; ++k){
         container Uq, Tp;
         H(aux_q, aux_p, Uq, Tp);
         for(size_t i = 0; i < p.size(); ++i){
-            aux_p[i] = aux_p[i] - b[k] * Uq[i] * __h; 
+            aux_p[i] = aux_p[i] - b[k] * Uq[i] * dt; 
         }
         Uq.clear(), Tp.clear();
         H(aux_q, aux_p, Uq, Tp);
         for(size_t i = 0; i < q.size(); ++i){
-            aux_q[i] = aux_q[i] + a[k] * Tp[i] * __h;
+            aux_q[i] = aux_q[i] + a[k] * Tp[i] * dt;
         }
     }
     q = aux_q;

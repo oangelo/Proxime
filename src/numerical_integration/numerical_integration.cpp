@@ -9,37 +9,34 @@ std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
     return out;
 }
 
-NumericalIntegration::NumericalIntegration(container variable,value dt):
-    __func(),__variable(variable),  __h(dt), __t(0), __model_name(), __method()
-{
-}
+NumericalIntegration::NumericalIntegration(FunctionCapsule& function, container variable, value dt):
+function(&function), variable(variable),  dt(dt), time(0), model_name(), method()
+{}
 
 value NumericalIntegration::get_t() const{
-    return (__t);
+    return (time);
 }
 
 value NumericalIntegration::get_dt() const{
-    return (__h);
+    return (dt);
 }
 
 value NumericalIntegration::get_variable(unsigned n) const{
-    if (n < __variable.size()) {
-        return (__variable[n]);
+    if (n < variable.size()) {
+        return (variable[n]);
     } else {
         throw Index_error("Wrong access to VARIABLES");
     }
 }
 
-
-
 unsigned NumericalIntegration::size_variable() const{
-    return (__variable.size());
+    return (variable.size());
 }
 
 
 value NumericalIntegration::operator[] (const unsigned nIndex) {
-    if (nIndex < __variable.size()) {
-        return __variable[nIndex];
+    if (nIndex < variable.size()) {
+        return variable[nIndex];
     } else {
         throw Index_error("Wrong access to VARIABLES");
     }
@@ -48,16 +45,16 @@ value NumericalIntegration::operator[] (const unsigned nIndex) {
 
 labels_and_values NumericalIntegration::GetLabelsValues(){
     labels_and_values aux; 
-    for(container::iterator it(__variable.begin()); it != __variable.end(); ++it){
-            std::string label((*__func).GetLabel(std::distance(__variable.begin(), it)));
+    for(container::iterator it(variable.begin()); it != variable.end(); ++it){
+            std::string label((*function).GetLabel(std::distance(variable.begin(), it)));
             aux[label] = *it;
     }
     return aux;
 }
 
 value NumericalIntegration::operator[] (std::string nIndex) {
-//   if (__func->variable_name_index.count(nIndex)) {
-//       return __variable[__func->variable_name_index[nIndex]];
+//   if (function->variable_name_index.count(nIndex)) {
+//       return variable[function->variable_name_index[nIndex]];
 //    } else {
 //        throw Index_error("Wrong access to VARIABLES");
 //    }

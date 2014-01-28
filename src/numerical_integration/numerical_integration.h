@@ -12,15 +12,14 @@
 
 class NumericalIntegration {
     public:
-       NumericalIntegration(container variable, value dt);
+       NumericalIntegration(FunctionCapsule& function, container variable, value dt);
         virtual ~NumericalIntegration(){};
+
         value get_dt() const;
         value get_t() const;
-        value get_variable(unsigned n) const;
-        const container & get_variable() const {return(__variable);};
-        const std::string & get_model_name() const {return(__model_name);};
-        const std::string & get_method_name() const {return(__method);};
-        
+        const container & get_variable() const {return(variable);};
+        const std::string & get_model_name() const {return(model_name);};
+        const std::string & get_method_name() const {return(method);};
         labels_and_values GetLabelsValues();
 
         unsigned size_variable() const;
@@ -28,18 +27,17 @@ class NumericalIntegration {
         virtual void next() = 0;
 
         //return the variables
-        value operator[] (const unsigned nIndex);
         value operator[] (std::string nIndex);
         //return the variable ready to print
         friend std::ostream& operator<< (std::ostream &out, NumericalIntegration &object);
 
     protected:
 
-        FunctionCapsule* __func;
-        container __variable;
-        value __h, __t;
-        std::string __model_name;
-        std::string __method;
+        FunctionCapsule* function;
+        container variable;
+        value dt, time;
+        std::string model_name;
+        std::string method;
 };
 
 #endif //_NUMERICLA_INTEGRATION_
