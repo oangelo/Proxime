@@ -9,8 +9,8 @@ std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
     return out;
 }
 
-NumericalIntegration::NumericalIntegration(container variable,container parameter,value dt):
-    __func(),__variable(variable), __parameter(parameter),  __h(dt), __t(0), __model_name(), __method()
+NumericalIntegration::NumericalIntegration(container variable,value dt):
+    __func(),__variable(variable),  __h(dt), __t(0), __model_name(), __method()
 {
 }
 
@@ -30,23 +30,11 @@ value NumericalIntegration::get_variable(unsigned n) const{
     }
 }
 
-value NumericalIntegration::get_parameter(unsigned n) const{
-    if (n < __parameter.size()) {
-        return (__parameter[n]);
-    } else {
-        throw Index_error("Wrong access to PARAMETERS");
-    }
-}
+
 
 unsigned NumericalIntegration::size_variable() const{
     return (__variable.size());
 }
-
-unsigned NumericalIntegration::size_parameter() const{
-    return (__parameter.size());
-}
-
-
 
 
 value NumericalIntegration::operator[] (const unsigned nIndex) {
@@ -55,6 +43,16 @@ value NumericalIntegration::operator[] (const unsigned nIndex) {
     } else {
         throw Index_error("Wrong access to VARIABLES");
     }
+}
+
+
+labels_and_values NumericalIntegration::GetLabelsValues(){
+    labels_and_values aux; 
+    for(container::iterator it(__variable.begin()); it != __variable.end(); ++it){
+            std::string label((*__func).GetLabel(std::distance(__variable.begin(), it)));
+            aux[label] = *it;
+    }
+    return aux;
 }
 
 value NumericalIntegration::operator[] (std::string nIndex) {

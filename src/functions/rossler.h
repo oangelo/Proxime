@@ -6,8 +6,8 @@
 
 class RosslerFunction : public functions_capsule {
 public:
-  RosslerFunction();
-  void set(value &t, container & variables, container & parameters);
+  RosslerFunction(labels_and_values parameters);
+  void set(value &t, container & variables);
 
  protected:
   value dx();
@@ -21,8 +21,8 @@ public:
 
 class Jacobian_RosslerFunction : public functions_capsule {
 public:
-  Jacobian_RosslerFunction();
-  void set(value &t, container & variables, container & parameters);
+  Jacobian_RosslerFunction(labels_and_values parameters);
+  void set(value &t, container & variables);
 protected:
   value dx();
   value dy();

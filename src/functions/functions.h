@@ -15,21 +15,25 @@
  ****************************************/
 typedef double value;
 typedef std::vector<value> container ;
-typedef std::map<std::string, double> labels; 
+typedef std::map<std::string, value> labels_and_values; 
 typedef std::map<std::string, size_t> dictionary; 
 /****************************************/
 
 class functions_capsule {
 public:
-  functions_capsule(std::string function_name, size_t variable_amount, dictionary index_variables, dictionary index_parameters);
+  functions_capsule(std::string function_name, 
+                    dictionary index_variables, dictionary index_parameters,
+                    labels_and_values parameters_values);
   virtual ~functions_capsule(){};
 
-  virtual void set(value &t, container & variables, container & parameters) = 0;
+  virtual void set(value &t, container & variables) = 0;
 
 
   const value get_result(unsigned i) const;
-  const value get_result(std::string name);
+  const value operator[](std::string name);
   const container & get_result() const;
+  labels_and_values GetLabelsValues();
+  std::string GetLabel(size_t index);
 
   //amount of functions and variables 
   unsigned size() const;

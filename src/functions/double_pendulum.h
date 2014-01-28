@@ -5,8 +5,8 @@
 
 class DoublePendulumFunction : public functions_capsule {
 public:
-  DoublePendulumFunction();
-  void set(value &t, container & variables, container & parameters);
+  DoublePendulumFunction(labels_and_values parameters);
+  void set(value &t, container & variables);
 protected:
   value dTheta1();
   value dTheta2();
@@ -20,8 +20,8 @@ protected:
 
 class Jacobian_DoublePendulumFunction : public functions_capsule {
 public:
-  Jacobian_DoublePendulumFunction();
-  void set(value &t, container & variables, container & parameters);
+  Jacobian_DoublePendulumFunction(labels_and_values parameters);
+  void set(value &t, container & variables);
 protected:
   void Matrix_Jacob(value theta1, value theta2, value omega1, value omega2);
   value JdTheta1();
@@ -47,8 +47,8 @@ enum parameters {
 
 class DoublePendulum_H: public functions_capsule {
     public:
-        DoublePendulum_H();
-        void set(value &t, container & variables, container & parameters);
+        DoublePendulum_H(labels_and_values parameters);
+        void set(value &t, container & variables);
 
         enum variables {
             V_Q1, V_Q2, V_P1, V_P2

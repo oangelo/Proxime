@@ -12,18 +12,18 @@
 
 class NumericalIntegration {
     public:
-       NumericalIntegration(container variable, container parameter, value dt);
+       NumericalIntegration(container variable, value dt);
         virtual ~NumericalIntegration(){};
         value get_dt() const;
         value get_t() const;
         value get_variable(unsigned n) const;
         const container & get_variable() const {return(__variable);};
-        value get_parameter(unsigned n) const;
         const std::string & get_model_name() const {return(__model_name);};
         const std::string & get_method_name() const {return(__method);};
+        
+        labels_and_values GetLabelsValues();
 
         unsigned size_variable() const;
-        unsigned size_parameter() const;
 
         virtual void next() = 0;
 
@@ -35,9 +35,8 @@ class NumericalIntegration {
 
     protected:
 
-        std::auto_ptr<functions_capsule> __func;
+        functions_capsule* __func;
         container __variable;
-        container __parameter;
         value __h, __t;
         std::string __model_name;
         std::string __method;

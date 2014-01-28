@@ -1,24 +1,21 @@
 #include "rossler.h"
 
-RosslerFunction::RosslerFunction():
-functions_capsule("Rössler System", 3, 
+RosslerFunction::RosslerFunction(labels_and_values parameters):
+functions_capsule("Rössler System",  
                   dictionary{{"x",0},{"y",1},{"z",2},},
-                  dictionary{{"a",0},{"b",1},{"c",2},}),
-X(), Y(), Z(), a(), b(), c()
+                  dictionary{{"a",0},{"b",1},{"c",2},},
+                  parameters),
+X(), Y(), Z(), a(parameters["a"]), b(parameters["b"]), c(parameters["c"])
 {
 }
 
 inline
-void RosslerFunction::set(value &t, container & variables, container & parameters){
+void RosslerFunction::set(value &t, container & variables){
       
     X=variables[index_var["x"]];
     Y=variables[index_var["y"]];
     Z=variables[index_var["z"]];
 
-    a=parameters[index_par["a"]];
-    b=parameters[index_par["b"]];
-    c=parameters[index_par["c"]];
-  
     result[index_var["x"]]=RosslerFunction::dx();
     result[index_var["y"]]=RosslerFunction::dy();
     result[index_var["z"]]=RosslerFunction::dz();
@@ -45,32 +42,26 @@ value RosslerFunction::dz() {
 }
 
 
-Jacobian_RosslerFunction::Jacobian_RosslerFunction():
-functions_capsule("Rössler Jacobian", 3, 
+Jacobian_RosslerFunction::Jacobian_RosslerFunction(labels_and_values parameters):
+functions_capsule("Rössler Jacobian",  
                   dictionary{{"x",0},{"y",1},{"z",2},}, 
-                  dictionary{{"a",0},{"b",1},{"c",2},{"x",3},{"y",4},{"z",5},}),
-X(),Y(),Z(),a(),b(),c(),X_fiducial(),Y_fiducial(),Z_fiducial()
-{
-    result.clear();
-    result.resize(3);
-}
+                  dictionary{{"a",0},{"b",1},{"c",2},{"x",3},{"y",4},{"z",5},},
+                  parameters),
+X(),Y(),Z(),
+a(parameters["a"]),b(parameters["b"]),c(parameters["c"]),
+X_fiducial(parameters["x"]),Y_fiducial(parameters["b"]),Z_fiducial(parameters["c"])
+{}
 
 inline
-void Jacobian_RosslerFunction::set(value &t,container & variables,container & parameters){
-    X=variables[0];
-    Y=variables[1];
-    Z=variables[2];
+void Jacobian_RosslerFunction::set(value &t,container & variables){
 
-    a=parameters[0];
-    b=parameters[1];
-    c=parameters[2];
-    X_fiducial=parameters[3];
-    Y_fiducial=parameters[4];
-    Z_fiducial=parameters[5];
+    X=variables[index_var["x"]];
+    Y=variables[index_var["y"]];
+    Z=variables[index_var["z"]];
 
-    result[0]=Jacobian_RosslerFunction::dx();
-    result[1]=Jacobian_RosslerFunction::dy();
-    result[2]=Jacobian_RosslerFunction::dz();
+    result[index_var["x"]]=Jacobian_RosslerFunction::dx();
+    result[index_var["y"]]=Jacobian_RosslerFunction::dy();
+    result[index_var["z"]]=Jacobian_RosslerFunction::dz();
 
     t=t;
 }
