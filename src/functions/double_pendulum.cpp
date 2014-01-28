@@ -1,7 +1,7 @@
 #include "double_pendulum.h"
 
 DoublePendulumFunction::DoublePendulumFunction(labels_and_values parameters):
-functions_capsule("Double Pendulum",  
+FunctionCapsule("Double Pendulum",  
                   dictionary{{"theta1",0},{"theta2",1},{"omega1",2},{"omega2",3},},
                   dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},}, parameters),
 theta1(), theta2(), omega1(), omega2(),
@@ -54,7 +54,7 @@ value DoublePendulumFunction::dOmega2() {
 }
 
 Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction(labels_and_values parameters): 
-functions_capsule("Double Pendulum Jacobian", 
+FunctionCapsule("Double Pendulum Jacobian", 
                   dictionary{{"theta1",0},{"theta2",1},{"omega1",2},{"omega2",3},},
                   dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},{"theta1",5},{"theta2",6},{"omega1",7},{"omega2",8},},
                   parameters),
@@ -147,7 +147,7 @@ value l1, value l2, value m1, value m2, value g){
 }
 
 DoublePendulum_H::DoublePendulum_H(labels_and_values parameters): 
-functions_capsule("Double Pendulum", 
+FunctionCapsule("Double Pendulum", 
                   dictionary{{"q1",0},{"q2",1},{"p1",2},{"p2",3},},
                   dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},},
                   parameters),

@@ -1,7 +1,7 @@
 #include "rossler.h"
 
 RosslerFunction::RosslerFunction(labels_and_values parameters):
-functions_capsule("Rössler System",  
+FunctionCapsule("Rössler System",  
                   dictionary{{"x",0},{"y",1},{"z",2},},
                   dictionary{{"a",0},{"b",1},{"c",2},},
                   parameters),
@@ -43,7 +43,7 @@ value RosslerFunction::dz() {
 
 
 Jacobian_RosslerFunction::Jacobian_RosslerFunction(labels_and_values parameters):
-functions_capsule("Rössler Jacobian",  
+FunctionCapsule("Rössler Jacobian",  
                   dictionary{{"x",0},{"y",1},{"z",2},}, 
                   dictionary{{"a",0},{"b",1},{"c",2},{"x",3},{"y",4},{"z",5},},
                   parameters),

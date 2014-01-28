@@ -3,7 +3,7 @@
 
 #include "functions.h"
 
-class DoublePendulumFunction : public functions_capsule {
+class DoublePendulumFunction : public FunctionCapsule {
 public:
   DoublePendulumFunction(labels_and_values parameters);
   void set(value &t, container & variables);
@@ -18,7 +18,7 @@ protected:
 
 };
 
-class Jacobian_DoublePendulumFunction : public functions_capsule {
+class Jacobian_DoublePendulumFunction : public FunctionCapsule {
 public:
   Jacobian_DoublePendulumFunction(labels_and_values parameters);
   void set(value &t, container & variables);
@@ -45,7 +45,7 @@ enum parameters {
   P_L1, P_L2, P_M1, P_M2, P_G, P_THETA1, P_THETA2, P_OMEGA1, P_OMEGA2
 };
 
-class DoublePendulum_H: public functions_capsule {
+class DoublePendulum_H: public FunctionCapsule {
     public:
         DoublePendulum_H(labels_and_values parameters);
         void set(value &t, container & variables);

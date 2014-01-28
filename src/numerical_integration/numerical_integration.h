@@ -35,7 +35,7 @@ class NumericalIntegration {
 
     protected:
 
-        functions_capsule* __func;
+        FunctionCapsule* __func;
         container __variable;
         value __h, __t;
         std::string __model_name;

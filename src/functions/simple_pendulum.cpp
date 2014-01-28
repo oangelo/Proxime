@@ -1,7 +1,7 @@
 #include "simple_pendulum.h"
 
 SimplePendulumFunction::SimplePendulumFunction()
-:functions_capsule("Simple Pendulum", 3, 
+:FunctionCapsule("Simple Pendulum", 3, 
                   dictionary{{"theta",0},{"omega",1}},
                   dictionary{{"l",0},{"g",1},}),
 theta(), omega(), l(), g()
@@ -37,7 +37,7 @@ value SimplePendulumEnergy(value theta, value omega, value l, value m, value g){
 }
 
 SimplePendulum_H::SimplePendulum_H()
-:functions_capsule("Simple Pendulum", 2, 
+:FunctionCapsule("Simple Pendulum", 2, 
                   dictionary{{"q",0},{"p",1}},
                   dictionary{{"l",0},{"g",1},}),
 p(), q(), l(), g(), m()

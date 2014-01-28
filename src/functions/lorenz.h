@@ -4,7 +4,7 @@
 #include "functions.h"
 
 
-class LorenzFunction : public functions_capsule {
+class LorenzFunction : public FunctionCapsule {
 public:
   LorenzFunction();
   void set(value &t, container & variables, container & parameters);
@@ -17,7 +17,7 @@ protected:
   value sigma,gamma,beta;
 };
 
-class Jacobian_LorenzFunction : public functions_capsule {
+class Jacobian_LorenzFunction : public FunctionCapsule {
 public:
   Jacobian_LorenzFunction();
   void set(value &t, container & variables, container & parameters);

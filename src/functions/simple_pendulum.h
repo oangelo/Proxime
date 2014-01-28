@@ -3,7 +3,7 @@
 
 #include "functions.h"
 
-class SimplePendulumFunction : public functions_capsule {
+class SimplePendulumFunction : public FunctionCapsule {
 public:
     SimplePendulumFunction();
     void set(value &t, container & variables, container & parameters);
@@ -27,7 +27,7 @@ protected:
 
 //The equation for the simpletic integration of the simple pendulum
 //Derivative of H in ralation to q(theta)
-class SimplePendulum_H: public functions_capsule {
+class SimplePendulum_H: public FunctionCapsule {
 public:
     SimplePendulum_H();
     void set(value &t, container & variables, container & parameters);

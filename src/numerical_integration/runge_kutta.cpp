@@ -1,6 +1,6 @@
 #include"runge_kutta.h"
 
-RungeKutta::RungeKutta(functions_capsule & function, container variable,value dt)
+RungeKutta::RungeKutta(FunctionCapsule & function, container variable,value dt)
     :NumericalIntegration(variable, dt) {
         /*Point to the class witch encapsulate the functions*/  
         __func = &function;

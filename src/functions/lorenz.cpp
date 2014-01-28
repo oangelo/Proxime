@@ -1,7 +1,7 @@
 #include "lorenz.h"
 
 LorenzFunction::LorenzFunction():
-functions_capsule("Lorenz System", 3, 
+FunctionCapsule("Lorenz System", 3, 
                   dictionary{{"x",0},{"y",1},{"z",2},},
                   dictionary{{"sigma",0},{"gamma",1},{"beta",2},}),
 X(),Y(),Z(), sigma(), gamma(), beta()
@@ -45,7 +45,7 @@ void LorenzFunction::set(value &t,container & variables,container & parameters){
 
 
 Jacobian_LorenzFunction::Jacobian_LorenzFunction():
-functions_capsule("Lorenz Jacobian", 3, 
+FunctionCapsule("Lorenz Jacobian", 3, 
                   dictionary{{"x",0},{"y",1},{"z",2},},
                   dictionary{{"sigma",0},{"gamma",1},{"beta",2},{"x",3},{"y",4},{"z",5}}),
 

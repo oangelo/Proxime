@@ -4,7 +4,7 @@
 #include "functions.h"
 
 
-class RosslerFunction : public functions_capsule {
+class RosslerFunction : public FunctionCapsule {
 public:
   RosslerFunction(labels_and_values parameters);
   void set(value &t, container & variables);
@@ -19,7 +19,7 @@ public:
 
 };
 
-class Jacobian_RosslerFunction : public functions_capsule {
+class Jacobian_RosslerFunction : public FunctionCapsule {
 public:
   Jacobian_RosslerFunction(labels_and_values parameters);
   void set(value &t, container & variables);

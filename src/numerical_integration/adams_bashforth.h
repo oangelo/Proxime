@@ -6,7 +6,7 @@
 
 class AdamsBashforth: public NumericalIntegration{
     public:
-        AdamsBashforth(functions_capsule & function, container variable, value dt);
+        AdamsBashforth(FunctionCapsule & function, container variable, value dt);
         virtual void next();
         virtual ~AdamsBashforth(){};
     protected:

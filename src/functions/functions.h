@@ -19,12 +19,12 @@ typedef std::map<std::string, value> labels_and_values;
 typedef std::map<std::string, size_t> dictionary; 
 /****************************************/
 
-class functions_capsule {
+class FunctionCapsule {
 public:
-  functions_capsule(std::string function_name, 
+  FunctionCapsule(std::string function_name, 
                     dictionary index_variables, dictionary index_parameters,
                     labels_and_values parameters_values);
-  virtual ~functions_capsule(){};
+  virtual ~FunctionCapsule(){};
 
   virtual void set(value &t, container & variables) = 0;
 

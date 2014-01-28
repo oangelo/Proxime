@@ -6,7 +6,7 @@
 
 class AdamsMoulton: public AdamsBashforth {
     public:
-        AdamsMoulton(functions_capsule & function, container variable, value dt);
+        AdamsMoulton(FunctionCapsule & function, container variable, value dt);
         virtual void next();
 
     private:
