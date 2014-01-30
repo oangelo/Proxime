@@ -18,7 +18,6 @@ class NumericalIntegration {
         value get_dt() const;
         value get_t() const;
         const container & get_variable() const {return(variable);};
-        const std::string & get_model_name() const {return(model_name);};
         const std::string & get_method_name() const {return(method);};
         labels_values get_labels_values() ;
 
@@ -37,7 +36,6 @@ class NumericalIntegration {
         FunctionCapsule* function;
         container variable;
         value dt, time;
-        std::string model_name;
         std::string method;
 };
 

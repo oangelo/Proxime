@@ -9,7 +9,7 @@ std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
 }
 
 NumericalIntegration::NumericalIntegration(FunctionCapsule& function, container variable, value dt):
-function(&function), variable(variable),  dt(dt), time(0), model_name(), method()
+function(&function), variable(variable),  dt(dt), time(0), method()
 {}
 
 value NumericalIntegration::get_t() const{
