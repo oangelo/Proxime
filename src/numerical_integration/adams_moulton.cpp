@@ -1,6 +1,6 @@
 #include"adams_moulton.h"
     
-AdamsMoulton::AdamsMoulton(FunctionCapsule & function, container variable, value dt)
+AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt)
 :AdamsBashforth(function, variable, dt)  
 {
     __N=1;

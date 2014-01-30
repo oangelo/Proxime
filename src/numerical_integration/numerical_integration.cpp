@@ -8,9 +8,14 @@ std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
     return out;
 }
 
-NumericalIntegration::NumericalIntegration(FunctionCapsule& function, container variable, value dt):
-function(&function), variable(variable),  dt(dt), time(0), method()
-{}
+NumericalIntegration::NumericalIntegration(FunctionCapsule& function, labels_values initial_condition, value dt):
+function(&function), variable(initial_condition.size()),  dt(dt), time(0), method()
+{
+    for(labels_values::iterator it(initial_condition.begin()); it != initial_condition.end(); ++it){
+        size_t index = function.index_var[(*it).first];
+        variable[index] = (*it).second;
+    }
+}
 
 value NumericalIntegration::get_t() const{
     return (time);

@@ -1,6 +1,6 @@
 #include"adams_bashforth.h"
 
-AdamsBashforth::AdamsBashforth(FunctionCapsule & function, container variable, value dt)
+AdamsBashforth::AdamsBashforth(FunctionCapsule & function, labels_values variable, value dt)
 :NumericalIntegration(function, variable, dt),
 step1(variable.size()), step2(variable.size()), 
 step3(variable.size()), step4(variable.size()), 

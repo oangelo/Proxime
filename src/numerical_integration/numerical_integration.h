@@ -12,7 +12,7 @@
 
 class NumericalIntegration {
     public:
-       NumericalIntegration(FunctionCapsule& function, container variable, value dt);
+       NumericalIntegration(FunctionCapsule& function, labels_values initial_condition, value dt);
         virtual ~NumericalIntegration(){};
 
         value get_dt() const;

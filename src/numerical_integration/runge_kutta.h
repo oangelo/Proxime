@@ -5,7 +5,7 @@
 
 class RungeKutta: public NumericalIntegration{
     public:  
-        RungeKutta(FunctionCapsule & function, container variable,value dt);
+        RungeKutta(FunctionCapsule & function, labels_values variable,value dt);
         ~RungeKutta();
         virtual NumericalIntegration& operator++();
     protected:

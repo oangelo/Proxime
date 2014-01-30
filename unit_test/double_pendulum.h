@@ -4,13 +4,13 @@
 #include "../src/functions/double_pendulum.h"
 #include <fstream>
 #include <iostream>
-
+/*
 TEST(DoublePendulum, ZeroLyapunov) {
-    container variable(4);
-    variable[V_THETA1] = M_PI / 10;
-    variable[V_THETA2] = M_PI / 10;
-    variable[V_OMEGA1] = 0.0;
-    variable[V_OMEGA2] = 0.0;
+    labels_values variable;
+    variable["theta1"] = M_PI / 10;
+    variable["theta2"] = M_PI / 10;
+    variable["omega1"] = 0.0;
+    variable["omega2"] = 0.0;
 
     labels_values parameters;
     parameters["l1"]= 0.30;
@@ -28,11 +28,12 @@ TEST(DoublePendulum, ZeroLyapunov) {
 }
 
 TEST(DoublePendulum, PositiveLyapunov) {
-    container variable(4),parameter(5);
-    variable[V_THETA1] = M_PI / 1.1;
-    variable[V_THETA2] = M_PI / 1.1;
-    variable[V_OMEGA1] = 0.0;
-    variable[V_OMEGA2] = 0.0;
+    labels_values variable;
+    variable["theta1"] = M_PI / 10;
+    variable["theta2"] = M_PI / 10;
+    variable["omega1"] = 0.0;
+    variable["omega2"] = 0.0;
+
 
     labels_values parameters;
     parameters["l1"]= 0.30;
@@ -47,19 +48,14 @@ TEST(DoublePendulum, PositiveLyapunov) {
     value max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, parameters, 2000000, 20000);
     EXPECT_TRUE(max_lyapunov > 1);
 }
-
+*/
 
 TEST(DoublePendulum, Energy_CrossMethods) {
-    container variable(4), parameter(5);
-    variable[V_THETA1] = M_PI / 20;
-    variable[V_THETA2] = M_PI / 20;
-    variable[V_OMEGA1] = 0.1;
-    variable[V_OMEGA2] = 0.1;
-     parameter[P_L1]= 0.3;
-     parameter[P_L2]= 0.3;
-     parameter[P_M1]= 0.1;
-     parameter[P_M2]= 0.1;
-     parameter[P_G]= 9.8;
+    labels_values variable;
+    variable["theta1"] = M_PI / 10;
+    variable["theta2"] = M_PI / 10;
+    variable["omega1"] = 0.0;
+    variable["omega2"] = 0.0;
 
 
     labels_values parameters;
@@ -73,8 +69,8 @@ TEST(DoublePendulum, Energy_CrossMethods) {
 
     value delta_t = pow(10, -5);
 
-    value energy0 = DoublePendulumEnergy(variable[V_THETA1],variable[V_THETA2], variable[V_OMEGA1], variable[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    value energy0 = DoublePendulumEnergy(variable["theta1"],variable["theta2"], variable["omega1"], variable["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
 
     RungeKutta model1(f, variable, delta_t); 
     AdamsBashforth model2(f, variable, delta_t); 
@@ -86,12 +82,12 @@ TEST(DoublePendulum, Energy_CrossMethods) {
         ++model3;
     }
 
-    value energy1 = DoublePendulumEnergy(model1[V_THETA1], model1[V_THETA2], model1[V_OMEGA1], model1[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
-    value energy2 = DoublePendulumEnergy(model2[V_THETA1], model2[V_THETA2], model2[V_OMEGA1], model2[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
-    value energy3 = DoublePendulumEnergy(model3[V_THETA1], model3[V_THETA2], model3[V_OMEGA1], model3[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    value energy1 = DoublePendulumEnergy(model1["theta1"], model1["theta2"], model1["omega1"], model1["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy2 = DoublePendulumEnergy(model2["theta1"], model2["theta2"], model2["omega1"], model2["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy3 = DoublePendulumEnergy(model3["theta1"], model3["theta2"], model3["omega1"], model3["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
 
     EXPECT_NEAR(energy1, energy0, 0.00000001);
     EXPECT_NEAR(energy2, energy0, 0.00000001);
@@ -103,11 +99,13 @@ TEST(DoublePendulum, Energy_CrossMethods) {
 }
 
 TEST(DoublePendulum, EnergyConservation) {
-     container variable(4),parameter(5);
-     variable[V_THETA1] = M_PI / 2;
-     variable[V_THETA2] = M_PI / 2;
-     variable[V_OMEGA1] = 0.0;
-     variable[V_OMEGA2] = 0.0;
+
+    labels_values variable;
+    variable["theta1"] = M_PI / 2;
+    variable["theta2"] = M_PI / 2;
+    variable["omega1"] = 0.0;
+    variable["omega2"] = 0.0;
+
 
     labels_values parameters;
     parameters["l1"]= 0.30;
@@ -116,17 +114,17 @@ TEST(DoublePendulum, EnergyConservation) {
     parameters["m2"]= 0.1;
     parameters["g"]= 9.8;
 
-     parameter[P_L1]= 0.3;
-     parameter[P_L2]= 0.3;
-     parameter[P_M1]= 0.1;
-     parameter[P_M2]= 0.1;
-     parameter[P_G]= 9.8;
+     parameters["l1"]= 0.3;
+     parameters["l2"]= 0.3;
+     parameters["m1"]= 0.1;
+     parameters["m2"]= 0.1;
+     parameters["g"]= 9.8;
      value delta_t = pow(10, -5);
      
     DoublePendulumFunction f(parameters);
 
-    value energy_0 = DoublePendulumEnergy(variable[V_THETA1],variable[V_THETA2], variable[V_OMEGA1], variable[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    value energy_0 = DoublePendulumEnergy(variable["theta1"],variable["theta2"], variable["omega1"], variable["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
 
 
     RungeKutta model1(f,variable, delta_t); 
@@ -137,12 +135,12 @@ TEST(DoublePendulum, EnergyConservation) {
 
     for(size_t i = 0; i < pow(10, 6); ++i){
         ++model1; ++model2; ++model3;
-    value energy1 = DoublePendulumEnergy(model1[V_THETA1], model1[V_THETA2], model1[V_OMEGA1], model1[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
-    value energy2 = DoublePendulumEnergy(model2[V_THETA1], model2[V_THETA2], model2[V_OMEGA1], model2[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
-    value energy3 = DoublePendulumEnergy(model3[V_THETA1], model3[V_THETA2], model3[V_OMEGA1], model3[V_OMEGA2],
-            parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
+    value energy1 = DoublePendulumEnergy(model1["theta1"], model1["theta2"], model1["omega1"], model1["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy2 = DoublePendulumEnergy(model2["theta1"], model2["theta2"], model2["omega1"], model2["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy3 = DoublePendulumEnergy(model3["theta1"], model3["theta2"], model3["omega1"], model3["omega2"],
+            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
         sum1 += fabs(energy1 - energy_0);
         sum2 += fabs(energy2 - energy_0);
         sum3 += fabs(energy3 - energy_0);
@@ -155,15 +153,15 @@ TEST(DoublePendulum, EnergyConservation) {
 /*
 TEST(ODE, Pendulum_Bifurcation_Diagram) {
         container variable(4),parameter(5);
-        variable[V_THETA1] = 0.0;
-        variable[V_THETA2] = 0.0;
-        variable[V_OMEGA1] = 0.0;
-        variable[V_OMEGA2] = 0.0;
-        parameter[P_L1]= 0.30;
-        parameter[P_L2]= 0.30;
-        parameter[P_M1]= 0.10;
-        parameter[P_M2]= 0.10;
-        parameter[P_G]= 9.8;
+        variable["theta1"] = 0.0;
+        variable["theta2"] = 0.0;
+        variable["omega1"] = 0.0;
+        variable["omega2"] = 0.0;
+        parameters["l1"]= 0.30;
+        parameters["l2"]= 0.30;
+        parameters["m1"]= 0.10;
+        parameters["m2"]= 0.10;
+        parameters["g"]= 9.8;
      
         value dt=0.0001;
         value coordinate_value=0.0;
@@ -175,8 +173,8 @@ TEST(ODE, Pendulum_Bifurcation_Diagram) {
         file.open("DP_bifurcation_diagram_simetric.out");
 	
         for(value theta = 0.10; theta < M_PI; theta += 0.0005){
-            variable[V_THETA1] = theta;
-            variable[V_THETA2] = theta;
+            variable["theta1"] = theta;
+            variable["theta2"] = theta;
             AdamsBashforth<DoublePendulumFunction> model(variable, parameter, dt); 
             for(size_t i(0); i < pow(10,5); i++)
                 model.next();
@@ -192,15 +190,15 @@ TEST(ODE, Pendulum_Bifurcation_Diagram) {
 /*
 TEST(ODE, Pendulum_Phase_Plane) {
         container variable(4),parameter(5);
-        variable[V_THETA1] = M_PI/5.0;
-        variable[V_THETA2] = M_PI/5.0;
-        variable[V_OMEGA1] = 0.0;
-        variable[V_OMEGA2] = 0.0;
-        parameter[P_L1]= 0.30;
-        parameter[P_L2]= 0.30;
-        parameter[P_M1]= 0.10;
-        parameter[P_M2]= 0.10;
-        parameter[P_G]= 9.8;
+        variable["theta1"] = M_PI/5.0;
+        variable["theta2"] = M_PI/5.0;
+        variable["omega1"] = 0.0;
+        variable["omega2"] = 0.0;
+        parameters["l1"]= 0.30;
+        parameters["l2"]= 0.30;
+        parameters["m1"]= 0.10;
+        parameters["m2"]= 0.10;
+        parameters["g"]= 9.8;
      
         value dt=0.0001;
         value coordinate_value=0.75;

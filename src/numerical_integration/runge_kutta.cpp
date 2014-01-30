@@ -1,6 +1,6 @@
 #include"runge_kutta.h"
 
-RungeKutta::RungeKutta(FunctionCapsule & function, container variable,value dt)
+RungeKutta::RungeKutta(FunctionCapsule & function, labels_values variable,value dt)
     :NumericalIntegration(function, variable, dt) { } 
 
 RungeKutta::~RungeKutta(){}
