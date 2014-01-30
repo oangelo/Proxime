@@ -25,7 +25,6 @@ class NumericalIntegration {
         unsigned size() const;
 
         virtual NumericalIntegration& operator++() = 0;
-        virtual void next() = 0;
 
         //return the variables
         const value operator[] (std::string index) const;

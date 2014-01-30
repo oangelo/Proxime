@@ -12,7 +12,7 @@ TEST(DoublePendulum, ZeroLyapunov) {
     variable[V_OMEGA1] = 0.0;
     variable[V_OMEGA2] = 0.0;
 
-    labels_and_values parameters;
+    labels_values parameters;
     parameters["l1"]= 0.30;
     parameters["l2"]= 0.30;
     parameters["m1"]= 0.1;
@@ -34,7 +34,7 @@ TEST(DoublePendulum, PositiveLyapunov) {
     variable[V_OMEGA1] = 0.0;
     variable[V_OMEGA2] = 0.0;
 
-    labels_and_values parameters;
+    labels_values parameters;
     parameters["l1"]= 0.30;
     parameters["l2"]= 0.30;
     parameters["m1"]= 0.1;
@@ -62,7 +62,7 @@ TEST(DoublePendulum, Energy_CrossMethods) {
      parameter[P_G]= 9.8;
 
 
-    labels_and_values parameters;
+    labels_values parameters;
     parameters["l1"]= 0.30;
     parameters["l2"]= 0.30;
     parameters["m1"]= 0.1;
@@ -81,9 +81,9 @@ TEST(DoublePendulum, Energy_CrossMethods) {
     AdamsMoulton model3(f, variable, delta_t); 
 
     for(size_t i = 0; i < 100000; ++i){
-        model1.next();
-        model2.next();
-        model3.next();
+        ++model1;
+        ++model2;
+        ++model3;
     }
 
     value energy1 = DoublePendulumEnergy(model1[V_THETA1], model1[V_THETA2], model1[V_OMEGA1], model1[V_OMEGA2],
@@ -109,7 +109,7 @@ TEST(DoublePendulum, EnergyConservation) {
      variable[V_OMEGA1] = 0.0;
      variable[V_OMEGA2] = 0.0;
 
-    labels_and_values parameters;
+    labels_values parameters;
     parameters["l1"]= 0.30;
     parameters["l2"]= 0.30;
     parameters["m1"]= 0.1;
@@ -136,7 +136,7 @@ TEST(DoublePendulum, EnergyConservation) {
     value sum1 = 0, sum2 = 0, sum3 = 0;
 
     for(size_t i = 0; i < pow(10, 6); ++i){
-        model1.next(); model2.next(); model3.next();
+        ++model1; ++model2; ++model3;
     value energy1 = DoublePendulumEnergy(model1[V_THETA1], model1[V_THETA2], model1[V_OMEGA1], model1[V_OMEGA2],
             parameter[P_L1], parameter[P_L2], parameter[P_M1], parameter[P_M2], parameter[P_G]);
     value energy2 = DoublePendulumEnergy(model2[V_THETA1], model2[V_THETA2], model2[V_OMEGA1], model2[V_OMEGA2],

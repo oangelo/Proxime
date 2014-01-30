@@ -5,9 +5,6 @@ RungeKutta::RungeKutta(FunctionCapsule & function, container variable,value dt)
 
 RungeKutta::~RungeKutta(){}
 
-void RungeKutta::next(){
-    RungeKutta_method();
-}
 
 NumericalIntegration& RungeKutta::operator++(){
     RungeKutta_method();

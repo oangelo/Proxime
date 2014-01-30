@@ -2,18 +2,20 @@
 #include <string>
 #include <math.h>
 
+#include "functions/functions.h" 
+
 class recurrence_relation{
 public:
-  recurrence_relation(std::vector<double> variable,std::vector<double> parameter);
+  recurrence_relation(container variable,container parameter);
   recurrence_relation();
   virtual ~recurrence_relation(){};
-  double get_t() const;
-  double get_variable(unsigned n) const;
-  const std::vector<double> & get_variable() const;
-  double get_parameter(unsigned n) const;
+  value get_t() const;
+  value get_variable(unsigned n) const;
+  const container & get_variable() const;
+  value get_parameter(unsigned n) const;
   const std::string & get_model_name() const;
   
-  unsigned size_variable() const;
+  unsigned size() const;
   unsigned size_parameter() const;
   
   virtual void next()=0;
@@ -21,16 +23,16 @@ public:
   
 protected:
 
-  std::vector<double> __variable;
-  std::vector<double> __parameter;
-  double  __t;
+  container __variable;
+  container __parameter;
+  value  __t;
   std::string __model_name; 
 }; 
 
 class logistic_map: public recurrence_relation{
 public:  
-  logistic_map(double x0,double a);
+  logistic_map(value x0,value a);
   virtual void next();
   virtual void next(unsigned steps);
-  double lyapunov(unsigned n);
+  value lyapunov(unsigned n);
 };

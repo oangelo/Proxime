@@ -1,6 +1,6 @@
 #include "recurrence_relation.h"
 
-recurrence_relation::recurrence_relation(std::vector<double> variable,std::vector<double> parameter):
+recurrence_relation::recurrence_relation(container variable,container parameter):
 __variable(variable),
 __parameter(parameter),
 __t(0),
@@ -13,15 +13,15 @@ __parameter(),
 __t(0),
 __model_name()
 {}
-double recurrence_relation::get_t() const{ return(__t);}
-double recurrence_relation::get_variable(unsigned n) const{return(__variable[n]);}
-const std::vector<double> & recurrence_relation::get_variable() const {return(__variable);}
-double recurrence_relation::get_parameter(unsigned n) const{return(__parameter[n]);}
+value recurrence_relation::get_t() const{ return(__t);}
+value recurrence_relation::get_variable(unsigned n) const{return(__variable[n]);}
+const container & recurrence_relation::get_variable() const {return(__variable);}
+value recurrence_relation::get_parameter(unsigned n) const{return(__parameter[n]);}
 const std::string & recurrence_relation::get_model_name() const {return(__model_name);}
-unsigned recurrence_relation::size_variable() const{return(__variable.size());}
+unsigned recurrence_relation::size() const{return(__variable.size());}
 unsigned recurrence_relation::size_parameter() const{return(__parameter.size());}
 
-logistic_map::logistic_map(double x0,double a){
+logistic_map::logistic_map(value x0,value a){
   __model_name="Logistic Equation";
   __parameter.push_back(a);
   __variable.push_back(x0);
@@ -36,8 +36,8 @@ void logistic_map::next(unsigned steps){
   __t+=steps;
 }
 
-double logistic_map::lyapunov(unsigned n){
-  double sum=0;
+value logistic_map::lyapunov(unsigned n){
+  value sum=0;
   for(unsigned counter=0;counter<n;counter++){
     sum+=log(fabs(__parameter[0]*(1-2*__variable[0])));
     this->next();

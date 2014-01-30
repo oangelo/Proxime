@@ -6,11 +6,11 @@ AdamsMoulton::AdamsMoulton(FunctionCapsule & function, container variable, value
     __N=1;
     RungeKutta model(function, variable, dt);
     step1 = model.get_variable();
-    model.next();
+    ++model;
     step2 = model.get_variable();
-    model.next();
+    ++model;
     step3 = model.get_variable();
-    model.next();
+    ++model;
     step4 = model.get_variable();
     time += 3*dt; 
 
@@ -30,21 +30,6 @@ NumericalIntegration& AdamsMoulton::operator++(){
     time  += dt;
     variable = step1;
 }
-
-void AdamsMoulton::next() {
-    AdamsBashforth_method();
-    step1 = step2;
-    step2 = step3;
-    step3 = step4;
-    step4 = new_step;
-    for (unsigned i = 0; i < __N; i++) {
-        AdamsMoulton_method();
-    };  
-    step4 = new_step;
-    time  += dt;
-    variable = step1;
-};
-
 
 void AdamsMoulton::AdamsMoulton_method() {
     container aux(variable.size(), 0);

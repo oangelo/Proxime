@@ -7,7 +7,6 @@
 class AdamsMoulton: public AdamsBashforth {
     public:
         AdamsMoulton(FunctionCapsule & function, container variable, value dt);
-        virtual void next();
         virtual NumericalIntegration& operator++();
 
     private:

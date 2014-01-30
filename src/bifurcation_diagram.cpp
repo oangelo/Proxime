@@ -17,7 +17,7 @@ bool CrossDownUp(value before, value after, value reference){
 container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate_x,
         unsigned coordinate_y, value y_section_value, unsigned qt_points, bool (*cross)(value, value, value)){
 
-    container value(attractor.size_variable()), next_value(attractor.size_variable());
+    container value(attractor.size()), next_value(attractor.size());
     container zeros;
     size_t max_iterations(pow(10,7));
 
@@ -32,7 +32,7 @@ container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate
         }
         value = next_value;
         try {
-            attractor.next();
+            ++attractor;
         }
         catch (Value_error) {
             std::cout << "Problem with the numerical integration, "
