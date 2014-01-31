@@ -8,6 +8,7 @@ RungeKutta::~RungeKutta(){}
 
 RungeKutta& RungeKutta::operator++(){
     RungeKutta_method();
+    return *this;
 }
 
 void RungeKutta::RungeKutta_method()

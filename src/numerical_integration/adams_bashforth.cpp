@@ -25,6 +25,7 @@ AdamsBashforth& AdamsBashforth::operator++(){
     step4 = new_step;
     variable = step1;
     time = time + dt;
+    return *this;
 }
 
 

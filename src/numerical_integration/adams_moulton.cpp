@@ -28,6 +28,8 @@ AdamsMoulton& AdamsMoulton::operator++(){
     step4 = new_step;
     time  += dt;
     variable = step1;
+
+    return *this;
 }
 
 void AdamsMoulton::AdamsMoulton_method() {
