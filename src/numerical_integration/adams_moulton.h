@@ -6,11 +6,11 @@
 
 class AdamsMoulton: public AdamsBashforth {
     public:
-        AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt);
+        AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt, unsigned corrections_amount = 1);
         virtual AdamsMoulton& operator++(); //Covariant return type
     private:
         void AdamsMoulton_method();
-        unsigned __N;
+        unsigned corrections_amount;
 };
 
 

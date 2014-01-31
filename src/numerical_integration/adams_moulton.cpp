@@ -1,9 +1,8 @@
 #include"adams_moulton.h"
     
-AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt)
-:AdamsBashforth(function, variable, dt)  
+AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt, unsigned corrections_amount)
+:AdamsBashforth(function, variable, dt), corrections_amount(corrections_amount)  
 {
-    __N=1;
     RungeKutta model(function, variable, dt);
     step1 = model.get_variable();
     ++model;
@@ -23,7 +22,7 @@ AdamsMoulton& AdamsMoulton::operator++(){
     step2 = step3;
     step3 = step4;
     step4 = new_step;
-    for (unsigned i = 0; i < __N; i++) {
+    for (unsigned i = 0; i < corrections_amount; i++) {
         AdamsMoulton_method();
     };  
     step4 = new_step;
