@@ -23,7 +23,7 @@ class NumericalIntegration {
 
         unsigned size() const;
 
-        virtual NumericalIntegration& operator++() = 0;
+        virtual NumericalIntegration& operator++() = 0; //Covariant return type
 
         //return the variables
         const value operator[] (std::string index) const;

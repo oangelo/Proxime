@@ -17,7 +17,7 @@ AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, v
 };
 
 
-NumericalIntegration& AdamsMoulton::operator++(){
+AdamsMoulton& AdamsMoulton::operator++(){
     AdamsBashforth_method();
     step1 = step2;
     step2 = step3;

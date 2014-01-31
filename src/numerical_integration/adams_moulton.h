@@ -7,8 +7,7 @@
 class AdamsMoulton: public AdamsBashforth {
     public:
         AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt);
-        virtual NumericalIntegration& operator++();
-
+        virtual AdamsMoulton& operator++(); //Covariant return type
     private:
         void AdamsMoulton_method();
         unsigned __N;

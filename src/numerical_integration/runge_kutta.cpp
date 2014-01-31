@@ -6,7 +6,7 @@ RungeKutta::RungeKutta(FunctionCapsule & function, labels_values variable,value 
 RungeKutta::~RungeKutta(){}
 
 
-NumericalIntegration& RungeKutta::operator++(){
+RungeKutta& RungeKutta::operator++(){
     RungeKutta_method();
 }
 

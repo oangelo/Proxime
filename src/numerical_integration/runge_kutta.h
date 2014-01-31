@@ -7,7 +7,7 @@ class RungeKutta: public NumericalIntegration{
     public:  
         RungeKutta(FunctionCapsule & function, labels_values variable,value dt);
         ~RungeKutta();
-        virtual NumericalIntegration& operator++();
+        virtual RungeKutta& operator++(); //Covariant return type
     protected:
         void RungeKutta_method();
 };

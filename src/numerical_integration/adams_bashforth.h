@@ -7,7 +7,7 @@
 class AdamsBashforth: public NumericalIntegration{
     public:
         AdamsBashforth(FunctionCapsule & function, labels_values variable, value dt);
-        virtual NumericalIntegration& operator++();
+        virtual AdamsBashforth& operator++(); //Covariant return type
         virtual ~AdamsBashforth(){};
     protected:
         void AdamsBashforth_method();
