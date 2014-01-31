@@ -33,7 +33,7 @@ class NumericalIntegration {
 
     protected:
 
-        FunctionCapsule* function;
+        std::auto_ptr<FunctionCapsule> function;
         container variable;
         value dt, time;
         std::string method;
