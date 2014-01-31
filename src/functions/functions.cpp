@@ -29,15 +29,20 @@ unsigned FunctionCapsule::size() const{
 FunctionCapsule::FunctionCapsule(std::string function_name, 
                                      dictionary index_variables, dictionary index_parameters,
                                      labels_values parameters_values):
-                                     function_name(function_name), result(index_variables.size()),
-                                     index_var(index_variables), index_par(index_parameters)
+                                     index_var(index_variables), index_par(index_parameters),
+                                     function_name(function_name), result(index_variables.size())
 {
 //TODO: Check if the labels on parameters are consistnt with index_parameters 
 }
 
 std::string FunctionCapsule::GetLabel(size_t index){
     dictionary::iterator it;
-    for(it = index_var.begin(); it != index_var.end(); ++it)
+    std::string var_label("");
+    for(it = index_var.begin(); it != index_var.end(); ++it){
         if((*it).second == index)
-            return (*it).first;
+            var_label = (*it).first;
+    }
+    if(it == index_var.end())
+        std::cerr << "Wrong index access to function results" << std::endl;
+    return var_label;
 }

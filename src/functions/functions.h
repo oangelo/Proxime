@@ -9,7 +9,6 @@
 #include <string>
 #include <memory>
 
-
 /****************************************
  * These types must be used every where,*
  * to make the precision consistent.    *

@@ -9,6 +9,10 @@ X(), Y(), Z(), a(parameters["a"]), b(parameters["b"]), c(parameters["c"])
 {
 }
 
+RosslerFunction* RosslerFunction::Clone() const{
+    return(new RosslerFunction(*this));
+}
+
 inline
 void RosslerFunction::set(value &t, container & variables){
       
@@ -52,6 +56,10 @@ a(parameters["a"]),b(parameters["b"]),c(parameters["c"]),
 X_fiducial(parameters["x"]),Y_fiducial(parameters["b"]),Z_fiducial(parameters["c"])
 {}
 
+Jacobian_RosslerFunction* Jacobian_RosslerFunction::Clone() const{
+    return(new Jacobian_RosslerFunction(*this));
+}
+
 inline
 void Jacobian_RosslerFunction::set(value &t,container & variables){
 
@@ -83,3 +91,4 @@ value Jacobian_RosslerFunction::dz() {
     value func = +Z_fiducial*X +(X_fiducial-c)*Z;
     return(func);
 }
+
