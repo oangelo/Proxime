@@ -42,7 +42,8 @@ std::string FunctionCapsule::GetLabel(size_t index){
         if((*it).second == index)
             var_label = (*it).first;
     }
-    if(it == index_var.end())
+    if(var_label == "")
         std::cerr << "Wrong index access to function results" << std::endl;
+    //TODO: trow exception 
     return var_label;
 }
