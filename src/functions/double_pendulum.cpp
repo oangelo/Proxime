@@ -10,6 +10,11 @@ m1(parameters["m1"]), m2(parameters["m2"]),
 g(parameters["g"])
 {} 
 
+
+DoublePendulumFunction* DoublePendulumFunction::Clone() const{ 
+    return new DoublePendulumFunction(*this);
+}
+
 void DoublePendulumFunction::set(value& t, container& variables){ 
     theta1 = variables[index_var["theta1"]];
     theta2 = variables[index_var["theta2"]];
@@ -84,6 +89,10 @@ void Jacobian_DoublePendulumFunction::set(value& t, container& variables){
     result[index_var["omega2"]]=JdOmega2();
 }
 
+Jacobian_DoublePendulumFunction* Jacobian_DoublePendulumFunction::Clone() const{ 
+    return new Jacobian_DoublePendulumFunction(*this);
+}
+
 void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,value omega1, value omega2)
 {
 
@@ -146,69 +155,3 @@ value l1, value l2, value m1, value m2, value g){
     return energy;
 }
 
-DoublePendulum_H::DoublePendulum_H(labels_values parameters): 
-FunctionCapsule("Double Pendulum", 
-                  dictionary{{"q1",0},{"q2",1},{"p1",2},{"p2",3},},
-                  dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},},
-                  parameters),
-q1(), q2(), p1(), p2(),
-l1(parameters["l1"]), l2(parameters["l2"]), 
-m1(parameters["m1"]), m2(parameters["m2"]), 
-g(parameters["g"])
-{ }
-
-void DoublePendulum_H::set(value& t, container& variables){ 
-    q1 = variables[index_var["q1"]];
-    q2 = variables[index_var["q2"]];
-    p1 = variables[index_var["p1"]];
-    p2 = variables[index_var["p2"]];
-
-    result[index_var["q1"]]=Vq1();
-    result[index_var["q2"]]=Vq2();
-    result[index_var["p1"]]=Tp1();
-    result[index_var["p2"]]=Tp2();
-   
-}
-
-value DoublePendulum_H::Vq1(){
-    value func = (g * pow(sin(q2), 0.4e1) * pow(l1, 0.3e1) * l2 * l2 * m2 * m2 * (m1 + m2) * pow(sin(q1), 0.5e1) + 0.4e1 * g * cos(q1) * cos(q2) * pow(sin(q2), 0.3e1) * pow(l1, 0.3e1) * l2 * l2 * m2 * m2 * (m1 + m2) * pow(sin(q1), 0.4e1) + 0.6e1 * (g * pow(cos(q2), 0.2e1) * l1 * l1 * l2 * m2 * (m1 + m2) * pow(cos(q1), 0.2e1) - p1 * p2 * cos(q2) / 0.6e1 - g * l1 * l1 * l2 * pow(m1 + m2, 0.2e1) / 0.3e1) * pow(sin(q2), 0.2e1) * l2 * m2 * l1 * pow(sin(q1), 0.3e1) + 0.4e1 * sin(q2) * (g * pow(cos(q2), 0.3e1) * pow(l1, 0.3e1) * l2 * l2 * m2 * m2 * (m1 + m2) * pow(cos(q1), 0.3e1) - (p1 * p2 * pow(cos(q2), 0.2e1) / 0.2e1 + g * l1 * l1 * l2 * pow(m1 + m2, 0.2e1) * cos(q2) - pow(sin(q2), 0.2e1) * p2 * p1 / 0.4e1) * l2 * m2 * l1 * cos(q1) + cos(q2) * (p2 * p2 * (m1 + m2) * l1 * l1 + p1 * p1 * l2 * l2 * m2) / 0.4e1) * pow(sin(q1), 0.2e1) + (g * pow(cos(q2), 0.4e1) * pow(l1, 0.3e1) * l2 * l2 * m2 * m2 * (m1 + m2) * pow(cos(q1), 0.4e1) - 0.2e1 * cos(q2) * l2 * m2 * l1 * (p1 * p2 * pow(cos(q2), 0.2e1) / 0.2e1 + g * l1 * l1 * l2 * pow(m1 + m2, 0.2e1) * cos(q2) - pow(sin(q2), 0.2e1) * p2 * p1) * pow(cos(q1), 0.2e1) + (cos(q2) - sin(q2)) * (cos(q2) + sin(q2)) * (p2 * p2 * (m1 + m2) * l1 * l1 + p1 * p1 * l2 * l2 * m2) * cos(q1) + (m1 + m2) * l2 * (-p1 * p2 * cos(q2) + g * l1 * l1 * l2 * pow(m1 + m2, 0.2e1)) * l1) * sin(q1) + sin(q2) * (-p1 * l2 + l1 * p2 * cos(q2) * cos(q1)) * (m2 * cos(q2) * cos(q1) * p1 * l2 - l1 * p2 * (m1 + m2)) * cos(q1)) * pow(l2, -0.2e1) * pow(l1, -0.2e1) * pow(-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1), -0.2e1);
-
-    return func;
-}
-
-value DoublePendulum_H::Vq2(){
-    value func = (l1 * l1 * pow(l2, 0.3e1) * g * pow(m2, 0.3e1) * pow(sin(q2), 0.5e1) * pow(sin(q1), 0.4e1) + 0.4e1 * pow(m2, 0.3e1) * g * pow(l2, 0.3e1) * cos(q2) * l1 * l1 * pow(sin(q1), 0.3e1) * pow(sin(q2), 0.4e1) * cos(q1) + 0.6e1 * l2 * m2 * pow(sin(q1), 0.2e1) * l1 * (l1 * l2 * l2 * m2 * m2 * g * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) - cos(q1) * p1 * p2 / 0.6e1 - g * l2 * l2 * l1 * m2 * (m1 + m2) / 0.3e1) * pow(sin(q2), 0.3e1) + 0.4e1 * sin(q1) * (pow(cos(q2), 0.3e1) * pow(l2, 0.3e1) * pow(m2, 0.3e1) * g * l1 * l1 * pow(cos(q1), 0.3e1) - p1 * l2 * l1 * p2 * cos(q2) * pow(cos(q1), 0.2e1) * m2 / 0.2e1 + (-g * pow(l2, 0.3e1) * l1 * l1 * m2 * m2 * (m1 + m2) * cos(q2) + (l1 * l1 * p2 * p2 / 0.4e1 + p1 * p1 * l2 * l2 / 0.4e1) * m2 + l1 * l1 * p2 * p2 * m1 / 0.4e1) * cos(q1) + l1 * p2 * p1 * l2 * m2 * cos(q2) * pow(sin(q1), 0.2e1) / 0.4e1) * pow(sin(q2), 0.2e1) + (pow(cos(q2), 0.4e1) * pow(l2, 0.3e1) * pow(m2, 0.3e1) * g * l1 * l1 * pow(cos(q1), 0.4e1) - p1 * l2 * l1 * p2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.3e1) * m2 - 0.2e1 * cos(q2) * (g * pow(l2, 0.3e1) * l1 * l1 * m2 * m2 * (m1 + m2) * cos(q2) + (-l1 * l1 * p2 * p2 / 0.2e1 - p1 * p1 * l2 * l2 / 0.2e1) * m2 - l1 * l1 * p2 * p2 * m1 / 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * p2 * l2 * (-m1 / 0.2e1 + pow(sin(q1), 0.2e1) * m2 * pow(cos(q2), 0.2e1) - m2 / 0.2e1) * p1 * l1 * cos(q1) - ((l1 * l1 * p2 * p2 + p1 * p1 * l2 * l2) * m2 + l1 * l1 * p2 * p2 * m1) * pow(sin(q1), 0.2e1) * cos(q2) + g * pow(l2, 0.3e1) * l1 * l1 * m2 * pow(m1 + m2, 0.2e1)) * sin(q2) + cos(q2) * (m2 * cos(q2) * cos(q1) * p1 * l2 - l1 * p2 * (m1 + m2)) * (-p1 * l2 + l1 * p2 * cos(q2) * cos(q1)) * sin(q1)) * pow(l2, -0.2e1) * pow(l1, -0.2e1) * pow(-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1), -0.2e1);
-
-    return func;
-}
-
-value DoublePendulum_H::Tp1(){
-    value func =  (-l1 * p2 * cos(q2) * cos(q1) - sin(q1) * sin(q2) * l1 * p2 + p1 * l2) / l2 / (-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) * pow(l1, -0.2e1);
-
-    return func;
-}
-
-value DoublePendulum_H::Tp2(){
-    value func = (-m2 * cos(q2) * cos(q1) * p1 * l2 - m2 * sin(q1) * sin(q2) * p1 * l2 + l1 * p2 * (m1 + m2)) / l1 / (-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) * pow(l2, -0.2e1) / m2;
-
-    return func;
-}
-
-
-value omega1_H(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g){
-    value omega1 = 0.1e1 / l2 * (l1 * p2 * cos(q2) * cos(q1) + sin(q1) * sin(q2) * l1 * p2 - p1 * l2) / (-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) * pow(l1, -0.2e1);
-
-    return omega1;
-}
-
-value omega2_H(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g){
-    value omega2 = 0.1e1 / l1 * (m2 * cos(q2) * cos(q1) * p1 * l2 + m2 * sin(q1) * sin(q2) * p1 * l2 - l1 * p2 * m2 - l1 * p2 * m1) / (-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) * pow(l2, -0.2e1) / m2;
-
-    return omega2;
-}
-
-value DoublePendulumHamiltonian(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g){
-    value H = -0.1e1 / (-m1 - m2 + m2 * pow(cos(q2), 0.2e1) * pow(cos(q1), 0.2e1) + 0.2e1 * m2 * cos(q2) * cos(q1) * sin(q1) * sin(q2) + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) * (g * pow(cos(q2), 0.2e1) * pow(l1, 0.3e1) * l2 * l2 * m2 * m2 * (m1 + m2) * pow(cos(q1), 0.3e1) + cos(q2) * l2 * l2 * m2 * m2 * g * (m2 * pow(cos(q2), 0.2e1) * l2 + 0.2e1 * sin(q1) * sin(q2) * l1 * (m1 + m2)) * l1 * l1 * pow(cos(q1), 0.2e1) + 0.2e1 * l2 * m2 * (g * sin(q1) * sin(q2) * pow(cos(q2), 0.2e1) * m2 * m2 * l2 * l2 * l1 + p1 * p2 * cos(q2) / 0.2e1 + l1 * l1 * l2 * g * (m1 + m2) * (-m1 - m2 + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) / 0.2e1) * l1 * cos(q1) + g * pow(l2, 0.3e1) * l1 * l1 * m2 * m2 * (-m1 - m2 + m2 * pow(sin(q1), 0.2e1) * pow(sin(q2), 0.2e1)) * cos(q2) + m2 * sin(q1) * sin(q2) * p1 * l2 * l1 * p2 + (-l1 * l1 * p2 * p2 / 0.2e1 - p1 * p1 * l2 * l2 / 0.2e1) * m2 - l1 * l1 * p2 * p2 * m1 / 0.2e1) * pow(l1, -0.2e1) * pow(l2, -0.2e1) / m2;
-
-    return H;
-}

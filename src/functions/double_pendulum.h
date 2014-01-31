@@ -6,7 +6,9 @@
 class DoublePendulumFunction : public FunctionCapsule {
 public:
   DoublePendulumFunction(labels_values parameters);
-  void set(value &t, container & variables);
+  virtual void set(value &t, container & variables);
+  virtual DoublePendulumFunction* Clone() const; 
+
 protected:
   value dTheta1();
   value dTheta2();
@@ -22,6 +24,7 @@ class Jacobian_DoublePendulumFunction : public FunctionCapsule {
 public:
   Jacobian_DoublePendulumFunction(labels_values parameters);
   void set(value &t, container & variables);
+  virtual Jacobian_DoublePendulumFunction* Clone() const; 
 protected:
   void Matrix_Jacob(value theta1, value theta2, value omega1, value omega2);
   value JdTheta1();
@@ -34,9 +37,6 @@ protected:
   value Jacobian[4][4];
 };
 
-value DoublePendulumEnergy(value theta1, value theta2, value omega1, value omega2, value l1, value l2, value m1, value m2, value g);
-
-
 enum variables {
   V_THETA1, V_THETA2, V_OMEGA1, V_OMEGA2
 };
@@ -45,31 +45,6 @@ enum parameters {
   P_L1, P_L2, P_M1, P_M2, P_G, P_THETA1, P_THETA2, P_OMEGA1, P_OMEGA2
 };
 
-class DoublePendulum_H: public FunctionCapsule {
-    public:
-        DoublePendulum_H(labels_values parameters);
-        void set(value &t, container & variables);
-
-        enum variables {
-            V_Q1, V_Q2, V_P1, V_P2
-        };
-
-        enum parameters {
-            P_L1, P_L2, P_M1, P_M2, P_G 
-        };
-
-    protected:
-        value Vq1();
-        value Vq2();
-        value Tp1();
-        value Tp2();
-
-        value q1, q2, p1, p2;
-        value l1,l2,m1,m2,g;
-};
-
-value omega1_H(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
-value omega2_H(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
 value DoublePendulumHamiltonian(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
-
+value DoublePendulumEnergy(value theta1, value theta2, value omega1, value omega2, value l1, value l2, value m1, value m2, value g);
 #endif /* DOUBLE_PENDULUM_H */

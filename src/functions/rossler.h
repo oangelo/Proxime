@@ -4,10 +4,11 @@
 #include "functions.h"
 
 
-class RosslerFunction : public FunctionCapsule {
+class RosslerFunction : public FunctionCapsule{
 public:
   RosslerFunction(labels_values parameters);
   void set(value &t, container & variables);
+  virtual RosslerFunction* Clone() const;
 
  protected:
   value dx();
@@ -16,13 +17,13 @@ public:
   
   value X,Y,Z;
   value a,b,c;
-
 };
 
 class Jacobian_RosslerFunction : public FunctionCapsule {
 public:
   Jacobian_RosslerFunction(labels_values parameters);
   void set(value &t, container & variables);
+  virtual Jacobian_RosslerFunction* Clone() const;
 protected:
   value dx();
   value dy();

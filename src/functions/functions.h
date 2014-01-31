@@ -7,6 +7,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <memory>
 
 
 /****************************************
@@ -25,7 +26,7 @@ public:
                     dictionary index_variables, dictionary index_parameters,
                     labels_values parameters_values);
   virtual ~FunctionCapsule(){};
-
+  virtual FunctionCapsule* Clone() const = 0; 
   virtual void set(value &t, container & variables) = 0;
 
 
@@ -37,6 +38,7 @@ public:
 
   //amount of functions and variables 
   unsigned size() const;
+
 
   //Dictionry of names and number of variables anda parameters
   dictionary index_var, index_par;
