@@ -13,14 +13,14 @@ TEST(rossler, PhasePlanePoincareSection) {
     parameter["b"]= 0.1;
     parameter["c"]= 4.0;
 
-    int coordinate_x=0, coordinate_y=1;
-    int time=4*pow(10,5),transiente=pow(10,5);
+    size_t coordinate_x=0, coordinate_y=1;
+    unsigned transiente=pow(10,5);
     value coordinate_value = 0;
 
     //Period one ###############################################################
     parameter["c"]= 4.0;
     RosslerFunction function(parameter);
-    AdamsBashforth  model(function, variable,0.001);
+    AdamsBashforth4Th  model(function, variable,0.001);
     for(size_t i = 0; i <  transiente; ++i){
         ++model;
     }
@@ -30,7 +30,7 @@ TEST(rossler, PhasePlanePoincareSection) {
     //Period two ###############################################################
     parameter["c"]= 6.0;
     RosslerFunction function2(parameter);
-    AdamsBashforth  model2(function2, variable, 0.001);
+    AdamsBashforth4Th  model2(function2, variable, 0.001);
     for(size_t i = 0; i <  transiente; ++i){
         ++model2;
     }
@@ -46,7 +46,7 @@ TEST(rossler, PhasePlanePoincareSection) {
         file << item << " " << coordinate_value << std::endl;
     file << std::endl;
     file << std::endl;
-    AdamsBashforth<RosslerFunction>  orbit(variable,parameter,0.001);
+    AdamsBashforth4Th<RosslerFunction>  orbit(variable,parameter,0.001);
     for(size_t i = 0; i <  transiente; ++i)
         orbit.next();
     for(size_t i = 0; i <  (time / 10); ++i){
@@ -70,13 +70,13 @@ TEST(rossler, MaxLyapunov) {
     parameter["c"]= 10.0;
     RosslerFunction function(parameter);
 
-    AdamsBashforth  attractor(function, variable, 0.001);
+    AdamsBashforth4Th  attractor(function, variable, 0.001);
     for (size_t i = 0; i < 100000; ++i)
         ++attractor;
     value lambda(MaxLyapunov<Jacobian_RosslerFunction>(attractor, parameter, pow(10, 7), pow(10, 3)));
     EXPECT_NEAR(lambda, 0.0890, 0.005);
 }
-
+/*
 TEST(rossler, LyapunovSpectrum) {
     labels_values variable;
     variable["x"] = 2.61622;
@@ -89,7 +89,7 @@ TEST(rossler, LyapunovSpectrum) {
     parameter["c"]= 10.0;
     RosslerFunction function(parameter);
 
-    AdamsBashforth  attractor(function, variable, 0.001);
+    AdamsBashforth4Th  attractor(function, variable, 0.001);
     for (size_t i = 0; i < 100000; ++i)
         ++attractor;
     container lambda = Lyapunov<Jacobian_RosslerFunction>(attractor, parameter, pow(10, 7), pow(10, 3));
@@ -97,7 +97,7 @@ TEST(rossler, LyapunovSpectrum) {
     EXPECT_NEAR(lambda[1], 0.0000, 0.001);
     EXPECT_NEAR(lambda[2], -9.802, 0.02);
 }
-*/
+//*/
 /*
 TEST(ODE, rossler_bifurcation) {
 
@@ -141,7 +141,7 @@ TEST(ODE, rossler_series) {
         std::stringstream file;
         file <<  "rosler_series_f3_norbet_bstep"; //<< c[cont];
 	//parameter[2]= c[cont];
-	AdamsBashforth<rossler_func> attractor(variable,parameter,0.001,"");
+	AdamsBashforth4Th<rossler_func> attractor(variable,parameter,0.001,"");
 	std::ofstream dp_data;
 	dp_data.open((file.str()).c_str());
 	for(int j=0;j<2*pow(10,6);j++) 

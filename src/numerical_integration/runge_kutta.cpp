@@ -1,21 +1,21 @@
 #include"runge_kutta.h"
 
-RungeKutta::RungeKutta(FunctionCapsule & function, labels_values variable,value dt)
+RungeKutta4Th::RungeKutta4Th(FunctionCapsule & function, labels_values variable,value dt)
     :NumericalIntegration(function, variable, dt) { } 
 
-RungeKutta* RungeKutta::Clone() const{
-    return new RungeKutta(*this);
+RungeKutta4Th* RungeKutta4Th::Clone() const{
+    return new RungeKutta4Th(*this);
 }
-RungeKutta* RungeKutta::Create(FunctionCapsule & function, labels_values variable,value dt) const {
-    return new RungeKutta(function, variable, dt);
+RungeKutta4Th* RungeKutta4Th::Create(FunctionCapsule & function, labels_values variable,value dt) const {
+    return new RungeKutta4Th(function, variable, dt);
 }
 
-RungeKutta& RungeKutta::operator++(){
-    RungeKutta_method();
+RungeKutta4Th& RungeKutta4Th::operator++(){
+    RungeKutta4Th_method();
     return *this;
 }
 
-void RungeKutta::RungeKutta_method()
+void RungeKutta4Th::RungeKutta4Th_method()
 {
     //value k[variable.size()][4];
     std::vector<container> k(variable.size(), container(4, 0));

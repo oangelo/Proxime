@@ -12,7 +12,7 @@
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/bifurcation_diagram.h"
-#include "../src/lyapunov.h"
+//#include "../src/lyapunov.h"
 
 #include "rossler.h"
 #include "functions.h"
@@ -38,7 +38,7 @@ TEST(ODE, wrong_access) {
 
 
     DoublePendulumFunction dp_function(parameters);
-    AdamsMoulton pendulo(dp_function, variable, 0.00001);
+    AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);
     EXPECT_THROW(pendulo[4], Index_error);
 }
 
@@ -57,7 +57,7 @@ TEST(ODE, bad_integration) {
     parameters["g"] = 9.8;
 
     DoublePendulumFunction dp_function(parameters);
-    EXPECT_THROW(AdamsMoulton pendulo(dp_function, variable, 0.00001);, Value_error);
+    EXPECT_THROW(AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);, Value_error);
 
 }
 
@@ -78,7 +78,7 @@ TEST(ODE, assigment) {
 
 
     DoublePendulumFunction dp_function(parameters);
-    AdamsMoulton pendulo(dp_function, variable, 0.00001);
+    AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);
 
     EXPECT_NEAR(pendulo["theta1"], 1.1, 0.1);
     EXPECT_NEAR(pendulo["theta2"], 2.2, 0.1);
@@ -102,13 +102,13 @@ TEST(ODE, ObjectFactory) {
     parameters["g"] = 9.8;
 
     DoublePendulumFunction dp_function(parameters);
-    AdamsMoulton pendula(dp_function, variable, 0.00001);
+    AdamsMoulton4Th pendula(dp_function, variable, 0.00001);
 
-    AdamsMoulton* ptr_clone(pendula.Clone()); 
-    AdamsMoulton& clone(*ptr_clone);
+    AdamsMoulton4Th* ptr_clone(pendula.Clone()); 
+    AdamsMoulton4Th& clone(*ptr_clone);
 
-    AdamsMoulton* ptr_new(pendula.Create(dp_function, variable, 0.00001)); 
-    AdamsMoulton& other(*ptr_new);
+    AdamsMoulton4Th* ptr_new(pendula.Create(dp_function, variable, 0.00001)); 
+    AdamsMoulton4Th& other(*ptr_new);
 
     for(size_t i(0); i < 100; ++i){
         ++pendula;
@@ -139,7 +139,7 @@ TEST(ODE, size) {
     parameters["g"] = 9.8;
 
     DoublePendulumFunction dp_function(parameters);
-    AdamsMoulton pendulo(dp_function, variable, 0.00001);
+    AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);
 
     EXPECT_EQ(pendulo.size(), 4);
 

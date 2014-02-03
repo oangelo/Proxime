@@ -2,18 +2,31 @@
 
 #include "numerical_integration/adams_moulton.h"   
 
+class MaxLyapunov{
+    MaxLyapunov(NumericalIntegration & fiducial, NumericalIntegration & jacobian, labels_values jacobian_parameters, unsigned transient);
+    MaxLyapunov& operator++();
+    const value get_exponent() const;
+    private:
+    std::auto_ptr<NumericalIntegration> fiducial;
+    std::auto_ptr<NumericalIntegration> jacobian;
+    value exponent;
+};
 
-value Dot(container v1, container v2) {
+/*
+value Dot(labels_values v1, labels_values v2) {
     value escalar = 0;
-    for (unsigned cont = 0; cont < v1.size(); cont++)
+    for (labels_values::iterator it(v1.begin()); it != v1.end(); ++it){
+        std::string cont((*it).first);
         escalar += (v1[cont]) * v2[cont];
+    }
     return (escalar);
 }
-
-void GramSchmidt(std::vector<container> & vec_space, container & modulo) {
+*/
+/*
+void GramSchmidt(std::vector<container> & vec_space, labels_values & modulo) {
     std::vector<container> aux_space = vec_space;
     modulo.resize(vec_space.size());
-    modulo[0] = sqrt(Dot(aux_space[0], aux_space[0]));
+    modulo[0] = sqrt(Dot(aux_space, aux_space));
     for (unsigned i = 1; i < vec_space.size(); i++) {
         for (unsigned j = 0; j < i; j++)
             for (unsigned cont = 0; cont < vec_space.size(); cont++)
@@ -33,7 +46,7 @@ void OrtogonalSpaceNorm(NumericalIntegration & fiducial, labels_values Jparamete
 std::vector<container> & ortogonal_space, container & modulo) {
   
     jacobian_function function(Jparameters);
-    std::vector<RungeKutta*> jacobian(fiducial.size());
+    std::vector<RungeKutta4Th*> jacobian(fiducial.size());
     
     //Integrats the fiducial trajectory and get the variables for the Jacobian
     ++fiducial;
@@ -41,7 +54,7 @@ std::vector<container> & ortogonal_space, container & modulo) {
     Jparameters.insert(result.begin(), result.end());
     //Integrating the linear equations and saving the vector on ortogonal_space
     for (unsigned i = 0; i < fiducial.size(); i++)
-        jacobian[i] = new RungeKutta(function, ortogonal_space[i], fiducial.get_dt());
+        jacobian[i] = new RungeKutta4Th(function, ortogonal_space[i], fiducial.get_dt());
     for (unsigned i = 0; i < fiducial.size(); i++)
         ++(*jacobian[i]);
     for (unsigned i = 0; i < ortogonal_space.size(); i++)
@@ -96,56 +109,52 @@ container Lyapunov(NumericalIntegration& fiducial, labels_values parameters,
       Lambda[i] /= fiducial.get_dt();
     return(Lambda);
 }
+*/
 
+
+/*
 template <class jacobian_function>
-value MaxLyapunov(NumericalIntegration & fiducial, labels_values parameters, unsigned number_steps, unsigned transients_steps) {
-    /*Be carfull with vertors of a class, because the vector will copy the object!*/
+value MaxLyapunov(, unsigned number_steps, unsigned transients_steps) {
     labels_values Jparameter(parameters);
-    container space_vec(fiducial.size());
+    labels_values space_vec;
     value Lambda(0);
-    value modulo(0);
     NumericalIntegration* jacobian;
     //Initial Conditions##################################
-    modulo = 1;
-    space_vec[0] = 1;
-    for (unsigned j = 1; j < space_vec.size(); j++) {
-        space_vec[j] = 0;
+    labels_values variables(fiducial.get_labels_values());
+    labels_values::iterator it(variables.begin());
+    space_vec[(*it).first] = 1;
+    while(it != variables.end()) {
+        space_vec[(*it).first] = 0;
     }
-/*****************************************************************************/
-/********************************Transient Loop*******************************/
-/*****************************************************************************/
     for (unsigned steps = 0; steps < transients_steps; steps++) {
         ++fiducial;
         labels_values result(fiducial.get_labels_values()); 
         Jparameter.insert(result.begin(), result.end());
         //Integrating the linear equations and saving the vector on ortogonal_space
         jacobian_function function(Jparameter);
-        jacobian = new RungeKutta(function, space_vec, fiducial.get_dt());
+        jacobian = new RungeKutta4Th(function, space_vec, fiducial.get_dt());
         ++(*jacobian);
-        space_vec = jacobian->get_variable();
+        space_vec = jacobian->get_labels_values();
         //Ortonormalizing the vectors and saving the modulus
-        modulo = sqrt(Dot(space_vec, space_vec));
-        for (unsigned i(0); i < fiducial.size(); i++)
-            space_vec[i] /= modulo;
+        value modulo(sqrt(Dot(space_vec, space_vec)));
+        for (labels_values::iterator it(space_vec.begin()); it != space_vec.end(); ++it)
+            space_vec[(*it).first] = space_vec[(*it).first] / modulo;
         //Clear the jacobian, since in the next loop is needed to integrate a new one
         delete jacobian;
     }
-/*****************************************************************************/
-/*********************************Data Loop***********************************/
-/*****************************************************************************/
     for (unsigned steps(0); steps < number_steps; steps++) {
         ++fiducial;
         labels_values result(fiducial.get_labels_values()); 
         Jparameter.insert(result.begin(), result.end());
         jacobian_function function(Jparameter);
         //Integrating the linear equations and saving the vector on ortogonal_space
-        jacobian = new RungeKutta(function, space_vec, fiducial.get_dt());
+        jacobian = new RungeKutta4Th(function, space_vec, fiducial.get_dt());
         ++(*jacobian);
-        space_vec = jacobian->get_variable();
+        space_vec = jacobian->get_labels_values();
         //Ortonormalizing the vectors and saving the modulus
-        modulo = sqrt(Dot(space_vec, space_vec));
-        for (unsigned i(0); i < fiducial.size(); i++)
-            space_vec[i] /= modulo;
+        value modulo(sqrt(Dot(space_vec, space_vec)));
+        for (labels_values::iterator it(space_vec.begin()); it != space_vec.end(); ++it)
+            space_vec[(*it).first] = space_vec[(*it).first] / modulo;
         //Clear the jacobian, since in the next loop is needed to integrate a new one
         delete jacobian;
         //Calculating the mean
@@ -153,3 +162,4 @@ value MaxLyapunov(NumericalIntegration & fiducial, labels_values parameters, uns
     }
     return(Lambda / fiducial.get_dt());
 }
+*/

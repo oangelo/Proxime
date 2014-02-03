@@ -1,6 +1,6 @@
 #include"adams_bashforth.h"
 
-AdamsBashforth::AdamsBashforth(FunctionCapsule & function, labels_values variable, value dt)
+AdamsBashforth4Th::AdamsBashforth4Th(FunctionCapsule & function, labels_values variable, value dt)
 :NumericalIntegration(function, variable, dt),
 step1(variable.size()), step2(variable.size()), 
 step3(variable.size()), step4(variable.size()), 
@@ -9,7 +9,7 @@ function_result_1(variable.size()), function_result_2(variable.size()),
 function_result_3(variable.size()), function_result_4(variable.size())
 {
     //Starting the method with Runge-Kutta
-    RungeKutta model(function, variable, dt);
+    RungeKutta4Th model(function, variable, dt);
     step1 = model.get_variable();
     ++model;
     step2 = model.get_variable();
@@ -32,16 +32,16 @@ function_result_3(variable.size()), function_result_4(variable.size())
     function_result_1 = this->function->get_result();
 }
 
-AdamsBashforth* AdamsBashforth::Clone() const{
-    return new AdamsBashforth(*this);
+AdamsBashforth4Th* AdamsBashforth4Th::Clone() const{
+    return new AdamsBashforth4Th(*this);
 }
 
-AdamsBashforth* AdamsBashforth::Create(FunctionCapsule & function, labels_values variable,value dt) const{
-    return new AdamsBashforth(function, variable, dt);
+AdamsBashforth4Th* AdamsBashforth4Th::Create(FunctionCapsule & function, labels_values variable,value dt) const{
+    return new AdamsBashforth4Th(function, variable, dt);
 }
 
-AdamsBashforth& AdamsBashforth::operator++(){
-    AdamsBashforth_method();
+AdamsBashforth4Th& AdamsBashforth4Th::operator++(){
+    AdamsBashforth4Th_method();
 
     step1 = step2;
     step2 = step3;
@@ -59,7 +59,7 @@ AdamsBashforth& AdamsBashforth::operator++(){
     return *this;
 }
 
-void AdamsBashforth::AdamsBashforth_method() {
+void AdamsBashforth4Th::AdamsBashforth4Th_method() {
     for (unsigned i = 0; i < variable.size(); i++) {
         new_step[i]  = 55 * function_result_4[i];
         new_step[i] -= 59 * function_result_3[i];

@@ -119,7 +119,7 @@ int main( int argc , char * argv[]) {
                     variable[2] = atof(argv[j + 3]);
                 }
             }
-            model = new AdamsBashforth<RosslerFunction>(variable,parameter,0.001);
+            model = new AdamsBashforth4Th<RosslerFunction>(variable,parameter,0.001);
             for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--lyapunov") == 0) {
                     std::string file_name(argv[i + 1]);
@@ -181,7 +181,7 @@ int main( int argc , char * argv[]) {
                     std::cerr << "#>>  Omega2:  " <<  variable[V_OMEGA2] << " rad/[t]" << std::endl;
                 }
             }
-            model = new AdamsBashforth<DoublePendulumFunction>(variable, parameter, 0.00001);
+            model = new AdamsBashforth4Th<DoublePendulumFunction>(variable, parameter, 0.00001);
             for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--lyapunov") == 0) {
                     std::cerr << "#>> Calculating Lyapunov exponent" << std::endl;

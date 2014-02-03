@@ -1,22 +1,22 @@
 #include"adams_moulton.h"
     
-AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt, unsigned corrections_amount)
-:AdamsBashforth(function, variable, dt), corrections_amount(corrections_amount)  
+AdamsMoulton4Th::AdamsMoulton4Th(FunctionCapsule & function, labels_values variable, value dt, unsigned corrections_amount)
+:AdamsBashforth4Th(function, variable, dt), corrections_amount(corrections_amount)  
 {
 };
 
-AdamsMoulton* AdamsMoulton::Clone() const{
-    return new AdamsMoulton(*this);
+AdamsMoulton4Th* AdamsMoulton4Th::Clone() const{
+    return new AdamsMoulton4Th(*this);
 }
 
-AdamsMoulton* AdamsMoulton::Create(FunctionCapsule & function, labels_values variable,
+AdamsMoulton4Th* AdamsMoulton4Th::Create(FunctionCapsule & function, labels_values variable,
                                    value dt, unsigned corrections_amount) const{
-    return new AdamsMoulton(function, variable, dt, corrections_amount);
+    return new AdamsMoulton4Th(function, variable, dt, corrections_amount);
 }
 
 
-AdamsMoulton& AdamsMoulton::operator++(){
-    AdamsBashforth_method();
+AdamsMoulton4Th& AdamsMoulton4Th::operator++(){
+    AdamsBashforth4Th_method();
     step1 = step2;
     step2 = step3;
     step3 = step4;
@@ -29,7 +29,7 @@ AdamsMoulton& AdamsMoulton::operator++(){
     function_result_4 = function->get_result();
 
     for (unsigned i = 0; i < corrections_amount; i++) {
-        AdamsMoulton_method();
+        AdamsMoulton4Th_method();
     };  
     step4 = new_step;
 
@@ -38,7 +38,7 @@ AdamsMoulton& AdamsMoulton::operator++(){
     return *this;
 }
 
-void AdamsMoulton::AdamsMoulton_method() {
+void AdamsMoulton4Th::AdamsMoulton4Th_method() {
     for (unsigned i = 0; i < variable.size(); i++) {
         new_step[i]  =  9 * function_result_4[i];
         new_step[i] += 19 * function_result_3[i];
