@@ -3,8 +3,12 @@
 RungeKutta::RungeKutta(FunctionCapsule & function, labels_values variable,value dt)
     :NumericalIntegration(function, variable, dt) { } 
 
-RungeKutta::~RungeKutta(){}
-
+RungeKutta* RungeKutta::Clone() const{
+    return new RungeKutta(*this);
+}
+RungeKutta* RungeKutta::Create(FunctionCapsule & function, labels_values variable,value dt) const {
+    return new RungeKutta(function, variable, dt);
+}
 
 RungeKutta& RungeKutta::operator++(){
     RungeKutta_method();

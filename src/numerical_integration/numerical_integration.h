@@ -12,8 +12,11 @@
 
 class NumericalIntegration {
     public:
-       NumericalIntegration(FunctionCapsule& function, labels_values initial_condition, value dt);
+        NumericalIntegration(FunctionCapsule& function, labels_values initial_condition, value dt);
+        NumericalIntegration(NumericalIntegration const& other);
         virtual ~NumericalIntegration(){};
+        virtual NumericalIntegration* Clone() const = 0;
+        virtual NumericalIntegration* Create(FunctionCapsule& function, labels_values initial_condition, value dt) const = 0;
 
         value get_dt() const;
         value get_t() const;
@@ -23,7 +26,7 @@ class NumericalIntegration {
 
         unsigned size() const;
 
-        virtual NumericalIntegration& operator++() = 0; //Covariant return type
+        virtual NumericalIntegration& operator++() = 0; 
 
         //return the variables
         const value operator[] (std::string index) const;
@@ -32,11 +35,13 @@ class NumericalIntegration {
         friend std::ostream& operator<< (std::ostream &out, NumericalIntegration &object);
 
     protected:
-
-        std::auto_ptr<FunctionCapsule> function;
+        std::unique_ptr<FunctionCapsule> function;
         container variable;
         value dt, time;
         std::string method;
+
+        //Prohibiting assignment because it makes no sense here
+        NumericalIntegration & operator= (NumericalIntegration const & other); 
 };
 
 #endif //_NUMERICLA_INTEGRATION_

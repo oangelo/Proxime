@@ -8,6 +8,8 @@ class AdamsBashforth: public NumericalIntegration{
     public:
         AdamsBashforth(FunctionCapsule & function, labels_values variable, value dt);
         virtual AdamsBashforth& operator++(); //Covariant return type
+        virtual AdamsBashforth* Clone() const;
+        virtual AdamsBashforth* Create(FunctionCapsule & function, labels_values variable,value dt) const;
         virtual ~AdamsBashforth(){};
     protected:
         void AdamsBashforth_method();

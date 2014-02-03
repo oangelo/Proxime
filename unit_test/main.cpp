@@ -12,7 +12,7 @@
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/bifurcation_diagram.h"
-//#include "../src/lyapunov.h"
+#include "../src/lyapunov.h"
 
 #include "rossler.h"
 #include "functions.h"
@@ -43,7 +43,6 @@ TEST(ODE, wrong_access) {
 }
 
 TEST(ODE, bad_integration) {
-    value aux = 0;
     labels_values variable;
     variable["theta1"] = M_PI / 0.0;
     variable["theta2"] = M_PI / 0.0;
@@ -85,6 +84,43 @@ TEST(ODE, assigment) {
     EXPECT_NEAR(pendulo["theta2"], 2.2, 0.1);
     EXPECT_NEAR(pendulo["omega1"], 3.3, 0.1);
     EXPECT_NEAR(pendulo["omega2"], 4.4, 0.1);
+}
+
+TEST(ODE, ObjectFactory) {
+
+    labels_values variable;
+    variable["theta1"] = M_PI / 10;
+    variable["theta2"] = M_PI / 10;
+    variable["omega1"] = 0.0;
+    variable["omega2"] = 0.0;
+
+    labels_values parameters;
+    parameters["l1"] = 0.30;
+    parameters["l2"] = 0.30;
+    parameters["m1"] = 0.10;
+    parameters["m2"] = 0.10;
+    parameters["g"] = 9.8;
+
+    DoublePendulumFunction dp_function(parameters);
+    AdamsMoulton pendula(dp_function, variable, 0.00001);
+
+    AdamsMoulton* ptr_clone(pendula.Clone()); 
+    AdamsMoulton& clone(*ptr_clone);
+
+    AdamsMoulton* ptr_new(pendula.Create(dp_function, variable, 0.00001)); 
+    AdamsMoulton& other(*ptr_new);
+
+    for(size_t i(0); i < 100; ++i){
+        ++pendula;
+        ++clone;
+        ++other;
+    }
+
+    for(size_t i(0); i < pendula.size(); ++i){
+        EXPECT_EQ(pendula[i], clone[i]);
+        EXPECT_EQ(pendula[i], other[i]);
+    }
+
 }
 
 TEST(ODE, size) {

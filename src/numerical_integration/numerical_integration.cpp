@@ -1,5 +1,10 @@
 #include "numerical_integration.h"
 
+NumericalIntegration::NumericalIntegration(NumericalIntegration const& other)
+:function(other.function->Clone()), variable(other.variable),  dt(other.dt), time(other.time), method(other.method)
+{
+}
+
 std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
     out << std::setprecision(12) << object.get_t() << ",";
     for (size_t i(0); i < object.size()-1; i++)

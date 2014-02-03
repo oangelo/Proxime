@@ -15,6 +15,15 @@ AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, v
 
 };
 
+AdamsMoulton* AdamsMoulton::Clone() const{
+    return new AdamsMoulton(*this);
+}
+
+AdamsMoulton* AdamsMoulton::Create(FunctionCapsule & function, labels_values variable,
+                                   value dt, unsigned corrections_amount) const{
+    return new AdamsMoulton(function, variable, dt, corrections_amount);
+}
+
 
 AdamsMoulton& AdamsMoulton::operator++(){
     AdamsBashforth_method();

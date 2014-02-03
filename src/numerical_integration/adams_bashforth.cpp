@@ -17,6 +17,14 @@ new_step(variable.size())
     step4 = model.get_variable();
 }
 
+AdamsBashforth* AdamsBashforth::Clone() const{
+    return new AdamsBashforth(*this);
+}
+
+AdamsBashforth* AdamsBashforth::Create(FunctionCapsule & function, labels_values variable,value dt) const{
+    return new AdamsBashforth(function, variable, dt);
+}
+
 AdamsBashforth& AdamsBashforth::operator++(){
     AdamsBashforth_method();
     step1 = step2;
