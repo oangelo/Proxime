@@ -3,16 +3,6 @@
 AdamsMoulton::AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt, unsigned corrections_amount)
 :AdamsBashforth(function, variable, dt), corrections_amount(corrections_amount)  
 {
-    RungeKutta model(function, variable, dt);
-    step1 = model.get_variable();
-    ++model;
-    step2 = model.get_variable();
-    ++model;
-    step3 = model.get_variable();
-    ++model;
-    step4 = model.get_variable();
-    time += 3*dt; 
-
 };
 
 AdamsMoulton* AdamsMoulton::Clone() const{
@@ -31,41 +21,33 @@ AdamsMoulton& AdamsMoulton::operator++(){
     step2 = step3;
     step3 = step4;
     step4 = new_step;
+
+    function_result_1 = function_result_2;
+    function_result_2 = function_result_3;
+    function_result_3 = function_result_4;
+    function->set(time, step4);
+    function_result_4 = function->get_result();
+
     for (unsigned i = 0; i < corrections_amount; i++) {
         AdamsMoulton_method();
     };  
     step4 = new_step;
+
     time  += dt;
     variable = step1;
-
     return *this;
 }
 
 void AdamsMoulton::AdamsMoulton_method() {
-    container aux(variable.size(), 0);
-    std::vector< container > results;
-
-    function->set(time, step4);
-    results.push_back(function->get_result());
-    function->set(time, step3);
-    results.push_back(function->get_result());
-    function->set(time, step2);
-    results.push_back(function->get_result());
-    function->set(time, step1);
-    results.push_back(function->get_result());
-
     for (unsigned i = 0; i < variable.size(); i++) {
-
-        aux[i] =9 * results[0][i];
-        aux[i] += 19 * results[1][i];
-        aux[i] -= 5 * results[2][i];
-        aux[i] += 1 * results[3][i];
-        aux[i] *=(dt / 24);
-        aux[i] += step3[i];
-
-        if (aux[i] != aux[i]){
+        new_step[i]  =  9 * function_result_4[i];
+        new_step[i] += 19 * function_result_3[i];
+        new_step[i] -=  5 * function_result_2[i];
+        new_step[i] +=  1 * function_result_1[i];
+        new_step[i] *=(dt / 24);
+        new_step[i] += step3[i];
+        if (new_step[i] != new_step[i]){
             throw Value_error("Value error in the Adams-Moulton method");
         }
     }
-    new_step=aux;
 }

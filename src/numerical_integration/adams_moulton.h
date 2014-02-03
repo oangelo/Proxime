@@ -5,7 +5,7 @@
 #include "adams_bashforth.h"
 
 
-class AdamsMoulton: public AdamsBashforth {
+class AdamsMoulton: public AdamsBashforth{
     public:
         AdamsMoulton(FunctionCapsule & function, labels_values variable, value dt, unsigned corrections_amount = 1);
         virtual AdamsMoulton& operator++(); //Covariant return type
