@@ -24,6 +24,8 @@ unsigned step(1);
 unsigned transient(1000);
 unsigned iterations(1000);
 container init;
+labels_values parameter;
+labels_values variable;
 
 void help(){
     std::cout << std::endl;
@@ -97,7 +99,6 @@ int main( int argc , char * argv[]) {
         }
 
         if(strcmp(argv[i], "--rossler") == 0) {
-            labels_values variable,parameter;
             variable["x"] = 2.61622;
             variable["y"] = -6.32533;
             variable["z"] = 0.0335135;
@@ -144,14 +145,12 @@ int main( int argc , char * argv[]) {
 
         if(strcmp(argv[i], "--double_pendulum") == 0 or strcmp(argv[i], "-dp") == 0) {
 
-            labels_values variable;
             variable["theta1"] = M_PI / 10;
             variable["theta2"] = M_PI / 10;
             variable["omega1"] = 0.0;
             variable["omega2"] = 0.0;
 
 
-            labels_values parameter;
             parameter["l1"]= 0.30;
             parameter["l2"]= 0.30;
             parameter["m1"]= 0.1;
@@ -241,6 +240,7 @@ int main( int argc , char * argv[]) {
                 for(unsigned i = 0; i < transient; i++){
                     ++(*model);
                 }
+                std::cout << Labels(*model) << std::endl;
                 for(unsigned i = 0; i < iterations; i++){
                     ++(*model);
                     if(i % step == 0)

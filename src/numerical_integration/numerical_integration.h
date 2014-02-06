@@ -44,4 +44,5 @@ class NumericalIntegration {
         NumericalIntegration & operator= (NumericalIntegration const & other); 
 };
 
+std::string Labels(NumericalIntegration &object);
 #endif //_NUMERICLA_INTEGRATION_

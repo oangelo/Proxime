@@ -1,8 +1,16 @@
 #include "numerical_integration.h"
 
-NumericalIntegration::NumericalIntegration(NumericalIntegration const& other)
-:function(other.function->Clone()), variable(other.variable),  dt(other.dt), time(other.time), method(other.method)
-{
+
+std::string Labels(NumericalIntegration &object) {
+    std::string out;
+    labels_values aux(object.get_labels_values());
+    labels_values::iterator it(aux.begin());
+    out = "#time,";
+    for (; it != --(aux.end()); ++it)
+        out += (*it).first + ",";
+    out += (*it).first;
+    return out;
+
 }
 
 std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
@@ -11,9 +19,13 @@ std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
     out << std::setprecision(12) << object.get_t() << ",";
     for (; it != --(aux.end()); ++it)
         out << (*it).second << ",";
-    ++it;
     out << (*it).second;
     return out;
+}
+
+NumericalIntegration::NumericalIntegration(NumericalIntegration const& other)
+:function(other.function->Clone()), variable(other.variable),  dt(other.dt), time(other.time), method(other.method)
+{
 }
 
 NumericalIntegration::NumericalIntegration(FunctionCapsule& func, labels_values initial_condition, value dt):
