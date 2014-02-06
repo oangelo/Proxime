@@ -6,10 +6,13 @@ NumericalIntegration::NumericalIntegration(NumericalIntegration const& other)
 }
 
 std::ostream & operator<<(std::ostream &out, NumericalIntegration &object) {
+    labels_values aux(object.get_labels_values());
+    labels_values::iterator it(aux.begin());
     out << std::setprecision(12) << object.get_t() << ",";
-    for (size_t i(0); i < object.size()-1; i++)
-        out << object[i] << ",";
-    out << object[object.size() - 1];
+    for (; it != --(aux.end()); ++it)
+        out << (*it).second << ",";
+    ++it;
+    out << (*it).second;
     return out;
 }
 
