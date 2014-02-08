@@ -26,6 +26,7 @@ public:
                     labels_values parameters_values);
   virtual ~FunctionCapsule(){};
   virtual FunctionCapsule* Clone() const = 0; 
+  virtual FunctionCapsule* Create(labels_values parameters) const = 0; 
   virtual void set(value &t, container & variables) = 0;
 
 
@@ -34,6 +35,7 @@ public:
   const container & get_result() const;
   labels_values get_labels_values();
   std::string GetLabel(size_t index);
+  std::string get_name(){return function_name;}
 
   //amount of functions and variables 
   unsigned size() const;

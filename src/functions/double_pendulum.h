@@ -8,6 +8,7 @@ public:
   DoublePendulumFunction(labels_values parameters);
   virtual void set(value &t, container & variables);
   virtual DoublePendulumFunction* Clone() const; 
+  virtual DoublePendulumFunction* Create(labels_values parameters) const; 
 
 protected:
   value dTheta1();
@@ -25,6 +26,7 @@ public:
   Jacobian_DoublePendulumFunction(labels_values parameters);
   void set(value &t, container & variables);
   virtual Jacobian_DoublePendulumFunction* Clone() const; 
+  virtual Jacobian_DoublePendulumFunction* Create(labels_values parameters) const; 
 protected:
   void Matrix_Jacob(value theta1, value theta2, value omega1, value omega2);
   value JdTheta1();

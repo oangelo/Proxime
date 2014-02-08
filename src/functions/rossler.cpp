@@ -13,6 +13,10 @@ RosslerFunction* RosslerFunction::Clone() const{
     return(new RosslerFunction(*this));
 }
 
+RosslerFunction* RosslerFunction::Create(labels_values parameters) const{
+    return new RosslerFunction(parameters);
+}
+
 inline
 void RosslerFunction::set(value &t, container & variables){
       
@@ -23,8 +27,6 @@ void RosslerFunction::set(value &t, container & variables){
     result[index_var["x"]]=RosslerFunction::dx();
     result[index_var["y"]]=RosslerFunction::dy();
     result[index_var["z"]]=RosslerFunction::dz();
-    
-    t=t;
 }
 
 inline
@@ -53,16 +55,21 @@ FunctionCapsule("Rössler Jacobian",
                   parameters),
 X(),Y(),Z(),
 a(parameters["a"]),b(parameters["b"]),c(parameters["c"]),
-X_fiducial(parameters["x"]),Y_fiducial(parameters["b"]),Z_fiducial(parameters["c"])
+X_fiducial(parameters["x"]),Y_fiducial(parameters["y"]),Z_fiducial(parameters["z"])
 {}
 
+inline
 Jacobian_RosslerFunction* Jacobian_RosslerFunction::Clone() const{
     return(new Jacobian_RosslerFunction(*this));
 }
 
 inline
-void Jacobian_RosslerFunction::set(value &t,container & variables){
+Jacobian_RosslerFunction* Jacobian_RosslerFunction::Create(labels_values parameters) const{
+    return new Jacobian_RosslerFunction(parameters);
+}
 
+inline
+void Jacobian_RosslerFunction::set(value &t,container & variables){
     X=variables[index_var["x"]];
     Y=variables[index_var["y"]];
     Z=variables[index_var["z"]];
@@ -70,8 +77,6 @@ void Jacobian_RosslerFunction::set(value &t,container & variables){
     result[index_var["x"]]=Jacobian_RosslerFunction::dx();
     result[index_var["y"]]=Jacobian_RosslerFunction::dy();
     result[index_var["z"]]=Jacobian_RosslerFunction::dz();
-
-    t=t;
 }
 
 inline

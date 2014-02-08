@@ -9,6 +9,7 @@ public:
   RosslerFunction(labels_values parameters);
   void set(value &t, container & variables);
   virtual RosslerFunction* Clone() const;
+  virtual RosslerFunction* Create(labels_values parameters) const;
 
  protected:
   value dx();
@@ -24,6 +25,7 @@ public:
   Jacobian_RosslerFunction(labels_values parameters);
   void set(value &t, container & variables);
   virtual Jacobian_RosslerFunction* Clone() const;
+  virtual Jacobian_RosslerFunction* Create(labels_values parameters) const;
 protected:
   value dx();
   value dy();

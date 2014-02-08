@@ -10,9 +10,12 @@ m1(parameters["m1"]), m2(parameters["m2"]),
 g(parameters["g"])
 {} 
 
-
 DoublePendulumFunction* DoublePendulumFunction::Clone() const{ 
     return new DoublePendulumFunction(*this);
+}
+
+DoublePendulumFunction* DoublePendulumFunction::Create(labels_values parameters) const{ 
+    return new DoublePendulumFunction(parameters);
 }
 
 void DoublePendulumFunction::set(value& t, container& variables){ 
@@ -21,13 +24,12 @@ void DoublePendulumFunction::set(value& t, container& variables){
     omega1 = variables[index_var["omega1"]];
     omega2 = variables[index_var["omega2"]];
     
-   
-    result[index_var["theta1"]]=dTheta1();
-    result[index_var["theta2"]]=dTheta2();
-    result[index_var["omega1"]]=dOmega1();
-    result[index_var["omega2"]]=dOmega2();
-   
+    result[index_var["theta1"]] = dTheta1();
+    result[index_var["theta2"]] = dTheta2();
+    result[index_var["omega1"]] = dOmega1();
+    result[index_var["omega2"]] = dOmega2();
 }
+
 value DoublePendulumFunction::dTheta1() {
     value func;
     func = omega1;
@@ -83,14 +85,18 @@ void Jacobian_DoublePendulumFunction::set(value& t, container& variables){
     omega1 = variables[index_var["omega1"]];
     omega2 = variables[index_var["omega2"]];
 
-    result[index_var["theta1"]]=JdTheta1();
-    result[index_var["theta2"]]=JdTheta2();
-    result[index_var["omega1"]]=JdOmega1();
-    result[index_var["omega2"]]=JdOmega2();
+    result[index_var["theta1"]] = JdTheta1();
+    result[index_var["theta2"]] = JdTheta2();
+    result[index_var["omega1"]] = JdOmega1();
+    result[index_var["omega2"]] = JdOmega2();
 }
 
 Jacobian_DoublePendulumFunction* Jacobian_DoublePendulumFunction::Clone() const{ 
     return new Jacobian_DoublePendulumFunction(*this);
+}
+
+Jacobian_DoublePendulumFunction* Jacobian_DoublePendulumFunction::Create(labels_values parameters) const{ 
+    return new Jacobian_DoublePendulumFunction(parameters);
 }
 
 void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,value omega1, value omega2)
@@ -112,8 +118,6 @@ void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,va
     Jacobian[3][1] = 0;
     Jacobian[3][2] = 0;
     Jacobian[3][3] = 1;
-
-
 }
 
 value Jacobian_DoublePendulumFunction::JdTheta1() {
