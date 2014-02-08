@@ -40,7 +40,6 @@ void RungeKutta4Th::RungeKutta4Th_method()
     function->set(t, aux_argument);
     for (i = 0; i < variable.size(); i++) {
         k[i][1] = function->get_result(i);
-        //k[i][1] = ((*functiontion[i])(t, aux_argument, __parameter));
     }
     //Generating K3*************************************************************
     t = time + 0.5 * dt;
@@ -50,7 +49,6 @@ void RungeKutta4Th::RungeKutta4Th_method()
     function->set(t, aux_argument);
     for (i = 0; i < variable.size(); i++) {
         k[i][2] = function->get_result(i);
-        //k[i][2] = ((*functiontion[i])(t, aux_argument, __parameter));
     }
     //Generating K4*************************************************************
     t = time + dt;
@@ -60,7 +58,6 @@ void RungeKutta4Th::RungeKutta4Th_method()
     function->set(t, aux_argument);
     for (i = 0; i < variable.size(); i++) {
         k[i][3] = function->get_result(i);
-        //k[i][3] = ((*functiontion[i])(t, aux_argument, __parameter));
     }
 
     //Generating the final values***********************************************
@@ -69,7 +66,7 @@ void RungeKutta4Th::RungeKutta4Th_method()
     for (i = 0; i < variable.size(); i++) {
         variable[i] = variable[i] + dt * (k[i][0] + 2 * k[i][1] + 2 * k[i][2] + k[i][3]) / 6;
         if (variable[i] != variable[i]) {
-            throw Value_error("Value error in the Runge Kutta method");
+            throw Value_error("Value error in the Runge-Kutta 4th order method integrating " + function->get_name());
         }
     }
    
