@@ -12,7 +12,7 @@
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/bifurcation_diagram.h"
-//#include "../src/lyapunov.h"
+#include "../src/lyapunov.h"
 
 #include "rossler.h"
 #include "functions.h"

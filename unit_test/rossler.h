@@ -2,6 +2,28 @@
 #define ROSSLER_teste_H 
 
 #include "../src/functions/rossler.h"
+
+TEST(rossler, Jacobian) {
+    labels_values variable;
+    variable["x"] = 2.61622;
+    variable["y"] = 0.32533;
+    variable["z"] = 2.0335135;
+
+    labels_values parameter;
+    parameter["a"]= 0.15;
+    parameter["b"]= 0.2;
+    parameter["c"]= 10.0;
+    parameter["x"] = 2.61622;
+    parameter["y"] = 0.32533;
+    parameter["z"] = 2.0335135;
+
+
+    Jacobian_RosslerFunction jacobian(parameter);
+    AdamsBashforth4Th  attractor(jacobian, variable, 0.001);
+    for (size_t i = 0; i < 1000; ++i)
+        ++attractor;
+}
+
 TEST(rossler, PhasePlanePoincareSection) {
     labels_values variable;
     variable["x"] = 2.61622;
@@ -57,11 +79,11 @@ TEST(rossler, PhasePlanePoincareSection) {
     }
     */
 }
-/*
+///*
 TEST(rossler, MaxLyapunov) {
     labels_values variable;
     variable["x"] = 2.61622;
-    variable["y"] = 2.32533;
+    variable["y"] = 0.32533;
     variable["z"] = 2.0335135;
 
     labels_values parameter;
@@ -71,10 +93,11 @@ TEST(rossler, MaxLyapunov) {
     RosslerFunction function(parameter);
 
     AdamsBashforth4Th  attractor(function, variable, 0.001);
-    for (size_t i = 0; i < 100000; ++i)
+    Jacobian_RosslerFunction jacobian(parameter);
+    for (size_t i = 0; i < 10000; ++i)
         ++attractor;
-    value lambda(MaxLyapunov<Jacobian_RosslerFunction>(attractor, parameter, pow(10, 7), pow(10, 3)));
-    EXPECT_NEAR(lambda, 0.0890, 0.005);
+    MaxLyapunov exponent(attractor, jacobian, parameter, pow(10, 4));
+    EXPECT_NEAR(exponent(pow(10, 7)), 0.0890, 0.0005);
 }
 /*
 TEST(rossler, LyapunovSpectrum) {

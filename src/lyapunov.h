@@ -1,27 +1,25 @@
 #include <vector>
+#include <memory>
 
-#include "numerical_integration/adams_moulton.h"   
+#include "numerical_integration/runge_kutta.h"   
+#include "functions/rossler.h"   
 
 class MaxLyapunov{
-    MaxLyapunov(NumericalIntegration & fiducial, NumericalIntegration & jacobian, labels_values jacobian_parameters, unsigned transient);
-    MaxLyapunov& operator++();
+public:
+    MaxLyapunov(NumericalIntegration& model, FunctionCapsule& _jacobian, labels_values jacobian_parameters, unsigned transient);
+    value operator()(unsigned iterations);
     const value get_exponent() const;
-    private:
-    std::auto_ptr<NumericalIntegration> fiducial;
-    std::auto_ptr<NumericalIntegration> jacobian;
+private:
+    value LocalLyapunov();
+
+    std::unique_ptr<NumericalIntegration> fiducial;
+    std::unique_ptr<FunctionCapsule> jacobian;
     value exponent;
+    labels_values base;
+    labels_values jacobian_parameters;
 };
 
-/*
-value Dot(labels_values v1, labels_values v2) {
-    value escalar = 0;
-    for (labels_values::iterator it(v1.begin()); it != v1.end(); ++it){
-        std::string cont((*it).first);
-        escalar += (v1[cont]) * v2[cont];
-    }
-    return (escalar);
-}
-*/
+
 /*
 void GramSchmidt(std::vector<container> & vec_space, labels_values & modulo) {
     std::vector<container> aux_space = vec_space;
