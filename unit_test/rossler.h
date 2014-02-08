@@ -3,6 +3,31 @@
 
 #include "../src/functions/rossler.h"
 
+
+TEST(rossler, LyapunovSpectrum) {
+    labels_values variable;
+    variable["x"] = 2.61622;
+    variable["y"] = 0.32533;
+    variable["z"] = 2.0335135;
+
+    labels_values parameter;
+    parameter["a"]= 0.15;
+    parameter["b"]= 0.2;
+    parameter["c"]= 10.0;
+    RosslerFunction function(parameter);
+
+    AdamsBashforth4Th  attractor(function, variable, 0.001);
+    Jacobian_RosslerFunction jacobian(parameter);
+    for (size_t i = 0; i < 10000; ++i)
+        ++attractor;
+    LyapunovSpectrum exponent(attractor, jacobian, parameter, pow(10, 4));
+    container lambda(exponent(pow(10, 7)));
+
+    EXPECT_NEAR(lambda[0], 0.0890, 0.001);
+    EXPECT_NEAR(lambda[1], 0.0000, 0.006);
+    EXPECT_NEAR(lambda[2], -9.802, 0.02);
+}
+
 TEST(rossler, Jacobian) {
     labels_values variable;
     variable["x"] = 2.61622;
@@ -99,28 +124,8 @@ TEST(rossler, MaxLyapunov) {
     MaxLyapunov exponent(attractor, jacobian, parameter, pow(10, 4));
     EXPECT_NEAR(exponent(pow(10, 7)), 0.0890, 0.0005);
 }
-/*
-TEST(rossler, LyapunovSpectrum) {
-    labels_values variable;
-    variable["x"] = 2.61622;
-    variable["y"] = 2.32533;
-    variable["z"] = 2.0335135;
 
-    labels_values parameter;
-    parameter["a"]= 0.15;
-    parameter["b"]= 0.2;
-    parameter["c"]= 10.0;
-    RosslerFunction function(parameter);
 
-    AdamsBashforth4Th  attractor(function, variable, 0.001);
-    for (size_t i = 0; i < 100000; ++i)
-        ++attractor;
-    container lambda = Lyapunov<Jacobian_RosslerFunction>(attractor, parameter, pow(10, 7), pow(10, 3));
-    EXPECT_NEAR(lambda[0], 0.0890, 0.01);
-    EXPECT_NEAR(lambda[1], 0.0000, 0.001);
-    EXPECT_NEAR(lambda[2], -9.802, 0.02);
-}
-//*/
 /*
 TEST(ODE, rossler_bifurcation) {
 
