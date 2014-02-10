@@ -15,7 +15,6 @@
 #include "functions/rossler.h"
 #include "bifurcation_diagram.h"
 //#include "lyapunov.h"
-#include "recurrence_relation.h"
 
 using namespace std;
 
@@ -32,7 +31,6 @@ void help(){
     std::cout << "usage: " << std::endl;
     std::cout << "  ./model [options] [model]" << std::endl;
     std::cout << "models:" << std::endl;
-    std::cout << "  --logistic_map" << std::endl;
     std::cout << "  --double_pendulum [model options]" << std::endl;
     std::cout << "  --rossler [model options]" << std::endl;
     std::cout << "model options:" << std::endl;
@@ -85,19 +83,6 @@ int main( int argc , char * argv[]) {
     }
     for (int i = 1; i < argc; ++i)
     {
-        if(strcmp(argv[i], "--logistic_map") == 0) {
-            value a = atof(argv[i + 1]);
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_real_distribution<> dis(0,1);
-            logistic_map m(dis(gen), a);
-            m.next(transient);
-            for(unsigned i = 0; i < iterations; i++){
-                m.next(step);
-                std::cout << m.get_variable(0) << std::endl;
-            }
-        }
-
         if(strcmp(argv[i], "--rossler") == 0) {
             variable["x"] = 2.61622;
             variable["y"] = -6.32533;
