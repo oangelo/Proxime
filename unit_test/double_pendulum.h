@@ -4,7 +4,7 @@
 #include "../src/functions/double_pendulum.h"
 #include <fstream>
 #include <iostream>
-/*
+
 TEST(DoublePendulum, ZeroLyapunov) {
     labels_values variable;
     variable["theta1"] = M_PI / 10;
@@ -23,8 +23,9 @@ TEST(DoublePendulum, ZeroLyapunov) {
 
 
     RungeKutta4Th model(f, variable, 0.0001); 
-    value max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, parameters, 2000000, 20000);
-    EXPECT_NEAR(max_lyapunov, 0, 0.01);
+    Jacobian_DoublePendulumFunction jacobian(parameters);
+    MaxLyapunov exponent(model, jacobian, parameters, 20000);
+    EXPECT_NEAR(exponent(pow(10,7)), 0, 0.001);
 }
 
 TEST(DoublePendulum, PositiveLyapunov) {
@@ -43,12 +44,11 @@ TEST(DoublePendulum, PositiveLyapunov) {
     parameters["g"]= 9.8;
 
     DoublePendulumFunction f(parameters);
-
     RungeKutta4Th model(f, variable, 0.0001); 
-    value max_lyapunov = MaxLyapunov<Jacobian_DoublePendulumFunction>(model, parameters, 2000000, 20000);
-    EXPECT_TRUE(max_lyapunov > 1);
+    Jacobian_DoublePendulumFunction jacobian(parameters);
+    MaxLyapunov exponent(model, jacobian, parameters, 20000);
+    EXPECT_TRUE(exponent(pow(10,5) > 1));
 }
-*/
 
 TEST(DoublePendulum, Energy_CrossMethods) {
     labels_values variable;

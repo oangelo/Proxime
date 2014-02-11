@@ -6,8 +6,10 @@
 
 class LorenzFunction : public FunctionCapsule {
 public:
-  LorenzFunction();
-  void set(value &t, container & variables, container & parameters);
+  LorenzFunction(labels_values parameters);
+  void set(value &t, container & variables);
+  virtual LorenzFunction* Clone() const;
+  virtual LorenzFunction* Create(labels_values parameters) const;
 protected:
   value dx();
   value dy();
@@ -19,8 +21,10 @@ protected:
 
 class Jacobian_LorenzFunction : public FunctionCapsule {
 public:
-  Jacobian_LorenzFunction();
-  void set(value &t, container & variables, container & parameters);
+  Jacobian_LorenzFunction(labels_values parameters);
+  void set(value &t, container & variables);
+  virtual Jacobian_LorenzFunction* Clone() const;
+  virtual Jacobian_LorenzFunction* Create(labels_values parameters) const;
 protected:
   value dx();
   value dy();
@@ -29,10 +33,5 @@ protected:
   value X,Y,Z;
   value sigma,gamma,beta,X_fiducial,Y_fiducial,Z_fiducial;
 };
-
-enum lorenz_enum {
-  P_SIGMA_LORENZ,P_GAMMA_LORENZ,P_BETA_LORENZ,P_X,P_Y,P_Z
-};
-
 
 #endif /* LORENZ_H */

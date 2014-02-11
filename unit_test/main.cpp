@@ -7,19 +7,18 @@
 
 //#include "../src/functions/simple_pendulum.h"
 #include "../src/functions/double_pendulum.h"
-//#include "../src/functions/rossler.h"
-//#include "../src/functions/lorenz.h"
+#include "../src/functions/rossler.h"
+#include "../src/functions/lorenz.h"
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/numerical_integration/adams_moulton.h"
 #include "../src/bifurcation_diagram.h"
 #include "../src/lyapunov.h"
 
 #include "rossler.h"
+#include "lorenz.h"
 #include "functions.h"
 #include "double_pendulum.h"
 //#include "simple_pendulum.h"
-//#include "t_map.h"
-//#include "lorenz.h"
 
 TEST(ODE, wrong_access) {
     labels_values variable;

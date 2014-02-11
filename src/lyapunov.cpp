@@ -111,7 +111,7 @@ container LyapunovSpectrum::GramSchmidt() {
         for (size_t j(0); j < i; ++j)
             for (labels_values::iterator it(base[0].begin()); it != base[0].end(); ++it){
                 std::string label((*it).first);
-                aux_base[i][label] += -(Dot(aux_base[i], aux_base[j]) * aux_base[j][label]) / Dot(aux_base[j], aux_base[j]);
+                aux_base[i][label] += -(Dot(base[i], aux_base[j]) * aux_base[j][label]) / Dot(aux_base[j], aux_base[j]);
             }
         modulo[i] = sqrt(Dot(aux_base[i], aux_base[i]));
     }
