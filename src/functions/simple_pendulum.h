@@ -5,8 +5,10 @@
 
 class SimplePendulumFunction : public FunctionCapsule {
 public:
-    SimplePendulumFunction();
-    void set(value &t, container & variables, container & parameters);
+    SimplePendulumFunction(labels_values parameters);
+    void set(value &t, container & variables);
+    SimplePendulumFunction * Clone() const;
+    SimplePendulumFunction * Create(labels_values parameters) const;
 
     enum variables {
       V_THETA,
@@ -25,28 +27,7 @@ protected:
     value l, g;
 };
 
-//The equation for the simpletic integration of the simple pendulum
-//Derivative of H in ralation to q(theta)
-class SimplePendulum_H: public FunctionCapsule {
-public:
-    SimplePendulum_H();
-    void set(value &t, container & variables, container & parameters);
 
-    enum variables {
-      V_Q, V_P
-    };
-
-    enum parameters {
-      P_L, P_G, P_M
-    };
-
-protected:
-    value Vq();
-    value Tp();
-
-    value p, q;
-    value l, g, m;
-};
 
 value SimplePendulumEnergy(value theta, value omega, value l, value m, value g);
 

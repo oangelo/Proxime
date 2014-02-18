@@ -1,24 +1,29 @@
-# neste template de Makefile so muda a lista
-# dos SOURCES e o nome do EXECUTABLE.
+# Generic Makefile for compiling a simple executable.
 
-CC=g++
-CFLAGS=-c -Wall -g -std=c++0x  -Weffc++ -Wextra -pedantic
+CC := g++ 
+SRCDIR := src
+BUILDDIR := build
+CFLAGS := -g -Wall -std=c++0x  -Weffc++ -Wextra -pedantic
 LDFLAGS=  -lm 
-SOURCES=  src/main.cpp src/bifurcation_diagram.cpp src/numerical_integration/exceptions.cpp src/functions/functions.cpp  src/numerical_integration/numerical_integration.cpp src/functions/double_pendulum.cpp   src/functions/rossler.cpp  src/numerical_integration/runge_kutta.cpp src/numerical_integration/adams_bashforth.cpp src/numerical_integration/adams_moulton.cpp
+TARGET := models 
+VPATH = src
+SRCEXT := cpp
 
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=models
+SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+ 
+$(TARGET): $(OBJECTS)
+	@echo " Linking..."; $(CC) $? -o $(TARGET) 
+ 
+$(OBJECTS):$(SOURCES)
+	@mkdir -p $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)/numerical_integration
+	@mkdir -p $(BUILDDIR)/functions
+	$(CC) $(CFLAGS) $(patsubst $(BUILDDIR)/%.o,$(SRCDIR)/%.cpp,$@) -o $@  -c
 
-all: $(SOURCES) $(EXECUTABLE)
-
-$(EXECUTABLE): $(OBJECTS)
-	$(CC)  $(OBJECTS) -o $@ $(LDFLAGS)
-
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
-
-install:
-	sudo cp $(EXECUTABLE) /usr/local/bin
-
-uninstall:
-	sudo rm /usr/local/bin/$(EXECUTABLE)
+clean:
+	@echo " Cleaning..."; $(RM) -r $(BUILDDIR) $(TARGET)
+ 
+-include $(DEPS)
+ 
+.PHONY: clean
