@@ -16,9 +16,9 @@ $(TARGET): $(OBJECTS)
 	@echo " Linking..."; $(CC) $? -o $(TARGET) 
  
 $(OBJECTS):$(SOURCES)
-	@mkdir -p $(BUILDDIR)
-	@mkdir -p $(BUILDDIR)/numerical_integration
-	@mkdir -p $(BUILDDIR)/functions
+	@echo $@
+	@mkdir -p  $(shell dirname $@)
+	@$(teste=oi;mkdir $teste;)
 	$(CC) $(CFLAGS) $(patsubst $(BUILDDIR)/%.o,$(SRCDIR)/%.cpp,$@) -o $@  -c
 
 clean:
