@@ -8,19 +8,27 @@ since here the focus are models.
 Nevertheless, these model may be very useful to generate data to 
 test and develop time series analysis tools.
 
-This lib has three numerical methods:
-* Runge-Kutta, 4Th Order
-* Adams-Bashforth, 4Th Order
-* Adams-Moulton, 4Th Order
+This lib has the following:
 
-And offer these models:
-* Rössler Attractor
-* Lorenz Attractor
-* Double Pendulum
+Numerical methods:
+* [Runge-Kutta](http://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods "wikipedia"), 4Th Order
+* [Adams-Bashforth](http://en.wikipedia.org/wiki/Adams_Bashforth#Adams.E2.80.93Bashforth_methods "wikipedia"), 4Th Order
+* [Adams-Moulton](http://en.wikipedia.org/wiki/Adams_Bashforth#Adams.E2.80.93Moulton_methods "wikipedia"), 4Th Order
+
+These models:
+* [Rössler Attractor](http://en.wikipedia.org/wiki/R%C3%B6ssler_attractor "wikipedia")
+* [Lorenz Attractor](http://en.wikipedia.org/wiki/Lorenz_attractor "wikipedia")
+* [Double Pendulum](http://en.wikipedia.org/wiki/Double_pendulum "wikipedia")
+
+These Analysis:
+* [Lyapunov Spectrum](http://en.wikipedia.org/wiki/Lyapunov_exponent "wikipedia")
+* [Bifurcation Diagrams](http://en.wikipedia.org/wiki/Bifurcation_diagram "wikipedia")
 
 Code directives
 ===============
-* The code should use Google C++ Style.
+
+* The code should use [Google C++ Style](http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml).
+* This project uses [googletest](https://code.google.com/p/googletest/) for tests (folder unit_test).
 * For consistence, the code should only use these variable types: 
 value, container and labels, defined on src/functions/functions.h
 
