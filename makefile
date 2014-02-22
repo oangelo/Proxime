@@ -18,12 +18,13 @@ DIRS = $(shell find $(SRCDIR) -type d)
 HEADERS := $(shell find $(SRCDIR) -type f -name *.h)
 INCLUDE = $(patsubst $(SRCDIR)/%,$(INCDIR)/%,$(HEADERS))
 
-vpath %.h $(DIRS)
+.PHONY: all 
+all:bin lib
 
 .PHONY: install 
+vpath %.h $(DIRS)
 install: $(INCLUDE)
 	@cp $(LIB) $(LIBDIR)
-
 $(INCDIR)/%.h: %.h 
 	@mkdir -p  $(shell dirname $@)
 	@cp $< $@
@@ -32,7 +33,6 @@ $(INCDIR)/%.h: %.h
 lib:$(LIB)
 $(LIB):$(OBJECTS)
 	$(CC)  -shared -Wl,-soname,$(LIB) -o $(LIB) $? 
-
 vpath %.$(SRCEXT) $(DIRS)
 $(BUILDDIR)/%.o: %.$(SRCEXT) 
 	@mkdir -p  $(shell dirname $@)
@@ -42,9 +42,6 @@ $(BUILDDIR)/%.o: %.$(SRCEXT)
 bin:$(TARGET)
 $(TARGET):$(LIB)
 	$(CC) -L. -lproxime -o $(TARGET)
-
-.PHONY: all 
-all:bin lib
 
 .PHONY: clean
 clean:
