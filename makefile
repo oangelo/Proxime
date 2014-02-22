@@ -10,6 +10,7 @@ LIB := libproxime.so
 SRCEXT := cpp
 INCDIR := /usr/include/proxime
 LIBDIR := /usr/lib
+BINDIR := /usr/bin
 
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
@@ -25,6 +26,7 @@ all:bin lib
 vpath %.h $(DIRS)
 install: $(INCLUDE)
 	@cp $(LIB) $(LIBDIR)
+	@cp $(TARGET) $(BINDIR)
 $(INCDIR)/%.h: %.h 
 	@mkdir -p  $(shell dirname $@)
 	@cp $< $@

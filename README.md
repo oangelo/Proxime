@@ -24,6 +24,15 @@ These Analysis:
 * [Lyapunov Spectrum](http://en.wikipedia.org/wiki/Lyapunov_exponent "wikipedia")
 * [Bifurcation Diagrams](http://en.wikipedia.org/wiki/Bifurcation_diagram "wikipedia")
 
+Installation
+============
+
+This will install the header files(.h) to /usr/include and library files(.so) to /usr/lib and the binary to /usr/bin.
+
+### Installation steps:
+1. `make`
+2. `sudo make install`
+
 Code directives
 ===============
 
