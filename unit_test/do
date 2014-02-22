@@ -1,5 +1,0 @@
-rm tests
-rm test_unit/*~
-clear
-make -B
-./tests
