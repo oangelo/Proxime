@@ -3,9 +3,9 @@
 
 CC=g++
 CFLAGS=-c -Wall -g -Weffc++ -std=c++11
-LDFLAGS=  -lm -lgsl -lgslcblas -lgtest  
+LDFLAGS=  -lm -lgsl -lgslcblas -lgtest -lproxime 
 #-lglut -lGLU -lGL
-SOURCES=  ../src/lyapunov.cpp ../src/bifurcation_diagram.cpp ../src/numerical_integration/exceptions.cpp ../src/functions/functions.cpp  ../src/numerical_integration/numerical_integration.cpp main.cpp ../src/functions/lorenz.cpp ../src/functions/rossler.cpp ../src/functions/double_pendulum.cpp ../src/numerical_integration/adams_moulton.cpp ../src/numerical_integration/adams_bashforth.cpp ../src/numerical_integration/runge_kutta.cpp 
+SOURCES= main.cpp 
 
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=tests

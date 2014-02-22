@@ -6,13 +6,13 @@
 #include "gtest/gtest.h"
 
 //#include "../src/functions/simple_pendulum.h"
-#include "../src/functions/double_pendulum.h"
-#include "../src/functions/rossler.h"
-#include "../src/functions/lorenz.h"
-#include "../src/numerical_integration/adams_moulton.h"
-#include "../src/numerical_integration/adams_moulton.h"
-#include "../src/bifurcation_diagram.h"
-#include "../src/lyapunov.h"
+#include <proxime/functions/double_pendulum.h>
+#include <proxime/functions/rossler.h>
+#include <proxime/functions/lorenz.h>
+#include <proxime/numerical_integration/adams_moulton.h>
+#include <proxime/numerical_integration/adams_moulton.h>
+#include <proxime/bifurcation_diagram.h>
+#include <proxime/lyapunov.h>
 
 #include "rossler.h"
 #include "lorenz.h"
