@@ -40,5 +40,5 @@ Thumbs.db
 
 # Projec files #
 ######################
-models
-tests
+proxime
+unit_test/tests
