@@ -9,8 +9,8 @@
 #include "../src/functions/double_pendulum.h"
 #include "../src/functions/rossler.h"
 #include "../src/functions/lorenz.h"
-#include "../src/numerical_integration/adams_moulton.h"
-#include "../src/numerical_integration/adams_moulton.h"
+#include "../src/numerical_methods/adams_moulton.h"
+#include "../src/numerical_methods/adams_moulton.h"
 #include "../src/bifurcation_diagram.h"
 #include "../src/lyapunov.h"
 

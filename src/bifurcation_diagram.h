@@ -1,4 +1,5 @@
-#include "numerical_integration/adams_bashforth.h"
+#include "numerical_methods/adams_bashforth.h"
+
 bool CrossUpDown(value before, value after, value reference);
 bool CrossDownUP(value before, value after, value reference);
 

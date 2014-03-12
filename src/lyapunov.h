@@ -1,7 +1,7 @@
 #include <vector>
 #include <memory>
 
-#include "numerical_integration/runge_kutta.h"   
+#include "numerical_methods/runge_kutta.h"   
 
 
 class MaxLyapunov{
