@@ -69,8 +69,7 @@ TEST(DoublePendulum, Energy_CrossMethods) {
 
     value delta_t = pow(10, -5);
 
-    value energy0 = DoublePendulumEnergy(variable["theta1"],variable["theta2"], variable["omega1"], variable["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy0 = DoublePendulumEnergy(variable, parameters);
 
     RungeKutta4Th model1(f, variable, delta_t); 
     AdamsBashforth4Th model2(f, variable, delta_t); 
@@ -82,12 +81,10 @@ TEST(DoublePendulum, Energy_CrossMethods) {
         ++model3;
     }
 
-    value energy1 = DoublePendulumEnergy(model1["theta1"], model1["theta2"], model1["omega1"], model1["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
-    value energy2 = DoublePendulumEnergy(model2["theta1"], model2["theta2"], model2["omega1"], model2["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
-    value energy3 = DoublePendulumEnergy(model3["theta1"], model3["theta2"], model3["omega1"], model3["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy1 = DoublePendulumEnergy(model1.get_labels_values(), parameters);
+    value energy2 = DoublePendulumEnergy(model2.get_labels_values(), parameters);
+    value energy3 = DoublePendulumEnergy(model3.get_labels_values(), parameters);
+
 
     EXPECT_NEAR(energy1, energy0, 0.00000001);
     EXPECT_NEAR(energy2, energy0, 0.00000001);
@@ -97,6 +94,7 @@ TEST(DoublePendulum, Energy_CrossMethods) {
     EXPECT_NEAR(energy1, energy3, 0.00000001);
     EXPECT_NEAR(energy2, energy3, 0.00000001);
 }
+
 
 TEST(DoublePendulum, EnergyConservation) {
 
@@ -123,8 +121,7 @@ TEST(DoublePendulum, EnergyConservation) {
      
     DoublePendulum f(parameters);
 
-    value energy_0 = DoublePendulumEnergy(variable["theta1"],variable["theta2"], variable["omega1"], variable["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+    value energy_0 = DoublePendulumEnergy(variable, parameters);
 
 
     RungeKutta4Th model1(f,variable, delta_t); 
@@ -135,12 +132,9 @@ TEST(DoublePendulum, EnergyConservation) {
 
     for(size_t i = 0; i < pow(10, 6); ++i){
         ++model1; ++model2; ++model3;
-    value energy1 = DoublePendulumEnergy(model1["theta1"], model1["theta2"], model1["omega1"], model1["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
-    value energy2 = DoublePendulumEnergy(model2["theta1"], model2["theta2"], model2["omega1"], model2["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
-    value energy3 = DoublePendulumEnergy(model3["theta1"], model3["theta2"], model3["omega1"], model3["omega2"],
-            parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
+        value energy1 = DoublePendulumEnergy(model1.get_labels_values(), parameters);
+        value energy2 = DoublePendulumEnergy(model2.get_labels_values(), parameters);
+        value energy3 = DoublePendulumEnergy(model3.get_labels_values(), parameters);
         sum1 += fabs(energy1 - energy_0);
         sum2 += fabs(energy2 - energy_0);
         sum3 += fabs(energy3 - energy_0);

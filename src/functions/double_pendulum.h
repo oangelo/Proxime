@@ -48,5 +48,6 @@ enum parameters {
 };
 
 value DoublePendulumHamiltonian(value q1, value q2, value p1, value p2, value l1, value l2, value m1, value m2, value g);
-value DoublePendulumEnergy(value theta1, value theta2, value omega1, value omega2, value l1, value l2, value m1, value m2, value g);
+value DoublePendulumEnergy(labels_values variables, labels_values parameters);
+
 #endif /* DOUBLE_PENDULUM_H */

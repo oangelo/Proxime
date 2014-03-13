@@ -147,8 +147,11 @@ value Jacobian_DoublePendulum::JdOmega2() {
     return (func);
 }
 
-value DoublePendulumEnergy(value theta1, value theta2, value omega1, value omega2,
-value l1, value l2, value m1, value m2, value g){
+value DoublePendulumEnergy(labels_values variables, labels_values parameters){
+
+    value theta1(variables["theta1"]), theta2(variables["theta2"]), omega1(variables["omega1"]), omega2(variables["omega2"]);
+    value l1(parameters["l1"]), l2(parameters["l2"]), m1(parameters["m1"]), m2(parameters["m2"]), g(parameters["g"]);
+
     value energy = m1 * (l1 * l1 * pow(cos(theta1), 0.2e1) * pow(omega1, 0.2e1) +
     l1 * l1 * pow(sin(theta1), 0.2e1) * pow(omega1, 0.2e1)) / 0.2e1 + m2
     * (pow(l1 * cos(theta1) * omega1 + l2 * cos(theta2) *
