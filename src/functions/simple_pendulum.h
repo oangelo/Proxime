@@ -3,12 +3,12 @@
 
 #include "functions.h"
 
-class SimplePendulumFunction : public FunctionCapsule {
+class SimplePendulum : public FunctionCapsule {
 public:
-    SimplePendulumFunction(labels_values parameters);
+    SimplePendulum(labels_values parameters);
     void set(value &t, container & variables);
-    SimplePendulumFunction * Clone() const;
-    SimplePendulumFunction * Create(labels_values parameters) const;
+    SimplePendulum* Clone() const;
+    SimplePendulum* Create(labels_values parameters) const;
 
     enum variables {
       V_THETA,

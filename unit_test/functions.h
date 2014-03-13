@@ -7,7 +7,7 @@ TEST(Functions, get) {
     container variables({1, 1, 1});
     value t;
     
-    RosslerFunction func(parameters);
+    Rossler func(parameters);
     func.set(t, variables);
     EXPECT_EQ(func["x"], -2);
     EXPECT_EQ(func["y"], 2);
@@ -19,7 +19,7 @@ TEST(Functions, Labels) {
     container variables({1, 1, 1});
     value t;
     
-    RosslerFunction func(parameters);
+    Rossler func(parameters);
     func.set(t, variables);
     labels_values result(func.get_labels_values());
 

@@ -14,10 +14,10 @@ TEST(Lorenz, LyapunovSpectrum) {
     parameter["sigma"]= 10;
     parameter["gamma"]= 28;
     parameter["beta"] = 8.0 / 3.0;
-    LorenzFunction function(parameter);
+    Lorenz function(parameter);
 
     AdamsBashforth4Th  attractor(function, variable, 0.001);
-    Jacobian_LorenzFunction jacobian(parameter);
+    Jacobian_Lorenz jacobian(parameter);
     for (size_t i = 0; i < 10000; ++i)
         ++attractor;
     LyapunovSpectrum exponent(attractor, jacobian, parameter, pow(10, 4));
@@ -39,10 +39,10 @@ TEST(Lorenz, MaxLyapunov) {
     parameter["sigma"]= 10;
     parameter["gamma"]= 28;
     parameter["beta"] = 8.0 / 3.0;
-    LorenzFunction function(parameter);
+    Lorenz function(parameter);
 
     AdamsBashforth4Th  attractor(function, variable, 0.001);
-    Jacobian_LorenzFunction jacobian(parameter);
+    Jacobian_Lorenz jacobian(parameter);
     for (size_t i = 0; i < 10000; ++i)
         ++attractor;
     MaxLyapunov exponent(attractor, jacobian, parameter, pow(10, 4));

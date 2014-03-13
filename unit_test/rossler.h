@@ -14,10 +14,10 @@ TEST(Rossler, LyapunovSpectrum) {
     parameter["a"]= 0.15;
     parameter["b"]= 0.2;
     parameter["c"]= 10.0;
-    RosslerFunction function(parameter);
+    Rossler function(parameter);
 
     AdamsBashforth4Th  attractor(function, variable, 0.001);
-    Jacobian_RosslerFunction jacobian(parameter);
+    Jacobian_Rossler jacobian(parameter);
     for (size_t i = 0; i < 10000; ++i)
         ++attractor;
     LyapunovSpectrum exponent(attractor, jacobian, parameter, pow(10, 4));
@@ -38,10 +38,10 @@ TEST(Rossler, MaxLyapunov) {
     parameter["a"]= 0.15;
     parameter["b"]= 0.2;
     parameter["c"]= 10.0;
-    RosslerFunction function(parameter);
+    Rossler function(parameter);
 
     AdamsBashforth4Th  attractor(function, variable, 0.001);
-    Jacobian_RosslerFunction jacobian(parameter);
+    Jacobian_Rossler jacobian(parameter);
     for (size_t i = 0; i < 10000; ++i)
         ++attractor;
     MaxLyapunov exponent(attractor, jacobian, parameter, pow(10, 4));
@@ -66,7 +66,7 @@ TEST(Rossler, PhasePlanePoincareSection) {
 
     //Period one ###############################################################
     parameter["c"]= 4.0;
-    RosslerFunction function(parameter);
+    Rossler function(parameter);
     AdamsBashforth4Th  model(function, variable,0.001);
     for(size_t i = 0; i <  transiente; ++i){
         ++model;
@@ -76,7 +76,7 @@ TEST(Rossler, PhasePlanePoincareSection) {
         EXPECT_NEAR(zero[i],zero[i + 1], 0.00001);
     //Period two ###############################################################
     parameter["c"]= 6.0;
-    RosslerFunction function2(parameter);
+    Rossler function2(parameter);
     AdamsBashforth4Th  model2(function2, variable, 0.001);
     for(size_t i = 0; i <  transiente; ++i){
         ++model2;
@@ -93,7 +93,7 @@ TEST(Rossler, PhasePlanePoincareSection) {
         file << item << " " << coordinate_value << std::endl;
     file << std::endl;
     file << std::endl;
-    AdamsBashforth4Th<RosslerFunction>  orbit(variable,parameter,0.001);
+    AdamsBashforth4Th<Rossler>  orbit(variable,parameter,0.001);
     for(size_t i = 0; i <  transiente; ++i)
         orbit.next();
     for(size_t i = 0; i <  (time / 10); ++i){

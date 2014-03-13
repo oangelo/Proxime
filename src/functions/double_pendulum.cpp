@@ -1,6 +1,6 @@
 #include "double_pendulum.h"
 
-DoublePendulumFunction::DoublePendulumFunction(labels_values parameters):
+DoublePendulum::DoublePendulum(labels_values parameters):
 FunctionCapsule("Double Pendulum",  
                   dictionary{{"theta1",0},{"theta2",1},{"omega1",2},{"omega2",3},},
                   dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},}, parameters),
@@ -10,15 +10,15 @@ m1(parameters["m1"]), m2(parameters["m2"]),
 g(parameters["g"])
 {} 
 
-DoublePendulumFunction* DoublePendulumFunction::Clone() const{ 
-    return new DoublePendulumFunction(*this);
+DoublePendulum* DoublePendulum::Clone() const{ 
+    return new DoublePendulum(*this);
 }
 
-DoublePendulumFunction* DoublePendulumFunction::Create(labels_values parameters) const{ 
-    return new DoublePendulumFunction(parameters);
+DoublePendulum* DoublePendulum::Create(labels_values parameters) const{ 
+    return new DoublePendulum(parameters);
 }
 
-void DoublePendulumFunction::set(value& t, container& variables){ 
+void DoublePendulum::set(value& t, container& variables){ 
     theta1 = variables[index_var["theta1"]];
     theta2 = variables[index_var["theta2"]];
     omega1 = variables[index_var["omega1"]];
@@ -30,19 +30,19 @@ void DoublePendulumFunction::set(value& t, container& variables){
     result[index_var["omega2"]] = dOmega2();
 }
 
-value DoublePendulumFunction::dTheta1() {
+value DoublePendulum::dTheta1() {
     value func;
     func = omega1;
     return (func);
 }
 
-value DoublePendulumFunction::dTheta2() {
+value DoublePendulum::dTheta2() {
     value func;
     func = omega2;
     return (func);
 }
 
-value DoublePendulumFunction::dOmega1() {
+value DoublePendulum::dOmega1() {
     value func;
     func = -(-m2 * g * sin(theta1) - g * sin(theta1) * m1 - m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) 
             + m2 * cos(theta1 - theta2) * g * sin(theta2) - m2 * cos(theta1 - theta2) * l1 * pow(omega1, 0.2e1) 
@@ -50,7 +50,7 @@ value DoublePendulumFunction::dOmega1() {
     return (func);
 }
 
-value DoublePendulumFunction::dOmega2() {
+value DoublePendulum::dOmega2() {
     value func;
     func =  -(m2 * cos(theta1 - theta2) * g * sin(theta1) + cos(theta1 - theta2) * g * sin(theta1) 
             * m1 + cos(theta1 - theta2) * m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) - m2 * g 
@@ -60,7 +60,7 @@ value DoublePendulumFunction::dOmega2() {
 
 }
 
-Jacobian_DoublePendulumFunction::Jacobian_DoublePendulumFunction(labels_values parameters): 
+Jacobian_DoublePendulum::Jacobian_DoublePendulum(labels_values parameters): 
 FunctionCapsule("Double Pendulum Jacobian", 
                   dictionary{{"theta1",0},{"theta2",1},{"omega1",2},{"omega2",3},},
                   dictionary{{"l1",0},{"l2",1},{"m1",2},{"m2",3},{"g",4},{"theta1",5},{"theta2",6},{"omega1",7},{"omega2",8},},
@@ -78,7 +78,7 @@ Jacobian()
     Matrix_Jacob(_theta1,_theta2,_omega1,_omega2);
 }
 
-void Jacobian_DoublePendulumFunction::set(value& t, container& variables){
+void Jacobian_DoublePendulum::set(value& t, container& variables){
 
     theta1 = variables[index_var["theta1"]];
     theta2 = variables[index_var["theta2"]];
@@ -91,15 +91,15 @@ void Jacobian_DoublePendulumFunction::set(value& t, container& variables){
     result[index_var["omega2"]] = JdOmega2();
 }
 
-Jacobian_DoublePendulumFunction* Jacobian_DoublePendulumFunction::Clone() const{ 
-    return new Jacobian_DoublePendulumFunction(*this);
+Jacobian_DoublePendulum* Jacobian_DoublePendulum::Clone() const{ 
+    return new Jacobian_DoublePendulum(*this);
 }
 
-Jacobian_DoublePendulumFunction* Jacobian_DoublePendulumFunction::Create(labels_values parameters) const{ 
-    return new Jacobian_DoublePendulumFunction(parameters);
+Jacobian_DoublePendulum* Jacobian_DoublePendulum::Create(labels_values parameters) const{ 
+    return new Jacobian_DoublePendulum(parameters);
 }
 
-void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,value omega1, value omega2)
+void Jacobian_DoublePendulum::Matrix_Jacob(value theta1, value theta2,value omega1, value omega2)
 {
 
     Jacobian[0][0] = -(-m2 * g * cos(theta1) - g * cos(theta1) * m1 - cos(theta1 - theta2) * m2 * l2 * pow(omega2, 0.2e1) - m2 * sin(theta1 - theta2) * g * sin(theta2) + m2 * pow(sin(theta1 - theta2), 0.2e1) * l1 * pow(omega1, 0.2e1) - m2 * pow(cos(theta1 - theta2), 0.2e1) * l1 * pow(omega1, 0.2e1)) / l1 / (-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1)) - 0.2e1 * (-m2 * g * sin(theta1) - g * sin(theta1) * m1 - m2 * l2 * pow(omega2, 0.2e1) * sin(theta1 - theta2) + m2 * cos(theta1 - theta2) * g * sin(theta2) - m2 * cos(theta1 - theta2) * l1 * pow(omega1, 0.2e1) * sin(theta1 - theta2)) / l1 * pow(-m2 - m1 + m2 * pow(cos(theta1 - theta2), 0.2e1), -0.2e1) * m2 * cos(theta1 - theta2) * sin(theta1 - theta2);
@@ -120,27 +120,27 @@ void Jacobian_DoublePendulumFunction::Matrix_Jacob(value theta1, value theta2,va
     Jacobian[3][3] = 1;
 }
 
-value Jacobian_DoublePendulumFunction::JdTheta1() {
+value Jacobian_DoublePendulum::JdTheta1() {
     value func;
     func =  +Jacobian[2][0] * theta1 + Jacobian[2][1] * theta2 + Jacobian[2][2] * omega1 + Jacobian[2][3] * omega2;
     return (func);
 }
 
-value Jacobian_DoublePendulumFunction::JdTheta2() {
+value Jacobian_DoublePendulum::JdTheta2() {
     value func;
     func = + Jacobian[3][0] * theta1 + Jacobian[3][1] * theta2 + Jacobian[3][2] * omega1
             + Jacobian[3][3] * omega2;
     return (func);
 }
 
-value Jacobian_DoublePendulumFunction::JdOmega1() {
+value Jacobian_DoublePendulum::JdOmega1() {
     value func;
     func =  + Jacobian[0][0] * theta1 + Jacobian[0][1] * theta2 + Jacobian[0][2] * omega1
             + Jacobian[0][3] * omega2;
     return (func);
 }
 
-value Jacobian_DoublePendulumFunction::JdOmega2() {
+value Jacobian_DoublePendulum::JdOmega2() {
     value func;
     func =  + Jacobian[1][0] * theta1 + Jacobian[1][1] * theta2 + Jacobian[1][2] * omega1
             + Jacobian[1][3] * omega2;

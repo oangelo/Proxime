@@ -1,6 +1,6 @@
 #include "simple_pendulum.h"
 
-SimplePendulumFunction::SimplePendulumFunction(labels_values parameters)
+SimplePendulum::SimplePendulum(labels_values parameters)
 :FunctionCapsule("Simple Pendulum", 
                   dictionary{{"theta",0},{"omega",1}},
                   dictionary{{"l",0},{"g",1},}, 
@@ -11,15 +11,15 @@ theta(), omega(), l(), g()
     g = parameters["g"];
 }
 
-SimplePendulumFunction* SimplePendulumFunction::Clone() const{
-    return(new SimplePendulumFunction(*this));
+SimplePendulum* SimplePendulum::Clone() const{
+    return(new SimplePendulum(*this));
 }
 
-SimplePendulumFunction* SimplePendulumFunction::Create(labels_values parameters) const{
-    return new SimplePendulumFunction(parameters);
+SimplePendulum* SimplePendulum::Create(labels_values parameters) const{
+    return new SimplePendulum(parameters);
 }
 
-void SimplePendulumFunction::set(value& t, container& variables){ 
+void SimplePendulum::set(value& t, container& variables){ 
     theta = variables[index_var["theta"]];
     omega = variables[index_var["omega"]];
    
@@ -27,13 +27,13 @@ void SimplePendulumFunction::set(value& t, container& variables){
     result[index_var["theta"]]=dOmega();
 }
 
-value SimplePendulumFunction::dTheta() {
+value SimplePendulum::dTheta() {
     value func;
     func = omega;
     return (func);
 }
 
-value SimplePendulumFunction::dOmega() {
+value SimplePendulum::dOmega() {
     value func;
     func = -(g/l) * sin(theta);
     return (func);

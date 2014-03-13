@@ -4,12 +4,12 @@
 #include "functions.h"
 
 
-class LorenzFunction : public FunctionCapsule {
+class Lorenz: public FunctionCapsule {
 public:
-  LorenzFunction(labels_values parameters);
+  Lorenz(labels_values parameters);
   void set(value &t, container & variables);
-  virtual LorenzFunction* Clone() const;
-  virtual LorenzFunction* Create(labels_values parameters) const;
+  virtual Lorenz* Clone() const;
+  virtual Lorenz* Create(labels_values parameters) const;
 protected:
   value dx();
   value dy();
@@ -19,12 +19,12 @@ protected:
   value sigma,gamma,beta;
 };
 
-class Jacobian_LorenzFunction : public FunctionCapsule {
+class Jacobian_Lorenz: public FunctionCapsule {
 public:
-  Jacobian_LorenzFunction(labels_values parameters);
+  Jacobian_Lorenz(labels_values parameters);
   void set(value &t, container & variables);
-  virtual Jacobian_LorenzFunction* Clone() const;
-  virtual Jacobian_LorenzFunction* Create(labels_values parameters) const;
+  virtual Jacobian_Lorenz* Clone() const;
+  virtual Jacobian_Lorenz* Create(labels_values parameters) const;
 protected:
   value dx();
   value dy();

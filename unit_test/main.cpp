@@ -36,7 +36,7 @@ TEST(ODE, wrong_access) {
     parameters["g"] = 9.8;
 
 
-    DoublePendulumFunction dp_function(parameters);
+    DoublePendulum dp_function(parameters);
     AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);
     EXPECT_THROW(pendulo[4], Index_error);
 }
@@ -55,7 +55,7 @@ TEST(ODE, bad_integration) {
     parameters["m2"] = 0.10;
     parameters["g"] = 9.8;
 
-    DoublePendulumFunction dp_function(parameters);
+    DoublePendulum dp_function(parameters);
     EXPECT_THROW(AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);, Value_error);
 
 }
@@ -76,7 +76,7 @@ TEST(ODE, assigment) {
     parameters["g"] = 9.8;
 
 
-    DoublePendulumFunction dp_function(parameters);
+    DoublePendulum dp_function(parameters);
     AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);
 
     EXPECT_NEAR(pendulo["theta1"], 1.1, 0.1);
@@ -100,7 +100,7 @@ TEST(ODE, ObjectFactory) {
     parameters["m2"] = 0.10;
     parameters["g"] = 9.8;
 
-    DoublePendulumFunction dp_function(parameters);
+    DoublePendulum dp_function(parameters);
     AdamsMoulton4Th pendula(dp_function, variable, 0.00001);
 
     AdamsMoulton4Th* ptr_clone(pendula.Clone()); 
@@ -137,7 +137,7 @@ TEST(ODE, size) {
     parameters["m2"] = 0.10;
     parameters["g"] = 9.8;
 
-    DoublePendulumFunction dp_function(parameters);
+    DoublePendulum dp_function(parameters);
     AdamsMoulton4Th pendulo(dp_function, variable, 0.00001);
 
     EXPECT_EQ(pendulo.size(), 4);

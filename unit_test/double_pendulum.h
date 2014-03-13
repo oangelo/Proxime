@@ -19,11 +19,11 @@ TEST(DoublePendulum, ZeroLyapunov) {
     parameters["m2"]= 0.1;
     parameters["g"]= 9.8;
 
-    DoublePendulumFunction f(parameters);
+    DoublePendulum f(parameters);
 
 
     RungeKutta4Th model(f, variable, 0.0001); 
-    Jacobian_DoublePendulumFunction jacobian(parameters);
+    Jacobian_DoublePendulum jacobian(parameters);
     MaxLyapunov exponent(model, jacobian, parameters, 20000);
     EXPECT_NEAR(exponent(pow(10,7)), 0, 0.001);
 }
@@ -43,9 +43,9 @@ TEST(DoublePendulum, PositiveLyapunov) {
     parameters["m2"]= 0.1;
     parameters["g"]= 9.8;
 
-    DoublePendulumFunction f(parameters);
+    DoublePendulum f(parameters);
     RungeKutta4Th model(f, variable, 0.0001); 
-    Jacobian_DoublePendulumFunction jacobian(parameters);
+    Jacobian_DoublePendulum jacobian(parameters);
     MaxLyapunov exponent(model, jacobian, parameters, 20000);
     EXPECT_TRUE(exponent(pow(10,5) > 1));
 }
@@ -65,7 +65,7 @@ TEST(DoublePendulum, Energy_CrossMethods) {
     parameters["m2"]= 0.1;
     parameters["g"]= 9.8;
 
-    DoublePendulumFunction f(parameters);
+    DoublePendulum f(parameters);
 
     value delta_t = pow(10, -5);
 
@@ -121,7 +121,7 @@ TEST(DoublePendulum, EnergyConservation) {
      parameters["g"]= 9.8;
      value delta_t = pow(10, -5);
      
-    DoublePendulumFunction f(parameters);
+    DoublePendulum f(parameters);
 
     value energy_0 = DoublePendulumEnergy(variable["theta1"],variable["theta2"], variable["omega1"], variable["omega2"],
             parameters["l1"], parameters["l2"], parameters["m1"], parameters["m2"], parameters["g"]);
@@ -175,7 +175,7 @@ TEST(ODE, Pendulum_Bifurcation_Diagram) {
         for(value theta = 0.10; theta < M_PI; theta += 0.0005){
             variable["theta1"] = theta;
             variable["theta2"] = theta;
-            AdamsBashforth4Th<DoublePendulumFunction> model(variable, parameter, dt); 
+            AdamsBashforth4Th<DoublePendulum > model(variable, parameter, dt); 
             for(size_t i(0); i < pow(10,5); i++)
                 model.next();
             container zero = PhasePlaneSection(model, coordinate_x, coordinate_y, coordinate_value, 8);        
@@ -207,7 +207,7 @@ TEST(ODE, Pendulum_Phase_Plane) {
         value init=0.1,end=M_PI;int n_points=10000;
         int time=4*pow(10,5),transiente=pow(10,3);
         
-        DoublePendulumFunction f;
+        DoublePendulum f;
 
         std::ofstream file;
         file.open("DP_phase_plane.out");

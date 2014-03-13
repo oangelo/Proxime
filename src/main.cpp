@@ -103,7 +103,7 @@ int main( int argc , char * argv[]) {
                     variable["z"] = atof(argv[j + 3]);
                 }
             }
-            RosslerFunction function(parameter);
+            Rossler function(parameter);
             model = new AdamsBashforth4Th(function, variable, 0.001);
             for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--lyapunov") == 0) {
@@ -112,7 +112,7 @@ int main( int argc , char * argv[]) {
                     for(unsigned i = 0; i < transient; i++){
                         ++model;
                     }
-                    //Lyapunov<Jacobian_RosslerFunction> (*model, iterations, 1000, step, file_name);
+                    //Lyapunov<Jacobian_Rossler> (*model, iterations, 1000, step, file_name);
                     return 0;
                 }
                 if(strcmp(argv[j], "--lyapunov") == 0) {
@@ -120,7 +120,7 @@ int main( int argc , char * argv[]) {
                     for(unsigned i = 0; i < transient; i++){
                         ++model;
                     }
-                    //std::cout << MaxLyapunov<Jacobian_RosslerFunction> (*model, iterations, 1000) << std::endl;
+                    //std::cout << MaxLyapunov<Jacobian_Rossler> (*model, iterations, 1000) << std::endl;
                     return 0;
                 }
 
@@ -169,7 +169,7 @@ int main( int argc , char * argv[]) {
                     std::cerr << "#>>  Omega2:  " <<  variable["omega2"] << " rad/[t]" << std::endl;
                 }
             }
-            DoublePendulumFunction function(parameter);
+            DoublePendulum function(parameter);
             model = new AdamsBashforth4Th(function, variable,  0.00001);
             for (int j = 1; j < argc; ++j){
                 if(strcmp(argv[j], "--lyapunov") == 0) {
@@ -178,7 +178,7 @@ int main( int argc , char * argv[]) {
                     for(unsigned i = 0; i < transient; i++){
                         ++model;
                     }
-                    //Lyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, 100000, step, file_name);
+                    //Lyapunov<Jacobian_DoublePendulum> (*model, iterations, 100000, step, file_name);
                     return 0;
                 }
                 if(strcmp(argv[j], "--max_lyapunov") == 0) {
@@ -186,7 +186,7 @@ int main( int argc , char * argv[]) {
                     for(unsigned i = 0; i < transient; i++){
                         ++model;
                     }
-                   // std::cout << MaxLyapunov<Jacobian_DoublePendulumFunction> (*model, iterations, 100000) << std::endl;
+                   // std::cout << MaxLyapunov<Jacobian_DoublePendulum> (*model, iterations, 100000) << std::endl;
                     return 0;
                 }
             }

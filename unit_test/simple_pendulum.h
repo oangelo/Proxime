@@ -5,13 +5,13 @@
 
 TEST(Simple_Pendulum, Static) {
     container variable(2),parameter(2);
-    variable[SimplePendulumFunction::V_THETA] = 0.0;
-    variable[SimplePendulumFunction::V_OMEGA] = 0.0;
-    parameter[SimplePendulumFunction::P_L]= 0.30;
-    parameter[SimplePendulumFunction::P_G]= 9.8;
+    variable[SimplePendulum::V_THETA] = 0.0;
+    variable[SimplePendulum::V_OMEGA] = 0.0;
+    parameter[SimplePendulum::P_L]= 0.30;
+    parameter[SimplePendulum::P_G]= 9.8;
     
 
-    RungeKutta4Th<SimplePendulumFunction> model(variable, parameter, 0.0001); 
+    RungeKutta4Th<SimplePendulum> model(variable, parameter, 0.0001); 
     for(size_t i = 0; i < 10000; ++i){
         model.next();
         EXPECT_NEAR(model[0], 0.0, 0.0001);
@@ -24,12 +24,12 @@ TEST(Simple_Pendulum, sin) {
     value delta_t = 0.0001;
 
     container variable(2),parameter(2);
-    variable[SimplePendulumFunction::V_THETA] = theta_0;
-    variable[SimplePendulumFunction::V_OMEGA] = 0.0;
-    parameter[SimplePendulumFunction::P_L]= l;
-    parameter[SimplePendulumFunction::P_G]= g;
+    variable[SimplePendulum::V_THETA] = theta_0;
+    variable[SimplePendulum::V_OMEGA] = 0.0;
+    parameter[SimplePendulum::P_L]= l;
+    parameter[SimplePendulum::P_G]= g;
 
-    AdamsBashforth4Th<SimplePendulumFunction> model(variable, parameter, delta_t); 
+    AdamsBashforth4Th<SimplePendulum> model(variable, parameter, delta_t); 
     for(size_t i = 0; i < 100000; ++i){
         value t = delta_t*i; 
         model.next();
@@ -44,15 +44,15 @@ TEST(Simple_Pendulum, CrossModels) {
     value delta_t = 0.0001;
 
     container variable(2),parameter(3);
-    variable[SimplePendulumFunction::V_THETA] = theta_0;
-    variable[SimplePendulumFunction::V_OMEGA] = 0.0;
-    parameter[SimplePendulumFunction::P_L]= l;
-    parameter[SimplePendulumFunction::P_G]= g;
+    variable[SimplePendulum::V_THETA] = theta_0;
+    variable[SimplePendulum::V_OMEGA] = 0.0;
+    parameter[SimplePendulum::P_L]= l;
+    parameter[SimplePendulum::P_G]= g;
     parameter[SimplePendulum_H::P_M]= m;
 
-    AdamsBashforth4Th<SimplePendulumFunction> model1(variable, parameter, delta_t); 
-    RungeKutta4Th<SimplePendulumFunction> model2(variable, parameter, delta_t); 
-    AdamsMoulton4Th<SimplePendulumFunction> model3(variable, parameter, delta_t); 
+    AdamsBashforth4Th<SimplePendulum> model1(variable, parameter, delta_t); 
+    RungeKutta4Th<SimplePendulum> model2(variable, parameter, delta_t); 
+    AdamsMoulton4Th<SimplePendulum> model3(variable, parameter, delta_t); 
     SIA4<SimplePendulum_H> model4(variable, parameter, delta_t); 
 
     for(size_t i = 0; i < 100000; ++i){
@@ -77,12 +77,12 @@ TEST(Simple_Pendulum, Energy) {
     value delta_t = 0.0001;
 
     container variable(2),parameter(2);
-    variable[SimplePendulumFunction::V_THETA] = theta_0;
-    variable[SimplePendulumFunction::V_OMEGA] = 0.0;
-    parameter[SimplePendulumFunction::P_L]= l;
-    parameter[SimplePendulumFunction::P_G]= g;
+    variable[SimplePendulum::V_THETA] = theta_0;
+    variable[SimplePendulum::V_OMEGA] = 0.0;
+    parameter[SimplePendulum::P_L]= l;
+    parameter[SimplePendulum::P_G]= g;
 
-    RungeKutta4Th<SimplePendulumFunction> model(variable, parameter, delta_t); 
+    RungeKutta4Th<SimplePendulum> model(variable, parameter, delta_t); 
     value energy_0 = SimplePendulumEnergy(theta_0, 0, l, 1, g);
     for(size_t i = 0; i < 100000; ++i){
         model.next();
@@ -119,10 +119,10 @@ TEST(Simple_Pendulum, Phase_Space) {
     value delta_t = 0.001;
 
     container variable(2),parameter(3);
-    variable[SimplePendulumFunction::V_THETA] = 0.0;
-    variable[SimplePendulumFunction::V_OMEGA] = 0.0;
-    parameter[SimplePendulumFunction::P_L]= l;
-    parameter[SimplePendulumFunction::P_G]= g;
+    variable[SimplePendulum::V_THETA] = 0.0;
+    variable[SimplePendulum::V_OMEGA] = 0.0;
+    parameter[SimplePendulum::P_L]= l;
+    parameter[SimplePendulum::P_G]= g;
     parameter[SimplePendulum_H::P_M]= m;
 
     std::ofstream myfile1, myfile2;
@@ -130,9 +130,9 @@ TEST(Simple_Pendulum, Phase_Space) {
     myfile2.open("data/Simple_pendulum_phase_space_RK.out");
 
     for(value angle = 0.001; angle < 1.5 ; angle += 0.1){
-        variable[SimplePendulumFunction::V_OMEGA] = angle;
+        variable[SimplePendulum::V_OMEGA] = angle;
         SIA4<SimplePendulum_H> model1(variable, parameter, delta_t); 
-        AdamsBashforth4Th<SimplePendulumFunction> model2(variable, parameter, delta_t); 
+        AdamsBashforth4Th<SimplePendulum> model2(variable, parameter, delta_t); 
         for(size_t i = 0; i < 7500; ++i){
             model1.next();
             model2.next();

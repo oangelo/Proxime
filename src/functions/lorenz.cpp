@@ -1,6 +1,6 @@
 #include "lorenz.h"
 
-LorenzFunction::LorenzFunction(labels_values parameters):
+Lorenz::Lorenz(labels_values parameters):
 FunctionCapsule("Lorenz System", 
                   dictionary{{"x",0},{"y",1},{"z",2},},
                   dictionary{{"sigma",0},{"gamma",1},{"beta",2},},
@@ -8,35 +8,35 @@ FunctionCapsule("Lorenz System",
 X(),Y(),Z(), sigma(parameters["sigma"]), gamma(parameters["gamma"]), beta(parameters["beta"])
 {} 
 
-LorenzFunction* LorenzFunction::Clone() const{
-    return(new LorenzFunction(*this));
+Lorenz* Lorenz::Clone() const{
+    return(new Lorenz(*this));
 }
 
-LorenzFunction* LorenzFunction::Create(labels_values parameters) const{
-    return new LorenzFunction(parameters);
+Lorenz* Lorenz::Create(labels_values parameters) const{
+    return new Lorenz(parameters);
 }
 
 inline
-value LorenzFunction::dx() {
+value Lorenz::dx() {
     value func =  (-sigma*X +sigma*Y);
     return(func);
 }
 
 inline
-value LorenzFunction::dy() {
+value Lorenz::dy() {
     value func = (gamma-Z)*X - Y;
     return(func);
 }
 
 inline
-value LorenzFunction::dz() {
+value Lorenz::dz() {
     value func = X*Y-beta*Z;
     return(func);
 }
 
 
 inline
-void LorenzFunction::set(value &t,container & variables){
+void Lorenz::set(value &t,container & variables){
     X=variables[index_var["x"]];
     Y=variables[index_var["y"]];
     Z=variables[index_var["z"]];
@@ -47,7 +47,7 @@ void LorenzFunction::set(value &t,container & variables){
 }
 
 
-Jacobian_LorenzFunction::Jacobian_LorenzFunction(labels_values parameters):
+Jacobian_Lorenz::Jacobian_Lorenz(labels_values parameters):
 FunctionCapsule("Lorenz Jacobian",  
                   dictionary{{"x",0},{"y",1},{"z",2},},
                   dictionary{{"sigma",0},{"gamma",1},{"beta",2},{"x",3},{"y",4},{"z",5}},
@@ -59,35 +59,35 @@ X_fiducial(parameters["x"]), Y_fiducial(parameters["y"]), Z_fiducial(parameters[
 {
 }
 
-Jacobian_LorenzFunction* Jacobian_LorenzFunction::Clone() const{
-    return(new Jacobian_LorenzFunction(*this));
+Jacobian_Lorenz* Jacobian_Lorenz::Clone() const{
+    return(new Jacobian_Lorenz(*this));
 }
 
-Jacobian_LorenzFunction* Jacobian_LorenzFunction::Create(labels_values parameters) const{
-    return new Jacobian_LorenzFunction(parameters);
+Jacobian_Lorenz* Jacobian_Lorenz::Create(labels_values parameters) const{
+    return new Jacobian_Lorenz(parameters);
 }
 
 inline
-value Jacobian_LorenzFunction::dx() {
+value Jacobian_Lorenz::dx() {
     value func = + (-sigma*X +sigma*Y);
     return(func);
 }
 
 inline
-value Jacobian_LorenzFunction::dy() {
+value Jacobian_Lorenz::dy() {
     value func =+(-Z_fiducial+gamma)*X - Y-X_fiducial*Z;
     return(func);
 }
 
 inline
-value Jacobian_LorenzFunction::dz() {
+value Jacobian_Lorenz::dz() {
     value func =  +Y_fiducial*X +X_fiducial*Y -beta*Z;
     return(func);
 }
 
 
 inline
-void Jacobian_LorenzFunction::set(value &t,container & variables){
+void Jacobian_Lorenz::set(value &t,container & variables){
     X=variables[index_var["x"]];
     Y=variables[index_var["y"]];
     Z=variables[index_var["z"]];
