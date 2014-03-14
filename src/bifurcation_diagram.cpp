@@ -17,11 +17,11 @@ bool CrossDownUp(value before, value after, value reference){
 container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate_x,
         unsigned coordinate_y, value y_section_value, unsigned qt_points, bool (*cross)(value, value, value)){
 
-    container value(attractor.size()), next_value(attractor.size());
+    container point(attractor.size()), next_point(attractor.size());
     container zeros;
     size_t max_iterations(pow(10,7));
 
-    next_value = attractor.get_variable();
+    next_point = attractor.get_variable();
     
     size_t counter(0);
     while(zeros.size() < qt_points){
@@ -30,7 +30,7 @@ container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate
             std::cerr << "No Phase Plane Crosses Detected!" << std::endl;
             return zeros;
         }
-        value = next_value;
+        point = next_point;
         try {
             ++attractor;
         }
@@ -40,10 +40,10 @@ container PhasePlaneSection(NumericalIntegration& attractor, unsigned coordinate
             zeros.clear();
             return(zeros);
         }
-        next_value = attractor.get_variable();
-        if(cross(value[coordinate_y], next_value[coordinate_y], y_section_value))
+        next_point = attractor.get_variable();
+        if(cross(point[coordinate_y], next_point[coordinate_y], y_section_value))
         {
-            zeros.push_back(value[coordinate_x]);
+            zeros.push_back(point[coordinate_x]);
         }
     }
     return(zeros);
